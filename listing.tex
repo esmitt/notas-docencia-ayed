@@ -1,0 +1,67 @@
+\renewcommand{\lstlistingname}{C\'{o}digo}
+\lstset{
+     literate=%
+         {ú}{{\'u}}1
+         {í}{{\'i}}1
+         {ó}{{\'o}}1
+         {á}{{\'a}}1
+         {é}{{\'e}}1
+         {ñ}{{\~n}}1
+}
+\lstdefinelanguage{pseudo}
+{
+sensitive=true,
+morekeywords=[1]{
+Integer, Char, Real, Boolean, Register, end, File, return, class, select, Range,Enum},
+morekeywords=[2]{
+true, false, and, or, not, of, OpenFile, CloseFile, EndFile, ReadFile, WriteFile, while, do, for, foreach, in, step, repeat, until, to, void, function, if, then, else, elseif, ref, NIL, NULL},
+morekeywords=[3]{
+value_ptr, render, sizeof, Const, Read, Print, String, Array, Type, Binary, private, public, protected, extends, Constructor, Destructor, aWeek, div, mod, new, delete},
+morecomment=[l]{//},
+morecomment=[s]{/*}{*/},
+morecomment=[l][keywordstyle4]{\#},
+morestring=[b]",
+morestring=[b]',
+alsoletter={'},
+}
+\lstdefinelanguage{xample}
+{
+sensitive=true,
+morekeywords=[1]{
+Integer, Char, Real, Boolean, Register, end, File, return, class, select},
+morekeywords=[2]{
+true, false, and, or, not, of, OpenFile, CloseFile, EndFile, ReadFile, WriteFile, while, do, for, step, repeat, until, to, void, function, if, then, else, ref, NIL, NULL},
+morekeywords=[3]{
+value_ptr, render, sizeof, Const, Read, Print, SubRange, String, Enum, Array, Type, Binary, private, public, protected, extends, Constructor, Destructor, div, mod, new, delete},
+morecomment=[l]{//},
+morecomment=[s]{/*}{*/},
+morecomment=[l][keywordstyle4]{\#},
+morestring=[b]",
+morestring=[b]',
+alsoletter={'},
+}
+\lstset{
+backgroundcolor=\color[rgb]{0.97, 0.97, 0.97},
+tabsize=2,
+rulecolor=\color[rgb]{0.85, 0.85, 0.85},
+basicstyle=\scriptsize,
+upquote=true,
+aboveskip={1.5\baselineskip},
+columns=fixed,
+showstringspaces=false,
+extendedchars=true,
+breaklines=true,
+prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+frame=single,
+showtabs=false,
+showspaces=false,
+showstringspaces=false,
+identifierstyle=\ttfamily,
+keywordstyle=\color[rgb]{1.0,0,0},
+keywordstyle=[1]\color[rgb]{0,0,0.75},
+keywordstyle=[2]\color[rgb]{0.5,0.2,0.6},
+keywordstyle=[3]\color[rgb]{0.527,0.227,0.114},
+keywordstyle=[4]\color[rgb]{0.4,0.4,0.4},
+commentstyle=\color[rgb]{0.133,0.545,0.133},
+stringstyle=\color[rgb]{0.639,0.082,0.082},
+}

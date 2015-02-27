@@ -1,0 +1,397 @@
+\newpage
+\part{Complejidad en Tiempo}
+\setcounter{section}{0}
+
+Se conoce ya que un algoritmo es una secuencia finita de instrucciones, cada una de las cuales tiene un significado preciso y puede ejecutarse con una cantidad finita de esfuerzo en un tiempo finito. Así, un programa es un algoritmo expresado en un lenguaje de programación específico. Entonces, pueden existir diversos programas para resolver un mismo problema. 
+
+Tener un mecanismo que permita seleccionar qué programa es "mejor" que otro sería ideal para lograr los resultados adecuados. Entre dichos mecanismos estan los criterios de evaluación de un programa como la eficiencia, portabilidad, legibilidad, eficacia, robustez, entre otros. En esta sección, nos enfocaremos en solo el criterio relacionado con la eficiencia del programa para el análisis de la complejidad de un programa (uso de recursos del computador).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Definiciones}
+
+El análisis de algoritmos provee estimaciones teóricas para los recursos que necesita cualquier algoritmo y se basan en criterios como: eficiencia, portabilidad, eficacia y robustez. El análisis de complejidad está relacionado con la eficiencia del programa. La eficiencia mide el uso de los recursos del computador por un algoritmo tal como el tiempo de cálculo para ejecutar las operaciones (complejidad en tiempo) y el espacio de memoria para contener y manipular el programa más los datos (complejidad en espacio). Así, el objetivo del análisis de complejidad es cuantificar las medidas físicas en  tiempo de ejecución y espacio de memoria para comparar distintos algoritmos que resuelven un mismo problema.
+
+El tiempo de ejecución depende de diversos factores como:
+\begin{itemize}
+\item Los datos de entrada del programa
+\item La calidad del código objeto generado por el compilador
+\item La naturaleza y rapidez de las instrucciones de máquina utilizadas
+\item La complejidad en tiempo del algoritmo base del programa
+\end{itemize}
+
+Hay dos estudios posibles sobre el tiempo de ejecución:
+
+\begin{enumerate}
+\item Un estudio que proporciona una medida teórica (a priori), que consiste en obtener una función que acote (por arriba o por abajo) el tiempo de ejecución del algoritmo para unos valores de entrada dados
+\item Un estudio que ofrece una medida real (a posteriori), consistente en medir el tiempo de ejecución del algoritmo para unos valores de entrada dados y en un
+ordenador específico. 
+\end{enumerate}
+
+Ambas medidas son importantes: la primera ofrece estimaciones del comportamiento de los algoritmos de forma independiente del computador en donde serán implementados y sin necesidad de ejecutarlos, y la segunda representa las medidas reales del comportamiento del algoritmo.
+
+Dado que la unidad de tiempo a la que debe hacer referencia estos estudios no puede ser expresada en segundos o en otra unidad de tiempo concreta, pues no existe un computador estándar/ideal al que pueda hacer referencia todas las medidas, se denota por $T(n)$ el tiempo de ejecución de un algoritmo para una entrada de tamaño $n$. 
+
+En un análisis teórico de algoritmos, es común calcular su complejidad en un sentido asintótico, es decir, para un tamaño de entrada $n$ suficientemente grande, $T(n)$. Teóricamente $T(n)$ debe indicar el número de instrucciones ejecutadas por un
+ordenador "ideal". La notación "O grande" (Big O) es una notación para expresar esto. Por ello, estudiar la complejidad del peor caso, mejor caso, y caso promedio resulta importante en las Ciencias de la Computación:
+
+\begin{enumerate}
+\item Peor caso: Consiste Resulta tomar el máximo tiempo en que se ejecuta el algoritmo, entre todas las instancias posibles
+\item Mejor caso: Viene dado por el menor tiempo en que se ejecuta el algoritmo
+\item Caso promedio: Es la esperanza matemática del tiempo de ejecución del algoritmo para entradas de tamaño $n$
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Operaciones Elementales}
+
+El tiempo $T(n)$ que se mide para un algoritmo, se mide por el número de operaciones elementales que este realiza. Una operación elemental son aquellas que pueden ser acotadas por una constante tales como operaciones aritméticas básicas, asignaciones a variables, invocaciones a unidades de programas, retorno de ellas, etc. Todas estas se pueden contabilizar como una (1) operación elemental. Entonces, el tiempo de ejecución de un algoritmo va a ser una función que mide el número de operaciones elementales que realiza un algoritmo para un tamaño de entrada $n$.
+
+Para un estudio del tiempo de ejecución de un algoritmo en el mejor caso, peor caso y caso promedio veamos un ejemplo concreto. Primero se muestra unas definiciones e inicialización:
+
+\begin{lstlisting}[upquote=true, language=pseudo]
+Const Integer N = ...	//número máximo de elementos de un arreglo
+Array aValues of Integer [1..N]
+fillOrdered(ref aValues, N)	//asigna valores de forma ascendente, i.e. 1,2,3,5,6,9,12, ...
+\end{lstlisting}
+
+El algoritmo:
+
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+void Search(ref Array A of Integer [], Integer n, iC)	//se intenta buscar iC en el arreglo
+  Integer iJ = 1
+  while (A[iJ] < iC and iJ < n) do
+    j = j + 1
+  end
+  if A[iJ] == iC then
+    return iJ
+  else
+    return 0
+  end
+end
+\end{lstlisting}
+
+Nótese que el algoritmo no es la mejor forma para encontrar un elemento en un arreglo ordenado, pero permite ilustrar el número de operaciones elementales que forman la función $T(n)$. Entonces, primero se calcula las operaciones elementales de cada instrucción de la función Search:
+
+\begin{description}
+\item [Línea 1:] No se considera como operación elemental. Igual aplica para las líneas 5, 8, 10 y 11.
+\item [Línea 2:] Se ejecuta 1 operación elemental de asignación.
+\item [Línea 3:] Se ejecuta la condición del while que consta de 2 comparaciones, un acceso al arreglo y un and, para un total de 4 operaciones elementales.
+\item [Línea 4:] Se ejecutan 2 operaciones elementales, una asignación y un incremento.
+\item [Línea 6:] Se ejecuta un acceso al arreglo y una comparación, para un total de 2 operaciones elementales.
+\item [Línea 7:] Se ejecuta 1 operación elemental por el return, cuando la condición es true.
+\item [Línea 9:] Se ejecuta 1 operación elemental por el return, cuando la condición es falsa.
+\end{description}
+
+En el \textbf{mejor caso}, se ejecuta la línea 2 (1 operación) y solo la primera parte de la condición de la línea 3 (2 operaciones), es decir, la expresión $A[iJ] < iC$ es falsa y se deja de evaluar la condición completa. Para ello, se asume que el operador and es del tipo cortocircuito\footnote{La expresión lógica deja de ser evaluada en el momento que se conoce su valor aunque no hayan sido evaluados todos sus términos.}. Luego, se ejecuta la línea 6 (2 operaciones) y la línea 7 o 9 (1 operación cada una). Como resultado se tiene que la función $T(n)$ es $T(n) = 1 + 2 + 2 + 1 = 6$.
+
+En el \textbf{peor caso}, se ejecuta la línea 2 y la línea 3 se ejecuta $n-1$ veces hasta que se cumpla la segunda parte de la condición. Después se ejecuta la condición de la línea 6 y termina la ejecución con la línea 9. Cada iteración del while está compuesta por las líneas 3 y 4 y una ejecución adicional de la línea 3 que es la salida del ciclo. De esta forma, se tiene a la función $T(n)$ como:
+
+$$T(n) = 1 + ((\sum_{k=1}^{n-1}{(4+2)}) + 4) + 2 + 1 = 6n + 2$$
+
+En el \textbf{caso promedio}, el ciclo se ejecuta un número de veces $k$, donde $0 < k < n-1$. Asumiendo que para cada número $k$ existe una misma probabilidad de suceder, entonces existen $n$ posibilidades (puede que el número no este en el arreglo) y se supone que son equiprobables teniendo una probabilidad asociada a $1/n$. Así, el número promedio de veces que se efectuará el while es:
+
+$$\sum_{k=0}^{n-1}{i\frac{1}{n}} = \frac{n-1}{2}$$
+
+Como resultado se tiene que la función $T(n)$ es:
+
+$$T(n) = 1 + ((\sum_{k=1}^{(n-1)/2}{(4+2)}) + 2) + 2 + 1 = 3n + 3$$
+
+Por defecto se toma el tiempo del peor caso como medida de complejidad $T(n)$ del algoritmo. Por ejemplo, una búsqueda binaria se dice que se ejecuta en un número de pasos proporcional al logaritmo de la longitud de la estructura de datos de la búsqueda, o en $O(log(n))$, dicho coloquialmente como tiempo logarítmico. Es importante destacar que éstos análisis se realizan en una máquina hipotética/ideal.
+
+En la sección \ref{lb:anacompl} se presenta una guía para el cálculo del número de operaciones elementales, función $T(n)$ para sentencias de un algoritmo.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tasas de crecimiento más comunes} \label{lb:tasa}
+ 
+A continuación se describen las funciones más empleadas cuando se calcula la complejidad de algoritmos (ubicadas de forma creciente):
+
+$$1 < log_n < n < n \cdot log_n < n^2 < n^k < ... < 2^n < e^n < k^n < ... < n^n < n! < ...$$
+
+\noindent donde $k$ es una constante y $k > 2$.
+
+A continuación, con el propósito del cálculo del tiempo $T(n)$ de ejecución de un algoritmo la idea es clasificar dichas funciones de forma tal que se puedan comparar. Para ello, se definen clases de equivalencia basadas en notaciones asintóticas para el cálculo en notación "O".
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Notaciones Asintóticas}
+
+Las notaciones asintóticas proporcionan criterios con el fin de agrupar distintas funciones dentro de una misma categoría, sirviendo como herramientas para el cálculo de la complejida de un algoritmo.
+
+\paragraph{Definición \#1}
+
+Sean $f$ y $g$ dos funciones definidas como un subconjunto de los números reales, $f,g:\mathbb{N} \to \mathbb{R}^+-\{0\}$, se dice que:
+
+$f(x) = O(g(x))$ con $x \in \infty$
+
+$f$ es de orden $g$ si y solo si existe una constante positiva $c \in \mathbb{R}^+$ y $n_0 \in \mathbb{N}$ tal que $\forall n > n_0$ se cumpla que $f(n) < c.g(n)$. La relación $O$ denota una dominancia de funciones en donde la función $f$ está acotada superiormente por un múltiplo de la función $g$. Entonces, la expresión $f=O(g)$ refleja que el orden de crecimiento asintótico de la función $f$ es inferior o igual al de la función $g$. Por ejemplo, tomando $c=5$ y $n_0 = 0$ con $f(n) = 3n^3 + 2n$ se dice que $g(n) = n^3$ acota a $f(n)$ con dichos valores.
+
+Este definición refleja el hecho de que el crecimiento asintotico de las funciones $f$ es como mucho proporcional al de la funcion $g$. Dicho de otra forma, la tasa de crecimiento de la función $g$ es una
+cota superior para las tasas de crecimiento de las funciones $f$.
+
+Algunas propiedades derivadas de la definición anterior se describen a continuación:
+\begin{itemize}
+\item Si $c \in \mathbb{R}$ y $f:\mathbb{N} \to \mathbb{R}^+ \lbrace 0 \rbrace$, entonces $c.f = O(f)$
+\item Si $c \in \mathbb{R}$ y $f:\mathbb{N} \to \mathbb{R}^+ \lbrace 0 \rbrace$, entonces $O(c.f) \equiv O(f)$
+\item Si $f_1 = O(g_1)$ $\wedge$ $f_2 = O(g_2)$, entonces $f_1 + f_2 = O(g_1 + g_2)$
+\item Si $f_1 = O(g_1)$ $\wedge$ $f_2 = O(g_2)$, entonces $f_1 \cdot f_2 = O(g_1 \cdot g_2)$
+\item Si $f_1 = O(g)$ $\wedge$ $f_2 = O(g)$, entonces $f_1 + f_2 = O(g)$
+\end{itemize}
+
+\paragraph{Definición \#2}
+
+Sean $f$ y $g$ dos funciones definidas como un subconjunto de los números reales, , $f,g:\mathbb{N} \to \mathbb{R}^+-\{0\}$, se dice que $f$ y $g$ tienen igual orden de crecimiento $f=\Theta(g)$ si y solo si existe $c,d \in \mathbb{R}^+$ y $n_0 \in \mathbb{N}$ tal que $\forall n > n_0$ se cumpla $d.g(n) \le f(n) \le c.g(n)$. Nótese que $\Theta$ es una relación de orden total (reflexiva, transitiva y simétrica) y que $\Theta(g)$ permite acotar a $f$ inferior y superiormente.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{Propiedades}
+
+Además, $\Theta$ satisface las siguientes propiedades:
+
+\begin{itemize}
+\item $f, g : \mathbb{N} \to \mathbb{R}^{+}-\{0\}, f = \Theta (g) \Leftrightarrow f = O(g) \wedge g = O(f)$
+\item Si $c \in \mathbb{R}^{+}$ y $f: \mathbb{N} \to \mathbb{R}^{+}-\{0\}$, entonces $c \cdot f = \Theta(f)$
+\item Si $c \in \mathbb{R}^{+}$ y $f: \mathbb{N} \to \mathbb{R}^{+}-\{0\}$, entonces $\Theta(c \cdot f) = \Theta(f)$
+\item Si $f_1 = \Theta(g_1) \wedge f_2 = \Theta(g_2)$, entonces $f_1 + f_2 = \Theta (Max\{g_1, g_2\})$
+\item Si $f_1 = \Theta(g_1) \wedge f_2 = \Theta(g_2)$, entonces $f_1 \cdot f_2 = \Theta (g_1 \cdot g_2)$
+\item Si $f_1 = \Theta(g) \wedge f_2 = \Theta(g)$, entonces $f_1 + f_2 = \Theta (g)$
+\item $(f+g)^k = \Theta(f^k + g^k)$
+\end{itemize}
+
+Dada las definiciones explicadas anteriormente, es posible definir que la complejidad $T(n)$ de un algoritmo es de $O(f(n))$ si $T,f:\mathbb{N} \to \mathbb{R}^+-\{0\}$ y $\exists c \in \mathbb{R}^+$ y $n_0 \in \mathbb{N}$ tal que $\forall n > n_0$ se cumpla que $T(n) \le c \cdot f(n)$.
+
+Esto permite definir el análisis de complejidad de algoritmos para:
+\begin{itemize}
+\item Determinar el comportamiento de un algoritmo en función del tamaño del problema
+\item Determinar el incremento del cómputo al incrementar el tamaño
+\item Facilitar la comparación entre algoritmos
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Analisis de Complejidad} \label{lb:anacompl}
+
+Para analizar la complejidad $T(n)$ de un algoritmo y determinar que es de complejidad $O(f(n))$ se estudian una serie de reglas que permitirán aplicar las propiedades explicadas en la definición \#1 y \#2.
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Regla de la Suma}
+
+Para cada instrucción de ejecución de un programa $I_i$, es posible asociarle la complejidad $T_i(n)$, así:
+
+$T_1(n)$ para ejecutar la instrucción $I_1$\\
+$T_2(n)$ para ejecutar la instrucción $I_2$\\
+$\cdots$ \\
+$T_k(n)$ para ejecutar la instrucción $I_k$\\
+
+\noindent con $T_1(n) = O(f(n))$ y $T_2(n) = O(g(n))$
+
+Entonces, la complejidad de la secuencia:
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+I1;
+I2;
+...
+Ik;
+\end{lstlisting}
+
+\noindent se escribe como $T_1(n) + T_2(n) = O(Max\{f(n), g(n)\})$. Donde la función $Max$ se asocia a clasificar una función de acuerdo a su tasa de crecimiento (ver la sección \ref{lb:tasa}).
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Regla del Producto}
+
+La regla del producto define que:
+
+$T_1(n) = O(f(n)) \wedge T_2(n) = O(g(n)) \Rightarrow T_1(n) \cdot T_2(n) = O(f(n) \cdot g(n))$
+
+Del mismo modo, se definen las siguientes reglas:
+\begin{itemize}
+\item $T(n) = c \Rightarrow T(n) = O(1)$
+\item $T(n) = c + f(n) \Rightarrow T(n) = O(f(n))$
+\item $T(n) = c \cdot f(n) + d \Rightarrow T(n) = O(f(n))$
+\item $T_1(n) = O(n^k) \wedge T_2(n) = O(n^{k+1}) \Rightarrow T_1(n) + T_2(n) = O(n^{k+1})$
+\item $T(n) = c \cdot n^d \Rightarrow T(n) = O(n^d)$
+\item $T(n) = P_k(n) \Rightarrow T(n) = O(n^k)$
+\item $T_1(n) = Ln(n) \wedge T_2(n) = n^k \wedge k > 1 \Rightarrow T_1(n) + T_2(n) = O(n^k)$
+\item $T_1(n) = r^n \wedge T_2(n) = P_k(n) \wedge r > 1 \Rightarrow T_1(n) + T_2(n) = O(r^n)$
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Complejidad de Algoritmos Iterativos}
+
+A continuación se presentan una serie de reglas aplicadas al cálculo de instrucciones en un algoritmo.
+
+\begin{description}
+\item[Regla 1:] La función T(n) de una instrucción de asignación simple es una constante $c$, así su complejidad en tiempo es $O(1)$.
+
+\item[Regla 2:] La función $T(n$) de una operación de entrada/salida es una constante $c$, así su complejidad en tiempo es $O(1)$.
+
+\item[Regla 3:] Una secuencia de $k$ instrucciones cualesquiera $I_1, I_2, \dots , I_k$ con $T_i(n) = O(f_i(n))$, la complejidad total viene dada por:
+$$\sum_{i=1}^{k}{T_i(n)}=O(Max\{f_1(n), f_2(n), \dots, f_k(n)\})$$
+
+\item[Regla 4:] Dada la estructura de control (if-then-else):
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+if <condición> then		//{T1(n) = O(f(n))}
+  <instrucciones 1>		//{T2(n) = O(g(n))}
+else
+  <instrucciones 2>		//{T3(n) = O(h(n))}
+end
+\end{lstlisting}
+\noindent Su función $T(n)$ se calcula como $T(n) = T_1(n) + Max\{T_2(n), T_3(n)\}$ de esta forma su complejidad es $O(Max\{f(n), Max\{g(n),$ $h(n)\}\})$ $= O(Max\{f(n), g(n), h(n)\})$.
+
+\item[Regla 4:] La función $T(n)$ de una sentencia select donde:
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+select
+<condicion 1>: <instrucciones 1>	//T1(n) = O(f1(n))
+<condicion 2>: <instrucciones 2>	//T2(n) = O(f2(n))
+...
+<condicion k>: <instrucciones k>	//Tk(n) = O(fk(n))
+end
+\end{lstlisting}
+
+Se puede escribir como $T(n) = Max\{T_1(n), T_2(n), \dots, T_k(n)\}$ considerando que $T_i(n)$ incluye el cálculo de la evaluación de la condición.
+
+\item[Regla 5:] Dada la estructura de un ciclo while:
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+while <condición> do	//{T1(n) = O(f(n))}
+  <instrucciones>		//{T2(n) = O(g(n))}
+end
+\end{lstlisting}
+La función $T(n)$ para un ciclo while se puede escribir como: 
+$$T(n) = T_1(n) + \sum_{k=1}^{n-1}{(T_1(n) + T_2(n))}$$
+Es importante tomar en cuenta que tanto $T_1(n)$ como $T_2(n)$ pueden variar en cada iteración, y por tanto se debe de tomar en cuenta para su cálculo.
+
+Las otras sentencias iterativas (for, do-while, foreach) se pueden representar como un ciclo while. Por ejemplo, el do-while sería:
+$$T(n) = \sum_{k=1}^{n}{(T_1(n) + T_2(n))}$$
+
+Para el caso del ciclo for:
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+//de forma original
+for Integer iI = <inicio> to <final> do
+  <instrucciones>
+end
+//re-escrito como
+Integer iI = <inicio>	//{T1(n) = O(f(n))}
+while iI <= <final> do	//{T2(n) = O(g(n))}
+  <instrucciones>				//{T3(n) = O(h(n))}
+  iI = iI + <step>			//{T4(n) = O(i(n))}
+end
+\end{lstlisting}
+
+La función $T(n)$, de forma detallada, es:
+
+$$T(n) = T_1(n) + T_2(n) + \sum_{k=1}^{<final> - <inicio>}{(T_2(n) + T_3(n) + T_4(n))}$$
+
+Por su parte, el ciclo foreach se comporta igual que el ciclo for con la diferencia que las variables $<inicio>$ y $<final>$ corresponden al rango válido de una colección (i.e. arreglo).
+
+\item[Regla 6:] El tiempo de ejecución de una unidad invocable con parámetros $U(P_1, P_2, \dots, P_k)$ es el tiempo de la invocación de $U$ (1) más el tiempo de evaluación de sus parámetros junto con el tiempo de ejecución del cuerpo de $U$. Así, $T(n) = 1 + T(P_1) + T(P_2) + \dots + T(P_k) + T(U)$. No se toma en cuenta la copia de los valores de los parámetros a la pila de ejecución. Para funciones recursivas se generan ecuaciones de recurrencia.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ejercicios}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Búsqueda Lineal}
+
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+Const Integer N = ...
+Const Integer NOT_FOUND = ...
+Array aArr of Integer [1..N]
+function LinearSearch(Array aA of Integer [], Integer iN, iX)	//iX es el elemento a buscar
+  for Integer iK = 1 to iN do
+    if aA[iK] == iX then
+      return iK
+  end
+  return NOT_FOUND
+end
+//inicialización de aArr con valores
+//asignación del valor a buscar en el arreglo y almacenarlo en iX
+LinearSearch(aArr, N, iX)
+\end{lstlisting}
+
+La línea 11 realiza la invocación a la función LinearSearch la cual implica un tiempo de ejecución a calcular. Según la Regla 6, el tiempo de la invocación a LinearSearch es:
+$$T(n) = 1 + T(aA) + T(iN) + T(iX) + T(LinearSearch)$$
+
+Dado que los parámetros no son alguna expresión que requiera un cómputo, se asumirá su tiempo es 1, entonces:
+
+$$T(n) = 4 + T(LinearSearch)$$
+
+Queda calcular el tiempo de la función LinearSearch para determinar el $T(n)$ de la invocación. A partir de este punto \textbf{solamente} se considera para el cálculo de la complejidad de un algoritmo, las instrucciones de dicho algoritmo. Así, cuando se refiera a $T(n)$ será solamente para el conjunto de instrucciones o cuerpo de la función.
+
+Ahora, el primer paso consiste en calcular la cantidad de operaciones elementales de cada i-ésima instrucción para obtener su $T_i(n)$. Particularmente, el tiempo de la unidad invocable es $T(n) = T(CicloFor) + T(Return-Linea9) = T(CicloFor) + 1$. Obteniendo el cálculo del ciclo for, asumiendo que $iN=n$:
+\begin{eqnarray*}
+T(CicloFor)&=&1 + 1 + \sum_{k=1}^{n - 1}{(1 + T(Lineas 6-7) + 1))}\\
+&=&2 + \sum_{k=1}^{n - 1}{1 + (2 + 1) + 1}\\
+&=&2 + 5(n - 1)\\
+&=&2 + 5n - 5\\
+&=&5n - 3
+\end{eqnarray*}
+
+Entonces la cantidad de operaciones elementales de la unidad invocable es $T(n) = 5n - 2$. El próximo paso consiste en aplicar las reglas explicadas en la sección \ref{lb:anacompl} para determinar la complejidad del algoritmo. Se puede identificar a la constante 5 que multiplica a $n$ como $c_1$ y a la constante $-2$ como $c_2$, $T(n) = c_1n + c_2$:
+$$T(n) = c_1n + c_2 \Rightarrow O(c_1n) = O(n)$$
+
+En el caso de LinearSearch, el mejor caso es cuando el elemento $iX$ se encuentra en la primera posición del arreglo, entonces $T(n) = c_1 \Rightarrow O(1)$. El caso promedio es $T(n) = c_1\frac{n}{2} + c_2 \Rightarrow O(\frac{n}{2})$ y el peor caso (calculado previamente) es de $O(n)$.
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Búsqueda Binaria}
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+Const Integer N = ...
+Const Integer NOT_FOUND = ...
+Array aArr of Integer [1..N]
+function BinarySearch(Array aA of Integer [], Integer iN, iX)	//iX es el elemento a buscar
+  Integer iI = 1
+  while iI <= iN do
+    Integer iHalf = (i + iN) div 2
+    if iX == aA[iHalf] then
+      return iHalf
+    elseif iX > aA[iHalf] then
+      iI = iHalf
+    else
+      iN = iHalf
+  end
+  return NOT_FOUND
+end
+//inicialización de aArr con valores
+//asignación del valor a buscar en el arreglo y almacenarlo en iX
+BinarySearch(aArr, N, iX)
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Complejidad de Algoritmos Recursivos}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ideas Finales}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problemas}
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+function Epsilon (Integer iN) : Integer
+  Integer iX, iI, iJ
+  if n <= 1 then return 1
+  else
+    iX = Epsilon(iN div 2) + Epsilon(iN div 2)
+    for iI = 1 to iN do
+      for iJ = 1 to iN do
+        iX = iX + iJ
+      end
+    end
+    return iX
+  end
+end
+\end{lstlisting}
+
+Primero
+Se puede observar que la función Epsilon contempla dos casos básicos para los valores de entrada $n$ del algoritmo (parámetro $iN$) y de esta forma se puede definir su $T(n)$ como:
+\begin{equation}
+Epsilon(n) = \left\{
+  \begin{array}{l l}
+    c_1 & \quad \text{si $n \le 1$}\\
+    2 \times Epsilon(n/2) + n^2& \quad \text{si $n > 1$}
+  \end{array} \right.
+\end{equation}
+
+Entonces, cuando $n \le 1$ la complejidad es $O(1)$ al ser la complejidad de una constante $c_1$. Para el caso recursivo, tomaremos la técnica de sustitución con valores mayores que 1.
+
+Empleando en el primer valor $k > 1$:
+$$Epsilon(k) = 2 \times Epsilon(k/2) + k^2$$
+$$Epsilon(k) = 2 \times Epsilon(2/2) + 2^2$$
+$$Epsilon(k) = 2 \times c_1 + 4$$
+
+Por conveniencia, el siguiente valor de $k$ será $k=4$:
+$$Epsilon(k) = 2 \times Epsilon(4/2) + 4^2$$
+$$Epsilon(k) = 2 \times Epsilon(2) + 4^2$$
+ $$Epsilon(k) = 2 \times (2 \times c_1 + 4) + 4^2$$

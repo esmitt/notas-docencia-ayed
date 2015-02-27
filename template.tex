@@ -1,0 +1,95 @@
+%%% template.tex
+%%%
+%%% This LaTeX source document can be used as the basis for your technical
+%%% paper or abstract. Intentionally stripped of annotation, the parameters
+%%% and commands should be adjusted for your particular paper - title,
+%%% author, article DOI, etc.
+%%% The accompanying ``template.annotated.tex'' provides copious annotation
+%%% for the commands and parameters found in the source document. (The code
+%%% is identical in ``template.tex'' and ``template.annotated.tex.'')
+
+%\documentclass[annual]{acmsiggraph}
+\documentclass[annual]{acmsiggraph}
+\usepackage[dvips]{epsfig}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{syntax}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amssymb}
+\usepackage{wrapfig}
+\usepackage{booktabs}
+\usepackage{color}
+%\usepackage[style=numeric,natbib=true]{biblatex} 
+\usepackage{listings}
+\usepackage{upquote}
+\usepackage{listingsutf8}
+\include{listing}
+
+%\newcommand{\abstractnamefont}{\largefont\bfseries}
+%\newcommand{\abstracttextfont}{\normalfont\small}
+
+%\title{Nota Docencia AYED}
+%\title{}
+%\author{}
+\pdfauthor{Esmitt Ram\'irez J.}
+%
+%\author{Esmitt Ram\'irez J.\thanks{e-mail:esmitt.ramirez@ciens.ucv.ve}\\Centro de Computaci\'on Gr\'afica, Escuela de Computaci\'on\\ Universidad Central de Venezuela, Caracas- Venezuela}
+%\pdfauthor{Esmitt Ram\'irez J.}
+
+%\renewcommand{\abstractname}{Resumen}
+
+\renewcommand{\contentsname}{Tabla de Contenidos}
+\renewcommand{\partname}{Parte}
+\renewcommand\refname{Bibliografía}
+\renewcommand{\figurename}{Figura}
+%\keywords{radiosity, global illumination, constant time}
+\hyphenation{o-pe-ra-ti-vo}
+  
+\begin{document}
+
+% \teaser{
+% \includegraphics[height=1.5in]{images/renderingopengl.png}
+%   \caption{Render of 3 geometric models. From left to right: bunny which consists of 69.451 triangles;  dragon with 871.414 triangles and; happy-buddha with 1.087.716 triangles. All models extracted from the Stanford 3D Scanning Repository}
+% }
+
+%\teaser{
+%  \includegraphics[width=\linewidth]{images/renderingopengl.png}
+%  \centering
+%   \caption{Render of three geometric models. From left to right: bunny which consists of 69.451 triangles;  dragon with 871.414 triangles and; happy-buddha with 1.087.716 triangles. All models extracted from the Stanford 3D Scanning Repository \url{http://graphics.stanford.edu/data/3Dscanrep/}.}
+% \label{fig:teaser}
+% }
+
+%\maketitle
+
+%\begin{abstract}
+\begin{center}
+\vspace*{1.5cm}
+ND 2015-XX \\
+Lecturas en Ciencias de la Computación \\
+ISSN $1316-6239$ \\
+\vspace{0.85cm}
+\huge{\textbf{Algoritmos y Estructuras de Datos}} \\
+\vspace{0.85cm}
+\normalsize
+Esmitt Ramírez J. \\
+Marzo 2015
+\vspace{1.1cm}
+\end{center}
+\input{portada.tex}
+
+\newpage
+%\tableofcontents
+%\input{datatype.tex}
+%\input{recursion.tex}
+%\input{backtracking.tex}
+\input{complexity.tex}
+%\input{lists.tex}
+%\input{tree.tex}
+
+%\newpage
+\nocite{*} 
+\bibliographystyle{acmsiggraph}
+\bibliography{template}
+
+\end{document}
