@@ -211,14 +211,14 @@ Del mismo modo, se definen las siguientes reglas:
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Complejidad de Algoritmos Iterativos}
+\section{Complejidad de Algoritmos Iterativos} \label{lb:seccomp}
 
 A continuación se presentan una serie de reglas aplicadas al cálculo de instrucciones en un algoritmo.
 
 \begin{description}
-\item[Regla 1:] La función T(n) de una instrucción de asignación simple es una constante $c$, así su complejidad en tiempo es $O(1)$.
+\item[Regla 1:] La función T(n) de una instrucción de asignación simple es una constante $c$, así su complejidad en tiempo es $O(1)$. Se asumirá que las operaciones aritméticas simples empleando la sintaxis del lenguaje por sí solas no implican tiempo (en algunas ocasiones se pueden tomar en cuenta en el cálculo).
 
-\item[Regla 2:] La función $T(n$) de una operación de entrada/salida es una constante $c$, así su complejidad en tiempo es $O(1)$.
+\item[Regla 2:] La función $T(n$) de una operación de entrada/salida es una constante $c$, así su complejidad en tiempo es $O(1)$. Esta misma regla aplica para operación de lectura/escritura de memoria.
 
 \item[Regla 3:] Una secuencia de $k$ instrucciones cualesquiera $I_1, I_2, \dots , I_k$ con $T_i(n) = O(f_i(n))$, la complejidad total viene dada por:
 $$\sum_{i=1}^{k}{T_i(n)}=O(Max\{f_1(n), f_2(n), \dots, f_k(n)\})$$
@@ -349,6 +349,67 @@ end
 //asignación del valor a buscar en el arreglo y almacenarlo en iX
 BinarySearch(aArr, N, iX)
 \end{lstlisting}
+
+Tal como se menciono anteriormente, solo se tomará en cuenta el cuerpo de la función sin tomar en cuenta los parámetros de éste. Así, la función $T(n)$ de BinarySearch queda como:
+$$T(n) = 1 + T(while) + T(Return - Linea15)$$
+
+El primer valor corresponde a la instrucción de la línea 5, $T(while)$ al ciclo que va desde la línea 6-14 y la instrucción de return de la línea 15, teniendo $T(n) = T(while) + 2$. Asumiremos nuevamente que $n = iN$ para los cálculos.
+
+A diferencia que el caso anterior, el ciclo corresponde a un while donde los incrementos no son constante y varían en el transcurso del algoritmo. La condición $iI \le iN$ (línea 6) es quien regula el número de iteraciones. Así, es importante estudiar el comportamiento del número de iteraciones del ciclo (representado como $k$). En este caso, la variable $iI$ toma el valor de 1 y finaliza en $iN$ y durante su ejecución tanto $iI$ como $iN$ se modifican por el valor de $iHalf$, donde $iHalf$ es el punto medio entre dichos valores.
+
+Dado que siempre se considera el peor caso, entonces se asume que el valor buscado siempre es mayor que cualquier elemento del arreglo y no se encuentra. Inicialmente $iI =1$, $iN = n$ y $iHalf = \frac{n+iI}{2}$ y mostrando el número de iteraciones $k$ se observa: 
+
+\begin{table}[h]
+\begin{tabular}{clc}
+\hline
+k    & \multicolumn{1}{c}{iI} & n                     \\ \hline
+$0$    & $1$                      & n                     \\
+$1$    & $\frac{n}{2}$                    & n                     \\
+$2$    & $\frac{n}{2} + \frac{n}{2}$              & n                     \\
+$3$    & $\frac{n}{2} + \frac{n}{2} + \frac{n}{8}$        & n                     \\
+$4$    & $\frac{n}{2} + \frac{n}{2} + \frac{n}{8} + \frac{n}{16}$ & n \\
+...  & ...                    & ...                   \\
+$log_2n$ & n                      & n
+\end{tabular}
+\end{table}
+
+Nótese que realmente es indistinto si se modifica siempre el valor de $iI$ o $iN$, solo es importante el valor de $k$ de veces que se ejecuta. El número de veces se puede representar por la función $log_2$ basado en la entrada $n$. Entonces, dicho valor de $k$ será el número de veces que se ejecute el ciclo while.
+
+Volviendo al cálculo de $T(while)$ queda entonces:
+$$T(while) = 1 + \sum_{k=1}^{log_2n}{1 + T(Linea 7) + T(if/elseif)}$$
+
+Para $T(Linea 7)$ se tiene una operación de suma, una división entera y una asignación. Es posible considerar el tiempo como 3, sin embargo según la regla 1 (ver \ref{lb:seccomp}) será $T(Linea 7) = 1$ quedando por calcular $T(if/elseif)$ de las líneas 8 -14. Dado que $T(if/elseif) = Max{2, 2, 1} = 2$ entonces $T(whiles)$ es:
+\begin{eqnarray*}
+T(while)&=&1 + \sum_{k=1}^{log_2n}{1 + 1 + 2}\\
+&=&1 + \sum_{k=1}^{log_2n}{5}\\
+&=&2 + 5 log_2n
+\end{eqnarray*}
+
+Si se emplea constantes para definir cada valor se tiene que $T(while) = c_1 + c_2 log_2n$ y para $T(n) = T(n) = T(while) + c_3$:
+$$T(n) = c_1 + c_2 log_2n + c_3 \Rightarrow O(c_2 log_2n) = O(log_2n)$$
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bubble Sort}
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+Const Integer N = ...
+Array aArr of Integer [1..N]
+void BubbleSort(ref Array aA of Integer [], Integer iN)
+  Integer iI, iJ
+  for iI = 1 to iN - 1 do
+    for iJ = iI + 1 to iN - 1 do
+      if aA[iJ-1] > aA[iJ] then
+        Integer iAux = aA[iJ-1]
+        aA[iJ-1] = aA[iJ]
+        aA[iJ] = iAux
+      end
+    end
+  end
+end
+//inicialización de aArr con valores
+BubbleSort(ref aArr, N)
+\end{lstlisting}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Another}

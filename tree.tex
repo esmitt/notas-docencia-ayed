@@ -303,15 +303,35 @@ Así es posible definir un árbol binario como una estructura formada por un nod
 \subsection{Algoritmos}
 
 \begin{lstlisting}[upquote=true, language=pseudo]
-function Size (Node<T>* pNode) : Integer
+function Count (Node<T>* pNode) : Integer
   if pNode == NIL then
     return 0
   else
-    return 1 + Size(*pNode.pRight) + Size(*pNode.pLeft)
+    return 1 + Count(*pNode.pRight) + Count(*pNode.pLeft)
   end
 end
 \end{lstlisting}
 
+\begin{lstlisting}[upquote=true, language=pseudo]
+function Min(Integer a, Integer b) : Integer
+  if a > b then
+    return b
+  end
+  return a
+end
+
+function isLeaf(Node<Integer>* pNode) : Boolean
+  return *pNode.pRight == NIL and *pNode.pLeft
+end
+
+function Min (Node<Integer>* pNode) : Integer
+  if isLeaf(pNode) then
+    return *pNode.tInfo
+  else
+    return Min(*pNode.tInfo, Min(Min(*pNode.pRight), Min(*pNode.pLeft)))
+  end
+end
+\end{lstlisting}
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 function MaxDepth (Node<T>* pNode) : Integer
@@ -342,6 +362,43 @@ end
 \end{lstlisting}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Suma de los nodos}
+
+Dado un BST de valores del tipo Integer, se quiere construir una función que sume todos los elementos de los nodos y lo retorne. Una posible función es como sigue:
+
+\begin{lstlisting}[upquote=true, language=pseudo]
+function SumAll (Node<Integer>* pNode) : Integer
+  if pNode == NIL then
+    return 0
+  else
+    return *pNode.tInfo + SumAll(*pNode.pRight) + SumAll(*pNode.pLeft)
+end
+\end{lstlisting}
+
+La función
+
+\begin{lstlisting}[upquote=true, language=pseudo]
+function isLeaf(Node<Integer>* pNode) : Boolean
+  return *pNode.pRight == NIL and *pNode.pLeft
+end
+
+function SumAll (Node<Integer>* pNode) : Integer
+  if pNode != NIL then
+    if isLeaf(pNode) then
+      return *pNode.tInfo
+    elseif *pNode.pRight == NIL then
+      return *pNode.tInfo + SumAll(*pNode.pLeft)
+    elseif *pNode.pLeft == NIL then
+      return *pNode.tInfo + SumAll(*pNode.pRight)
+    else
+      return *pNode.tInfo + SumAll(*pNode.pRight) + SumAll(*pNode.pLeft)
+  end
+  return 0
+end
+\end{lstlisting}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Binary Search Tree - BST}
 
@@ -365,7 +422,9 @@ La diferencia observada en los árboles del ejemplo se debe a que su forma viene
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Especificación}
 
-Las operaciones de Insert (inserción) y Lookup (búsqueda) en un árbol binario suelen ser rápidas. En promedio, un algoritmo de búsqueda en un árbol binario puede localizar un nodo en un árbol de $n$ nodos en un orden de complejidad de $log(N)$ (logaritmo base 2). Por lo tanto, , binary search trees are good for "dictionary" problems where the code inserts and looks up information indexed by some key. The lg(N) behavior is the average case -- it's possible for a particular tree to be much slower depending on its shape.
+Las operaciones de Insert (inserción) y Lookup (búsqueda) en un árbol binario suelen ser rápidas. En promedio, un algoritmo de búsqueda en un árbol binario puede localizar un nodo en un árbol de $n$ nodos en un orden de complejidad de $log(N)$ (logaritmo base 2). Por lo tanto, un BST son estructuras ideales para problemas de "diccionario" donde un código/id es insertado y se busca su información asociada de forma eficiente. El comportamiento logarítmico es para el caso promedio, es posible que para un árbol en particular sea más lento (dependiendo de su forma).
+
+A continuación se muestra una posible especificación para la definición de la clase BST.
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 class Node<T>
