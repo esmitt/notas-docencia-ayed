@@ -259,7 +259,7 @@ Postorder: + - A * B C D (expresión postfija) \\
   \begin{center}
     \includegraphics[width=0.25\textwidth]{images/bintreeExpresion.eps}
   \end{center}
-  \caption{Ejemplo de un BST para almacenar expresiones aritméticas.}
+  \caption{Ejemplo de la representación de un BST para almacenar expresiones aritméticas.}
   \label{fig:bintreeExpresion}
 \end{figure}
 
@@ -276,7 +276,7 @@ La implementación de un BST empleando arreglos debe conocer el número máximo 
   \begin{center}
     \includegraphics[width=0.4\textwidth]{images/vectorbinTree.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{Representación de un árbol completo del tipo Char almacenado dentro de un arreglo.}
   \label{fig:vectorbinTree}
 \end{figure}
 
@@ -292,15 +292,84 @@ La idea detrás de la implementación de un árbol binario basado en apuntadores
   \begin{center}
     \includegraphics[width=0.5\textwidth]{images/BTPointer.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{Representación de un árbol empleando apuntadores. Cada nodo contiene un apuntador a su hijo derecho e izquierdo.}
   \label{fig:BTPointer}
 \end{figure}
 
-Así es posible definir un árbol binario como una estructura formada por un nodo vacío o por un nodo simple donde los punteros izquiero y derecho apuntan a un árbol binario.
+Así es posible definir un árbol binario como una estructura formada por un nodo vacío o por un nodo simple donde los punteros izquierdo y derecho apuntan a un árbol binario. Entonces, solamente con una variable del tipo Node es posible construir el árbol. Su definición es:
+\begin{lstlisting}[upquote=true, language=pseudo]
+class Node<T>
+public:
+  T tInfo
+  Node<T>* pLeft
+  Node<T>* pRight
+end
+\end{lstlisting}
 
+En los lenguajes de programación que tienen soporte a apuntadores el valor de éstos pueden estar inicializados con NIL al momento de su creación o en caso contrario se le debe asignar dicho valor. Así, es posible construir una clase un poco más "segura" y en el enfoque orientado a objetos (\textit{mutators} y \textit{observers}) como:
+\begin{lstlisting}[upquote=true, language=pseudo]
+class Node<T>
+private:
+  T tInfo
+  Node<T>* pLeft
+  Node<T>* pRight
+public:
+  Constructor Node()
+    pLeft = NIL
+    pRight = NIL
+  end
+
+  Constructor Node(T value)
+    tInfo = value
+  end
+
+  Constructor Node(Node<T>* pRight, pLeft, T tInfo)
+    this.pLeft = pLeft
+    this.pRight = pRight    
+    this.tInfo = tInfo
+  end
+    
+  Destructor Node()
+    if pLeft != NULL then
+      delete pLeft
+    end
+    if pRight != NULL then
+      delete pRight
+    end
+  end
+  
+  void setRightChild(Node<T>* pRight)
+    this.pRight = pRight
+  end
+  
+  void setLeftChild(Node<T>* pLeft)
+    this.pLeft = pLeft
+  end
+  
+  void setInfo(T tInfo)
+    this.tInfo = tInfo
+  end
+  
+  Node<T>* getRightChild()
+    return pRight
+  end
+  
+  Node<T>* getLeftChild()
+    return pLeft
+  end
+  
+  void getInfo(T tInfo)
+    return tInfo
+  end
+  
+end
+\end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Algoritmos}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Contar el número de nodos}
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 function Count (Node<T>* pNode) : Integer
@@ -311,6 +380,9 @@ function Count (Node<T>* pNode) : Integer
   end
 end
 \end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Buscar el elemento mínimo}
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 function Min(Integer a, Integer b) : Integer
@@ -333,6 +405,9 @@ function Min (Node<Integer>* pNode) : Integer
 end
 \end{lstlisting}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Calcular la profundidad}
+
 \begin{lstlisting}[upquote=true, language=pseudo]
 function MaxDepth (Node<T>* pNode) : Integer
   if pNode == NIL then
@@ -348,6 +423,8 @@ function MaxDepth (Node<T>* pNode) : Integer
 end
 \end{lstlisting}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Árboles binarios iguales}
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 function Equals (Node<T>* pNodeA, pNodeB) : Integer
@@ -376,7 +453,9 @@ function SumAll (Node<Integer>* pNode) : Integer
 end
 \end{lstlisting}
 
-La función
+La función verifica en su caso base si es NIL o no. En la parte recursiva, invoca a la función con los nodos derecho e izquierdo. Ahora, si un nodo del árbol no tiene hijos, o solo tiene hijo derecho, o solo tiene hijo izquierdo entonces cuando se genere el ambiente recursivo habrá de retornar 0 por el caso base (debido a que no aporta en la suma). Este enfoque puede resultar ineficiente debido a que si una de las ramas del nodo es NIL, entonces no es necesario invocar a la función. Por ejemplo, para un árbol completo de altura $h$ se realizarán $2^{h+1}$ invocaciones que siempre retornarán 0 (i.e. los nodos hojas).
+
+Entonces, sería ideal primero verificar el número de hijos que posee un nodo para no hacer invocaciones que no aporten al cómputo (la suma final). A continuación se muestra una nueva versión donde se toma en cuenta dichos aspectos, siendo más eficientes en solo generar las invocaciones necesarias para el cálculo.
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 function isLeaf(Node<Integer>* pNode) : Boolean
@@ -394,15 +473,14 @@ function SumAll (Node<Integer>* pNode) : Integer
     else
       return *pNode.tInfo + SumAll(*pNode.pRight) + SumAll(*pNode.pLeft)
   end
-  return 0
+  return 0	//solo se debería invocar si el árbol es vacío
 end
 \end{lstlisting}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Binary Search Tree - BST}
 
-Un tipo Binary Search Tree (BST), árbol binario de búsqueda, es un árbol binario con la característica de que todos los elementos almacenados en el subárbol izquierdo de cualquier nodo $k$ son menores al valor del elemento almacenado en $k$, y que todos los elementos almaecnados en el subárbol derecho de $k$ son mayores que el valor del elemento almacenado en $k$. La Fig. \ref{fig:BSTExample1} muestra un ejemplo de dos BST empleando un mismo conjunto de números.
+Un tipo Binary Search Tree (BST), árbol binario de búsqueda, es un árbol binario con la característica de que todos los elementos almacenados en el subárbol izquierdo de cualquier nodo $k$ son menores al valor del elemento almacenado en $k$, y que todos los elementos almacenados en el subárbol derecho de $k$ son mayores que el valor del elemento almacenado en $k$. La Fig. \ref{fig:BSTExample1} muestra un ejemplo de dos BST empleando un mismo conjunto de números.
 
 \begin{figure}[htpb!]
   \begin{center}
@@ -422,7 +500,7 @@ La diferencia observada en los árboles del ejemplo se debe a que su forma viene
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Especificación}
 
-Las operaciones de Insert (inserción) y Lookup (búsqueda) en un árbol binario suelen ser rápidas. En promedio, un algoritmo de búsqueda en un árbol binario puede localizar un nodo en un árbol de $n$ nodos en un orden de complejidad de $log(N)$ (logaritmo base 2). Por lo tanto, un BST son estructuras ideales para problemas de "diccionario" donde un código/id es insertado y se busca su información asociada de forma eficiente. El comportamiento logarítmico es para el caso promedio, es posible que para un árbol en particular sea más lento (dependiendo de su forma).
+Las operaciones de Insert (inserción) y Lookup (búsqueda) en un árbol binario de búsqueda suelen ser rápidas. En promedio, un algoritmo de búsqueda en un árbol binario puede localizar un nodo en un árbol de $n$ nodos en un orden de complejidad de $log(N)$ (logaritmo base 2). Por lo tanto, un BST son estructuras ideales para problemas de "diccionario" donde un código/id es insertado y se busca su información asociada de forma eficiente. El comportamiento logarítmico es para el caso promedio, es posible que para un árbol en particular sea más lento (dependiendo de su forma).
 
 A continuación se muestra una posible especificación para la definición de la clase BST.
 
@@ -442,13 +520,13 @@ public:
   Destructor BST()
   function GetRoot() : Node<T> *
   function IsEmpty() : Boolean
-  function Lookup(Node<T>* pNode, T tInfo) : Boolean
-  function Insert (Node<T>* pNode, T tInfo) : Node<T> *
+  function Lookup(Node<T>* pNode, T tInfo) : Boolean  		//puede retornar un Node<T>*
+  function Insert (Node<T>* pNode, T tInfo) : Node<T> * 	//puede retornar un Boolean
   void Delete(Node<T>* pNode, T tInfo)
 end
 \end{lstlisting}
 
-Es posible que la operación de Lookup retorne un tipo Node<T>* en vez de un tipo Boolean. De esa forma permitirá localizar un elemento dentro del BST, o retornar NIL que indica que el elemento no existe.
+Es posible que la operación de Lookup retorne un tipo $Node<T>*$ en vez de un tipo Boolean (igual con la función Insert). De esa forma permitirá localizar un elemento dentro del BST, o retornar NIL que indica que el elemento no existe.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implementación}
@@ -545,12 +623,9 @@ public:
     end
   end
 end
-
 \end{lstlisting}
 
-
 Give a binary search tree and a number, inserts a new node with the given number in the correct place in the tree.  Returns the new root pointer which the caller should then use (the standard trick to avoid using reference parameters)
-
 
 \begin{figure}[htpb!]
   \begin{center}
@@ -586,14 +661,15 @@ function IsBST (Node<T>* pNode) : Boolean
 end
 \end{lstlisting}
 
+\subsection{Problema de Desequilibrio}
 
-\subsection{Unbalanced}
+El orden de inserción en un BST determina la forma estructural del árbol. La Fig. \ref{fig:BSTDesequilibrado} muestra un ejemplo de distintos tipos de inserción en un BST del tipo Char, siendo insertados de izquierda a derecha.
 
 \begin{figure}[htpb!]
   \begin{center}
     \includegraphics[width=0.9\textwidth]{images/BSTDesequilibrado.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{Ejemplo de 3 tipos de BST generados con el mismo conjunto de datos en diferente orden.}
   \label{fig:BSTDesequilibrado}
 \end{figure}
 
