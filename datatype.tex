@@ -19,7 +19,7 @@ Un tipo de dato es un conjunto de valores y un conjunto de operaciones aplicadas
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=.7]{images/tipoDeDato.eps}
-\caption{Clasificación de los tipos de datos.}
+\caption{Clasificación de los tipos de datos según su naturaleza.}
 \label{fig:tipodato}
 \end{figure}
 
@@ -588,7 +588,7 @@ Dicho esquema puede aplicarse a arreglos bidimensionales. Un ejemplo para la con
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=.55]{images/pointer1.eps}
+\includegraphics[scale=.65]{images/pointer1.eps}
 \caption{Ejemplo de construcción de un arreglo bidimensional de $4 \times 6$ empleando la variable pMatrix.}
 \label{fig:pointer1}
 \end{figure}
@@ -618,16 +618,55 @@ delete [] pMatrix
 Es posible crear dinámicamente un número distinto de columnas para cada fila, pero esto no entraría en la definición de arreglo. Sin embargo, esta sería una buena forma de definir una estructura de datos llamada Sparse Matrix (ver \ref{sec:sparse} para mayor detalle)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ejercicios}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Algoritmos}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ideas Finales}
+
+\begin{itemize}
+\item El uso de tipos de datos incrementa la legibilidad y semántica de un programa
+\item Básicamente, se puede clasificar los tipos de datos por la naturaleza de los valores que almacena (simple o compuesto) o por la forma como son creados (estático o dinámico)
+\item La cantidad de memoria de un tipo, llamado complejidad en memoria o espacio que ocupa, corresponde al número de bytes o palabras en memoria que se requiere para su almacenamiento
+\item Cualquier función recursiva puede ser sustituida por una equivalente iterativa
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problemas}
 
-Escribir la formula k-Dimensional
+\begin{itemize}
+\item Diseñe una estructura de datos que permita almacenar eficientemente matrices en forma de la letra Z, es decir, matrices con elementos significativos en la diagonal de izquierda a derecha desde arriba a abajo, y en la primera y última fila (con elementos no significativos en el resto). Calcule su costo de memoria, explique por qué es eficiente en comparación con la representación típica, su cardinalidad, la fórmula de acceso para un elemento (i,j) y por último elabora un algoritmo que permita sumar y multiplicar dichas matrices.
+\item Asumiendo que todas las variables están contiguas en memoria en el orden que son declaradas, calcule la fórmula de acceso a Total[i].A[j], Total[i].x, y Total[i].y dada la dirección base de Secret y la siguiente definición:
+\begin{lstlisting}[upquote=true, language=pseudo]
+Type Register Secret
+  Char c
+  Integer x
+  Real y
+  Array A of Integer[1..10]
+end
+Array Total of Secret[-2..-1]
+\end{lstlisting}
+\item Empleando la definición del tipo Secret (del problema anterior) y con esta definición:
+\begin{lstlisting}[upquote=true, language=pseudo]
+Type Array CICPC of Secret[1..2]
+Type Register Sol
+  Array B of CICPC [-2..3]
+  Boolean bUnBit
+end
+Array Moon of Sol [1..10]
+\end{lstlisting}
+Calcule el espacio o cantidad de memoria de la variable Moon.
+\item Escribir la fórmula de acceso k-Dimensional para una matriz de $k$ dimensiones.
+\item Considere las siguientes definiciones de tipo:
+\begin{lstlisting}[upquote=true, language=pseudo]
+Type Array Arr of Integer [-5..5]
+Type Array Sub of Arr [-2..6]
+Sub Aux
+\end{lstlisting}
+\begin{enumerate}
+\item Indique el costo en memoria de la variable Aux
+\item Indique la cardinalidad del tipo Sub
+\item Indique la fórmula de acceso de Aux[i]
+\item Indique la fórmula de acceso de Aux[i][j]
+\end{enumerate}
+\item Defina una estructura de datos que permita almacenar eventos de un calendario para fechas válidas. Calcule su cardinalidad, complejidad en espacio, y fórmula de acceso para conocer el evento que se encuentra registrado en cuentro día del año. Asuma que solo se representa un solo año.
+\end{itemize}
+
+
 

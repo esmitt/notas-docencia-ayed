@@ -1,9 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\part*{Árboles}
 \setcounter{section}{0}
-\begin{center}
-\huge{\textbf{Árboles}} \\
-\end{center}
 
 Una vez estudiada las estructuras de datos lineales como pilas y colas y con experiencia en recursión, estudiaremos el tipo de dato llamado Tree (árbol). Los árboles son empleados en muchas áreas de las Ciencias de la Computación, que se incluyen sistemas operativos, gráficos, sistemas de base de datos, y redes de computadoras. Las estructuras de datos Tree tiene mucho en común con su equivalente en botánica. Un tree tiene raíz, ramas y hojas. La principal diferencia radica en que la raíz se encuentra en la parte superior y las hojas en la parte inferior.
 
@@ -531,7 +530,9 @@ Es posible que la operación de Lookup retorne un tipo $Node<T>*$ en vez de un t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implementación}
 
-Given a binary search tree and a "target" value, search the tree to see if it contains the target. The basic pattern of the lookup() code occurs in many recursive tree algorithms: deal with the base case where the tree is empty, deal with the current node, and then use recursion to deal with the subtrees. If the tree is a binary search tree, there is often some sort of less-than test on the node to decide if the recursion should go left or right.
+A continuación se muestra la implementación de la clase BST. Se mostrará las funciones con una breve explicación de cada una.
+
+La implementación inicial de la clase BST consiste en el constructor, destructor, la función que retorna la raíz y verificar si el árbol es vacío o no. Todas estas funciones son muy similares en todas las estructuras dinámicas.
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 class BST<T>
@@ -551,7 +552,17 @@ public:
   function IsEmpty() : Boolean 
     return pRoot == NIL
   end
-  
+\end{lstlisting}
+
+Dado un BST y un valor se quiere verificar si dicho valor existe o no en el árbol. El patrón básico de la función Lookup ocurre de forma recursiva (como es usual en los algoritmos de árboles): 
+\begin{enumerate}
+\item Tratar con el caso base donde el árbol es vacío
+\item Tratar con el nodo actual y emplear la recursión para tratar con sus subárboles
+\end{enumerate}
+
+Dado que el árbol es un BST, se tiene un orden que se evalua mediante operaciones relacionales y decide si trata del árbol derecho o el árbol izquierdo.
+
+\begin{lstlisting}[upquote=true, language=pseudo]
   function Lookup (Node<T>* pNode, T tInfo) : Boolean
     if pNode == NIL then
       return false
@@ -563,7 +574,29 @@ public:
       end
     end
   end
-  
+\end{lstlisting}
+
+El proceso de inserción consiste en dado el BST y una clave/información colocarla en el lugar correcto. Se retorna el apuntador de la posición donde fue insertado. Para ello se realizan los siguientes pasos:
+\begin{itemize}
+\item Si el BST es vacío, se crea el nodo raíz del árbol
+\item Si el BST tenía al menos la raíz, se verifica dónde se debe insertar el nodo nuevo recorriendo el árbol desde la raíz, y descendiendo por la rama izquierda si el valor a insertar es menor o por la derecha si es mayor que el nodo raíz actual en cada invocación recursiva.
+\item Si la clave/información a insertar ya se encuentra en el árbol se debe verificar de alguna forma (i.e. mensaje de error, retorna NIL, etc). En la implementación mostrada se asume que no habrá claves repetidas pero \textbf{no inserta} un nodo nuevo.
+\item Si la clave/información no existe en el árbol, se crea un nodo nuevo como el paso 1 y se inserta siempre como una hoja hija derecha o izquierda del nodo hallado en el paso 2.
+\end{itemize}
+
+La Fig. \ref{fig:BSTInsert} muestra de forma gráfica el proceso de insertar los elementos 11, 6, 8, 19, 4, 10, 5, 17 (en ese orden) en un BST.
+
+\begin{figure}[htpb!]
+  \begin{center}
+    \includegraphics[width=1.0\textwidth]{images/BSTInsert.eps}
+  \end{center}
+  \caption{Proceso de inserción de los elementos 11, 6, 8, 19, 4, 10, 5, 17 en un BST.}
+  \label{fig:BSTInsert}
+\end{figure}
+
+Es importante destacar que la forma del árbol depende del orden en el cual los nodos son insertados.
+
+\begin{lstlisting}[upquote=true, language=pseudo]
   function Insert (Node<T>* pNode, T tInfo) : Node<T> *
     if pNode == NIL then
       Node<T>* pNew = new Node
@@ -582,7 +615,34 @@ public:
       return pNode
     end
   end
-  
+\end{lstlisting}
+
+Para la operación Delete en un BST se deben considerar 3 casos posibles en cuanto a la ubicación de un nodo:
+\begin{itemize}
+\item El nodo a eliminar es hoja (no tiene hijos): En este caso se elimina el nodo sin
+mayores problemas.
+\item El nodo a eliminar tiene solo un hijo o subárbol (izquierdo o derecho): Se reenlaza
+al padre del nodo a eliminar con el hijo existente.
+\item El nodo a eliminar tiene dos hijos: En este caso se debe buscar:
+a) El nodo de mayor clave en su subárbol izquierdo (gráficamente el nodo más a la
+derecha del subárbol).
+b) El nodo de menor clave en su subárbol derecho (gráficamente el nodo más a la
+izquierda del subárbol).
+La clave de este nodo se le asigna al nodo pasado a la función y posteriormente
+se elimina el nodo.
+\end{itemize}
+
+Fig. \ref{fig:delsbt1}
+
+\begin{figure}[htpb!]
+  \begin{center}
+    \includegraphics[width=1.0\columnwidth]{images/BSTDelete1.eps}
+  \end{center}
+  \caption{Representación de la eliminación del mayor de los nodos menores o, el menor de los nodos mayores en un BST.}
+  \label{fig:delsbt1}
+\end{figure}
+
+\begin{lstlisting}[upquote=true, language=pseudo]  
   void DelMax(ref Node<T>* pNode, ref T tInfo)
     if *pNode.pRight != NIL then
       DelMax(ref *pNode.pRight, ref tInfo)
@@ -625,18 +685,6 @@ public:
 end
 \end{lstlisting}
 
-Give a binary search tree and a number, inserts a new node with the given number in the correct place in the tree.  Returns the new root pointer which the caller should then use (the standard trick to avoid using reference parameters)
-
-\begin{figure}[htpb!]
-  \begin{center}
-    \includegraphics[width=1.0\textwidth]{images/BSTInsert.eps}
-  \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
-  \label{fig:BSTInsert}
-\end{figure}
-
-The shape of a binary tree depends very much on the order that the nodes are inserted. In particular, if the nodes are inserted in increasing order (1, 2, 3, 4), the tree nodes just grow to the right leading to a linked list shape where all the left pointers are NULL. A similar thing happens if the nodes are inserted in decreasing order (4, 3, 2, 1). The linked list shape defeats the lg(N) performance. We will not address that issue here, instead focusing on pointers and recursion.
-
 Given a non-empty binary search tree, 
  return the minimum data value found in that tree. 
  Note that the entire tree does not need to be searched.
@@ -672,6 +720,10 @@ El orden de inserción en un BST determina la forma estructural del árbol. La F
   \caption{Ejemplo de 3 tipos de BST generados con el mismo conjunto de datos en diferente orden.}
   \label{fig:BSTDesequilibrado}
 \end{figure}
+
+Dado este aspecto, si los nodos de un BST son insertados en orden creciente (3er caso de la Fig. {fig:BSTDesequilibrado}) el árbol crecerá solo hacia el lado derecho como una lista simplemente enlazada, y todos los apuntadores izquierdos serán NIL. Del mismo modo, si son insertados en orden decreciente ('U','T','P','O','M','C','A'). La forma de una lista enlazada "degrada" la complejidad logarítimica del árbol.
+
+Por el motivo anterior, es ideal construir un mecanismo que no permita construir árboles de búsqueda que sean degradados sino conseguir árboles tan balanceados como sea posible. Por ello estudiaremos AVL y XXX.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{AVL}
