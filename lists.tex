@@ -933,7 +933,7 @@ Print (RPN("59+2*", 5))		//output: 28
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Recursión}
+\subsection{Recursión} \label{sec:recstack}
 
 Es posible emplear una estructura de pila para simular los ambientes de programas recursivos (recursión simple/múltiple/anidada/indirecta). La idea consiste en apilar los resultados obtenidos en un ambiente, para luego combinarlos (extracción del tope) con una operación actual en cierto estado recursivo. De esta forma, es posible simular un algoritmo recursivo de forma iterativa empleando una pila para almacenar los resultados de cada ambiente “recursivo”.
 

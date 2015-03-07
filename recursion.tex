@@ -1,33 +1,6 @@
 \newpage
 \part{Recursividad}
 \setcounter{section}{0}
-%\begin{center}
-%\huge{\textbf{Recursividad}} \\
-%\end{center}
-
-%\newpage
-
-%\end{abstract}
-
-%\tableofcontents
-
-%\newpage
-
-%\begin{CRcatlist}
-%  \CRcat{I.3.3}{Computer Graphics}{Three-Dimensional Graphics and Realism}{Display Algorithms}
-%  \CRcat{I.3.7}{Computer Graphics}{Three-Dimensional Graphics and Realism}{Radiosity};
-%\end{CRcatlist}
-
-%\keywordlist
-
-%\TOGlinkslist
-
-%\copyrightspace
-
-%\section{Introducción}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 En Ciencias de la Computación, la programación imperativa es un paradigma de programación que describe a un programa en términos del estado de dicho programa y las instrucciones que cambian este estado. Entre dicho conjunto de instrucciones se encuentran los procedimientos/funciones (i.e. unidades invocables), los cuales definen una secuencia de operaciones que realizan una tarea específica y que pueden ser invocados desde cualquier sección de un programa.
 
@@ -43,7 +16,7 @@ Para entender mejor este aspecto, vamos a estudiar la Recursión.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Definiciones}
 
-La recursión es un proceso de definir una propiedad, una operación o una función en términos de si misma. Así, es posible definir un conjunto "infinito" de objetos/operaciones con una declaración finita. En términos de Algoritmia, un algoritmo recursivo contiene en sus instrucciones una invocación a sí mismo. El número de invocaciones recursivas debe garantizar la finalización de un bloque de instrucciones.
+La recursión es un proceso de definir una propiedad, una operación o una función en términos de sí misma. Así, es posible definir un conjunto ``infinito" de objetos/operaciones con una declaración finita. En términos de Algoritmia, un algoritmo recursivo contiene en sus instrucciones una invocación a sí mismo. El número de invocaciones recursivas debe garantizar la finalización de un bloque de instrucciones.
 
 Un ejemplo de conjunto definido de forma recursiva son los números naturales, donde:
 \begin{enumerate}
@@ -51,9 +24,9 @@ Un ejemplo de conjunto definido de forma recursiva son los números naturales, d
 \item $n$ pertenece a $N$, entonces $n+1$ pertenece a $N$
 \end{enumerate}
 
-La recursión también se puede observar en la forma de un copo de nieve, o la hoja de helecho. Igualmente, cuando se coloca un espejo frente a otro sucede que el reflejo de un espejo se observa en el otro que contiene el reflejo del primero y así de forma sucesiva hasta que se hace imperceptible dicho reflejo.
+La recursión también se puede observar en la naturaleza como la forma de un copo de nieve, o la hoja de helecho. Igualmente, cuando se coloca un espejo frente a otro sucede que el reflejo de un espejo se observa en el otro que contiene el reflejo del primero y así de forma sucesiva hasta que se hace imperceptible dicho reflejo.
 
-Existe una técnica de programación conocida como divide y conquista (divide and conquer) que consiste en dividir un problema en dos o más sub-problemas del mismo tipo (o muy similar) y del mismo tipo, hasta que su solución sea simple. La recursión es una herramienta vital en la técnica de \textit{divide and conquer}, donde una invocación recursiva resuelve un problema de menor tamaño, de forma sucesiva, hasta llegar a un problema que su solución sea directa o muy simple. Posteriormente, cada solución obtenida se debe combinar para obtener la solución final al problema original.
+Existe una técnica de programación conocida como divide y conquista (\textit{divide and conquer}) que consiste en dividir un problema en dos o más sub-problemas del mismo tipo (o muy similar) y del mismo tipo, hasta que su solución sea simple. La recursión es una herramienta vital en la técnica de \textit{divide and conquer}, donde una invocación recursiva resuelve un problema de menor tamaño, de forma sucesiva, hasta llegar a un problema que su solución sea directa o muy simple. Posteriormente, cada solución obtenida se debe combinar para obtener la solución final al problema original.
 
 Por ejemplo, la función Factorial de un número $n$ se puede expresar como:
 
@@ -73,7 +46,7 @@ Fact(0) = 1
 Fact(n) = n*Fact(n-1) //n > 1
 \end{lstlisting}
 
-Del mismo modo, la sucesión de Fibonacci se puede expresar algoritmicamente como invocaciones a una función Fib con parámetro $n$, expresada como:
+Del mismo modo, la sucesión de Fibonacci se puede expresar algorítmicamente como invocaciones a una función Fib con parámetro $n$, expresada como:
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 Fib(0) = 0
@@ -107,7 +80,7 @@ end
 
 El caso base viene dado cuando el número a calcular es igual a $0$ (línea 2), donde la función retorna el valor de $1$ (línea 3). El caso recursivo se deriva directamente de la fórmula de la función factorial $n! = n*(n-1)!$, devolviendo el valor de $iN * Fact(iN -1)$ (línea 5). El parámetro empleado solamente es el número a calcular (línea 1), el cual va disminuyendo de uno en uno en cada nueva invocación.
 
-En la mayoría de lenguajes de programación y en arquitecturas basadas en una pila (stack), cuando se invoca a una función de este tipo, se crean instancias de la función donde se aloje la información necesaria en cada invocación para la ejecución de la función. Entonces, ¿qué efectos produce una invocación recursiva a nivel de ejecución en un computador?.
+En la mayoría de lenguajes de programación y en arquitecturas basadas en una pila (\textit{stack}), cuando se invoca a una función de este tipo, se crean instancias de la función donde se aloje la información necesaria en cada invocación para la ejecución de la función. Entonces, ¿qué efectos produce una invocación recursiva a nivel de ejecución en un computador?.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ejecución}
@@ -130,7 +103,7 @@ Existen diversos aspectos para la clasificación de unidades invocables recursiv
 
 \paragraph{De acuerdo a la cantidad de invocaciones:}
 \begin{itemize}
-\item Simple: En $U_1$ existe solo una invocación a $U_1$
+\item Simple: En $U_1$ existe solamente una invocación a $U_1$
 \item Múltiple: En $U_1$ existe más de una invocación a $U_1$
 \end{itemize}
 
@@ -142,14 +115,14 @@ Existen diversos aspectos para la clasificación de unidades invocables recursiv
 
 Existe otro tipo de clasificación que se denomina recursividad anidada, donde en algunos de los argumentos de la invocación recursiva existe otra invocación a sí misma. La función de Ackermann es un ejemplo de ello:
 
-A(0 , n) = n + 1 \\
-A(m , 0) = A(m – 1 , 1) \\
-A(m , n) = A(m – 1 , A(m , n-1)) 
+$A(0 , n) = n + 1$ \\
+$A(m , 0) = A(m – 1 , 1)$ \\
+$A(m , n) = A(m – 1 , A(m , n-1))$ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Iterativo vs. Recursivo}
 
-En términos generales, las soluciones recursivas suelen ser más ineficientes en tiempo y espacio que las versiones iterativas, debido a las invocaciones realizadas, la creación de variables dinámicamente en la pila, la duplicación de variables, etc. Sin embargo, una solución recursiva suele presentarse de forma más "limpia" a nivel algorítmico que una solución iterativa.
+En términos generales, las soluciones recursivas suelen ser más ineficientes en tiempo y espacio que las versiones iterativas, debido a las invocaciones realizadas, la creación de variables dinámicamente en la pila, la duplicación de variables, etc. Sin embargo, una solución recursiva suele presentarse de forma más ``limpia" a nivel algorítmico que una solución iterativa.
 
 A continuación se muestra la implementación iterativa de la función Fibonacci:
 
@@ -193,7 +166,7 @@ Ambas funciones realizan el cómputo del valor de Fibonacci para un número ente
 
 Se puede observar que existen invocaciones duplicadas (e.g. $Fib(2)$ se debe calcular 3 veces) que hacen ineficiente dicha implementación con respecto a una versión iterativa. Entonces, es importante evaluar el costo de construir algoritmos eficientes vs. legibilidad y simplicidad del código generado.
 
-Es importante destacar que cualquier función recursiva se puede transformar en una función iterativa. Una forma de realizar esto es simulando la recursión con un Stack.
+Es importante destacar que cualquier función recursiva se puede transformar en una función iterativa. Una forma de realizar esto es simulando la recursión con un Stack (ver la sección \ref{sec:recstack} para mayor detalle).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ejercicios}
@@ -336,7 +309,7 @@ Es importante destacar que es posible modificar el procedimiento tal que permita
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Algoritmos}
 
-A continuación se muestra una serie de algoritmos recursivos conocidos que forman parte de la literatura.
+En la literatura existe un conjunto de algoritmos muy empleados para entender la recursión como los algoritmos de ordenamiento QuickSort y MergeSort. Esta sección pretende complementar dichos algoritmos clásicos con algunos otros muy conocidos también:
 
 \subsection{Collatz}
 La conjetura de Collatz propuesta en 1937 (también conocido como el problema de $3n + 1$) define que dado un número natural $n$ si es par, se divide entre 2 para obtener $\frac{n}{2}$, si es impar se multiplica por 3 y se suma 1, $3 \times n + 1$. Este proceso se repite indefinidamente (siempre llegará a 1).
@@ -427,6 +400,8 @@ end
 
 \subsection{Invertir un número}
 
+Esta función invierte el valor de un número entero y lo retorna. Emplea dos parámetros donde el primero corresponde al número a invertir y el segundo se emplea durante la recursión para mantener el cáĺculo parcial del número invertido.
+
 \begin{lstlisting}[upquote=true, language=pseudo]
 function Integer Reverse(Integer iN, iS)
  if iN == 0 then
@@ -436,9 +411,6 @@ function Integer Reverse(Integer iN, iS)
 end
 Print (Reverse(5831, 0)) //la salida es 1385
 \end{lstlisting}
-
-\subsubsection{Otros}
-Entre otro conjunto de algoritmos muy empleados para entender la recursión está los algoritmos de ordenamiento QuickSort y MergeSort.El MergeSort particiona un conjunto en dos, con un costo de combinación igual a la mezcla ordenada de ambos conjuntos. El QuickSort particiona el conjunto en 3, con un costo adicional de particionamiento y de concatenación.quista, resueltos con recursión.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ideas Finales}

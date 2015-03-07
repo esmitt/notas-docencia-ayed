@@ -24,11 +24,11 @@ El método del backtracking (también llamado búsqueda atrás o en retroceso) p
 La descripción natural del proceso se representa mediante un árbol de búsqueda en el que se muestra como cada tarea se descompone o se ramifica en subtareas. El árbol de búsqueda acaba en hojas donde se encuentran soluciones o donde se concluye que por esa rama no es posible encontrarla.
 
 
-Este algoritmo debe ser aplicado a problemas donde existan elementos considerados "candidatos parciales de la solución" para permitir realizar verificaciones rápidas si dichos candidatos pertenecen a la solución ó no. No resulta útil para conjuntos no ordenados, donde la exploración es total (explorar todos los candidatos). Entonces, el punto clave de los algoritmos de backtracking es: descartar/seleccionar rápidamente las soluciones inválidas/válidas. Esta es la diferencia principal con los algoritmos de fuerza bruta.
+Este algoritmo debe ser aplicado a problemas donde existan elementos considerados ``candidatos parciales de la solución" para permitir realizar verificaciones rápidas si dichos candidatos pertenecen a la solución ó no. No resulta útil para conjuntos no ordenados, donde la exploración es total (explorar todos los candidatos). Entonces, el punto clave de los algoritmos de backtracking es: descartar/seleccionar rápidamente las soluciones inválidas/válidas. Esta es la diferencia principal con los algoritmos de fuerza bruta.
 
 Es importante destacar que un algoritmo de fuerza bruta prueba todas las soluciones sin condición alguna, es decir, todas las posibles combinaciones. Por ejemplo, dado un número $b$ de bits obtener todos los valores posibles que se pueden representar.
 
-En un problema, cuando se elimina la posibilidad de explorar todas las soluciones entonces estamos en presencia de un esquema de backtracking. Para ello, se requiere de una función llamada poda/acotación que permite identificar cuando una solución parcial no conduce a una solución al problema. Del mismo modo, se definen las restricciones asociadas a los problemas que pueden ser explícitas o implícitas. Se refiere a restricción explícita cuando restringue los posibles valores de las variables de forma individual, y explícitas cuando establece relaciones entre diferentes variables que forman una tupla candidato a solución.
+En un problema, cuando se elimina la posibilidad de explorar todas las soluciones entonces estamos en presencia de un esquema de backtracking. Para ello, se requiere de una función llamada poda/acotación que permite identificar cuando una solución parcial no conduce a una solución al problema. Del mismo modo, se definen las restricciones asociadas a los problemas que pueden ser explícitas o implícitas. Se refiere a restricción explícita cuando restringe los posibles valores de las variables de forma individual, y explícitas cuando establece relaciones entre diferentes variables que forman una tupla candidato a solución.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Técnica de Backtracking}
@@ -63,11 +63,19 @@ Backtrack (P, Inicio (P))
 
 El backtracking es empleado en diversos ámbitos de la Computación tales como problemas de decisión (soluciones que satisfacen ciertas restricciones) y problemas de optimización (búsqueda de la mejor solución en base a una función objetivo). Cada solución es el resultado de una secuencia de decisiones. En algunos problemas de este tipo se conoce un criterio óptimo de selección en cada decisión (i.e. técnica voraz). En otros problemas se cumple el principio de optimalidad de Bellman y se puede aplicar la técnica de programación dinámica. Existen otros problemas en los que no hay más remedio que buscar en todo el espectro posible de soluciones.
 
-Apliquemos el enfoque de backtracking para conseguir la permutación de una secuencia. Dado un String, se quiere imprimir todas las palabras producto de permutar el String. La permutación es una variación del orden o de disposición de los elementos de un conjunto. Por ejemplo, dada la palabra "sol" las permutaciones posibles están formadas por las palabras "sol", "slo", "osl", "ols","lso" y "los". Es importante destacar que en una permutación debe existir un orden para la construcción de la solución. De forma intuitiva, la solución se puede conseguir al fijar un caracter y mover los otros dos restantes y así para los tres caracteres de la palabra "sol".
+Apliquemos el enfoque de backtracking para conseguir la permutación de una secuencia. Dado un String, se quiere imprimir todas las palabras producto de permutar el String. La permutación es una variación del orden o de disposición de los elementos de un conjunto. Por ejemplo, dada la palabra ``zen" las permutaciones posibles están formadas por las palabras ``zen", ``zne", ``ezn", ``enz", ``nez" y ``nze". Es importante destacar que en una permutación debe existir un orden para la construcción de la solución. De forma intuitiva, la solución se puede conseguir al fijar un carácter y mover los otros dos restantes y así para los tres caracteres de la palabra ``zen".
 
-Algorítmicamente, dada la palabra inicial se consideran índices que indican "desde cuál posición" se comienza a operar en la palabra y "hasta cuál posición", es decir, los límites inferior y superior. En cada iteración del algoritmo, el límite inferior debe ir variando (ciclo) hasta el límite inferior. Debido a que cada iteración considera un límite inferior distinto, es posible crear "estado" que representan el valor de las variables en un momento dado. Entonces, para cada estado se aplica la misma estrategia tal que siempre se "fijen" unas posiciones y otras se iteren.
+Algorítmicamente, dada la palabra inicial se consideran índices que indican ``desde cuál posición" se comienza a operar en la palabra y ``hasta cuál posición", es decir, los límites inferior y superior. En cada iteración del algoritmo, el límite inferior debe ir variando (ciclo) hasta el límite inferior. Debido a que cada iteración considera un límite inferior distinto, es posible crear un \textbf{estado} que representan el valor de las variables en un momento dado. Entonces, para cada estado se aplica la misma estrategia tal que siempre se \textbf{fijen} unas posiciones y otras se iteren.
 
 La operación que permitirá el cambio de las letras de la palabra es el procedimiento $swap$. Este recibirá por referencia la palabra a modificar y cuáles son las posiciones a intercambiar. Ahora, para que un estado nuevo obtenga los valores correctos la palabra que ha sido intercambiada debe volver a su estado original (i.e. regresar los cambios). Por ello, se debe emplear nuevamente el procedimiento $swap$ luego de haber explorado nuevas soluciones.
+
+\begin{figure}[htpb!]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{images/backtracking.eps}
+  \end{center}
+  \caption{Esquema de ejecución de las permutaciones para la palabra ``Zen".}
+  \label{fig:Ch2permutacion}
+\end{figure}
 
 El código asociado a la permutación de los caracteres de un String se puede escribir como:
 
@@ -87,19 +95,13 @@ String strText = "Zen"
 Permute(strText, 1, 3)
 \end{lstlisting}
 
-La ejecución del algoritmo se muestra de forma gráfica en la Fig. \ref{fig:Ch2permutacion}. La idea detrás de la permutación es tener una posición fija de inicio de las iteraciones (línea 5) la cual debe ser empleada en cada invocación recursiva (línea 1). De este modo, desde esa posición en adelante se aplica el intercambio de la palabra inicial $iIndex$ con el índice de la iteración (línea 6). Luego, se invoca recursivamente la función pero ahora con un nuevo punto de partida (línea 7) y se ejecuta la misma idea. Posteriormente, el intercambio de letras (línea 6) no debe afectar el estado de ejecución de un estado, por lo que se "regresa" el cambio realizado (línea 8). La solución se obtiene cuando el límite inferior alcanza al superior (línea 2), indicando que recorrió todas las posiciones de la palabra.
-\begin{figure}[htpb!]
-  \begin{center}
-    \includegraphics[width=0.7\textwidth]{images/backtracking.eps}
-  \end{center}
-  \caption{Esquema de ejecución de las permutaciones para la palabra "Zen".}
-  \label{fig:Ch2permutacion}
-\end{figure}
+La ejecución del algoritmo se muestra de forma gráfica en la Fig. \ref{fig:Ch2permutacion}. La idea detrás de la permutación es tener una posición fija de inicio de las iteraciones (línea 5) la cual debe ser empleada en cada invocación recursiva (línea 1). De este modo, desde esa posición en adelante se aplica el intercambio de la palabra inicial $iIndex$ con el índice de la iteración (línea 6). Luego, se invoca recursivamente la función pero ahora con un nuevo punto de partida (línea 7) y se ejecuta la misma idea. Posteriormente, el intercambio de letras (línea 6) no debe afectar el estado de ejecución de un estado, regresando el cambio realizado (línea 8). La solución se obtiene cuando el límite inferior alcanza al superior (línea 2), indicando que recorrió todas las posiciones de la palabra.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Clasificación}
 
-Uns solución de bracktracking en cada iteración se encontrará en un cierto nivel $k$, con una solución parcial $C = (x_1, x_2, ..., x_k)$ (con $k \le n$). Entonces:
+Una solución de backtracking en cada iteración se encontrará en un cierto nivel $k$, con una solución parcial $C = (x_1, x_2, ..., x_k)$ (con $k \le n$). Entonces:
 \begin{itemize}
 \item Si puede añadirse un elemento $x_k + 1$ a la solución parcial se avanza al nivel $k + 1$
 \item Si no se prueban otros valores válidos para $x_k$
@@ -110,7 +112,7 @@ Así, se continua con este proceso hasta que la solución parcial sea una soluci
 De esta forma, es posible clasificar un algoritmo de backtracking de acuerdo al tamaño del subconjunto $C$ solución:
 \begin{itemize}
 \item Una solución: Cuando el algoritmo encuentre una solución, su ejecución finaliza. Generalmente, en este enfoque el algoritmo se queda con la la primera solución que consigue.
-\item Solución óptima: Cuando el algoritmo explora todos los subconjuntos de soluciones posibles y se queda con la òptima para el problema a resolver.
+\item Solución óptima: Cuando el algoritmo explora todos los subconjuntos de soluciones posibles y se queda con la óptima para el problema a resolver.
 \item Todas las soluciones: El algoritmo colecta todos los subconjuntos encontrados en la exploración y forman parte de la solución (fuerza bruta).
 \end{itemize}
 
@@ -126,7 +128,7 @@ La forma básica de resolver un problema aplicando backtracking es analizando lo
 \subsection{Suma Parcial}
 Dado un conjunto de valores enteros se quiere encontrar todos los subconjuntos que entre sus elementos sumen un valor $k$. Por ejemplo, considerando el conjunto ${1, 2, 3}$ la idea es encontrar todos los subconjuntos que entre sus elementos sumen $k=4$. Para este ejemplo, se toma en cuenta el orden de los elementos, es decir, el subconjunto ${1, 3}$ será distinto de ${3, 1}$.
 
-Entonces diviendo el problema en elementos a considerar se tiene:
+Entonces dividiendo el problema en elementos a considerar se tiene:
 \begin{description}
 \item [Alternativa]: Valores 1, 2 y 3
 \item [Subtarea]: Suma acumulativa
@@ -136,9 +138,6 @@ Entonces diviendo el problema en elementos a considerar se tiene:
 Para hacer un poco de abstracción, se asumen las funciones asociadas a un conjunto para agregar un valor y eliminar un elemento en éste, y la de imprimir sus valores de forma ordenada. El procedimiento que realiza es cálculo se puede escribir como:
 
 \begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
-// @param iN size of A
-// @param iPartial partial sum to reach iTotal
-// @param iTotal the value to find
 void FindSum(Array A of Integer [], Integer iN, iPartial, iTotal)
   if iPartial == iTotal then
     printSet()
@@ -158,7 +157,7 @@ Integer iTotal = 4
 FindSum(A, 3, 0, iTotal)
 \end{lstlisting}
 
-La idea básica del algoritmo es buscar las sumas parciales de los elementos del arreglo obtenidas de sumar un elemento "actual" con la suma acumulada (línea 9). Si dicha suma parcial es inferior o igual al total buscado entonces se agrega al conjunto solución (línea 10). Ahora, con una nueva suma parcial se invoca de forma recursiva a la función (línea 11) y de conseguir solución (línea 5) se imprime el conjunto. En caso contrario, la invocación hecha retorna al estado anterior y regresa/retorna el valor añadido al conjunto de sumas parciales (línea 12).
+La idea básica del algoritmo es buscar las sumas parciales de los elementos del arreglo obtenidas de sumar un elemento \textit{actual} con la suma acumulada (línea 9). Si dicha suma parcial es inferior o igual al total buscado entonces se agrega al conjunto solución (línea 10). Ahora, con una nueva suma parcial se invoca de forma recursiva a la función (línea 11) y de conseguir solución (línea 5) se imprime el conjunto. En caso contrario, la invocación hecha retorna al estado anterior y regresa/retorna el valor añadido al conjunto de sumas parciales (línea 12).
 
 Para la invocación inicial del algoritmo (línea 19), se requiere el arreglo inicial $A$, el tamaño de éste, la suma parcial para el estado inicial (i.e. $iPartial = 0$) y el valor destino que se quiere alcanzar.
 
@@ -197,7 +196,7 @@ function Solve (Array aBoard of Integer[][], Integer iN, iCol) : Boolean
 end
 \end{lstlisting}
 
-Los procedimientos $Place$ y $Remove$ se emplean para ubicar y quitar una reina de una posición respectivamente. Por otro lado, la función $Solve$ verifica que en el tablero esten colocadas las $iN$ reinas sin que se ataquen unas a otras.
+Los procedimientos $Place$ y $Remove$ se emplean para ubicar y quitar una reina de una posición respectivamente. Por otro lado, la función $Solve$ verifica que en el tablero estén colocadas las $iN$ reinas sin que se ataquen unas a otras.
 
 Es interesante notar que con 8 reinas, el tamaño del espacio de soluciones es $8^8$, es decir, $2^{24} \sim 16M$. Sin embargo, dado que las soluciones posibles son todas las permutaciones del conjunto ${1,2,3,4,5,6,7,8}$, el espacio de soluciones se reduce a de $8^8$ tuplas a $8! = 40.320$. Para explorar un caso más simple, en la Fig. \ref{fig:Ch2queen} se observan los estados generados en la ejecución cuando $n=4$ reinas en el tablero.
 
@@ -351,19 +350,19 @@ Print (iOptimal)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problemas}
-\begin{figure}[htp!]
+\begin{figure}[htpb!]
   \begin{center}
     \includegraphics[width=0.3\textwidth]{images/rushhour.jpg}
   \end{center}
   \caption{Un estado del juego \textit{Rush Hour}.}
   \label{fig:Ch2rush}
 \end{figure}
-
 \begin{enumerate}
 \item Dado un número entero $n$ se desea obtener todas las posibles formas de expresarlo como sumas de los enteros $1...n$, permitiendo que el mismo sumando aparezca varias veces. Se considerarán iguales (y por lo tanto sólo se debe escribir una de ellas) aquellas soluciones que contengan los mismos sumandos pero ordenados de otra manera. Por ejemplo, si $n = 4$, se deberían escribir las soluciones $4=1+1+1+1$, $4=2+1+2$, $4=2+2$, $4=3+1$, $4=4$. Crear un algoritmo que resuelva el problema. No es relevante el orden en que aparecen las soluciones ni el orden de los sumandos dentro de cada solución
 \item En criptografía, un ataque de fuerza bruta es la forma de recuperar una clave probando todas las combinaciones posibles hasta encontrar el acceso a un sistema. Implemente una función $Hacking$ que obtenga la clave de un usuario conociendo que está tiene un mínimo de 5 y máximo 12 caracteres alfanuméricos
 \item En un colegio, se tienen $k$ botellas de plástico que van a ser reusadas. Las botellas tienen distinto largo $t_i$, el objetivo es juntar/pegar las botellas unas con otras por sus extremos para construir árboles de navidad, aviones, barcos, edificios, y otras estructuras para la educación. Cada estructura es de largo $L$ y debe emplear la mayor cantidad de botellas para ser reusadas, construya el algoritmo que resuelva el algoritmo para el problema
-\item Dada un conjunto de canciones $c_1, c_2, ..., C_k$ que ocupan $m_1, m_2, ..., m_k$ espacio respectivamente, se desea construir una solución que permita maximizar el número de canciones almacenadas en un dispositivo externo de capacidad $M$
+\item Dado un conjunto de canciones $c_1, c_2, ..., c_k$ que ocupan $m_1, m_2, ..., m_k$ espacio respectivamente, se desea construir una solución que permita maximizar el número de canciones almacenadas en un dispositivo externo de capacidad $M$
 \item Proponga un esquema que resuelva el conocido cubo de Rubik. ¿Cuáles alternativas se deben considerar en su resolución?
-\item \textit{Rush Hour} es un rompecabezas de bloque con deslizamientos creado en 1970. En su versión original, consiste de un tablero de $6 \times 6$ donde se ubican una serie de carros y camiones (los carros ocupan 2 posiciones y los camiones 3 posiciones). La idea del juego es sacar todos los autos por la salida deslizando los autos colocados en el tablero. Construya un algoritmo que resuelva el problema en el menor número de desplizamientos en el tablero.
+\item \textit{Rush Hour} es un rompecabezas de bloque con deslizamientos creado en 1970. En su versión original, consiste de un tablero de $6 \times 6$ donde se ubican una serie de carros y camiones (los carros ocupan 2 posiciones y los camiones 3 posiciones). La idea del juego es sacar todos los autos por la salida deslizando los autos colocados en el tablero. Construya un algoritmo que resuelva el problema en el menor número de deslizamientos en el tablero.
 \end{enumerate}
+

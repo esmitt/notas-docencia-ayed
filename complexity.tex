@@ -4,7 +4,7 @@
 
 Se conoce ya que un algoritmo es una secuencia finita de instrucciones, cada una de las cuales tiene un significado preciso y puede ejecutarse con una cantidad finita de esfuerzo en un tiempo finito. Así, un programa es un algoritmo expresado en un lenguaje de programación específico. Entonces, pueden existir diversos programas para resolver un mismo problema. 
 
-Tener un mecanismo que permita seleccionar qué programa es "mejor" que otro sería ideal para lograr los resultados adecuados. Entre dichos mecanismos estan los criterios de evaluación de un programa como la eficiencia, portabilidad, legibilidad, eficacia, robustez, entre otros. En esta sección, nos enfocaremos en solo el criterio relacionado con la eficiencia del programa para el análisis de la complejidad de un programa (uso de recursos del computador).
+Tener un mecanismo que permita seleccionar qué programa es ``mejor" que otro sería ideal para lograr los resultados adecuados. Entre dichos mecanismos están los criterios de evaluación de un programa como la eficiencia, portabilidad, legibilidad, eficacia, robustez, entre otros. En esta sección, nos enfocaremos en solo el criterio relacionado con la eficiencia del programa para el análisis de la complejidad de un programa (uso de recursos del computador).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -24,7 +24,7 @@ Hay dos estudios posibles sobre el tiempo de ejecución:
 
 \begin{enumerate}
 \item Un estudio que proporciona una medida teórica (a priori), que consiste en obtener una función que acote (por arriba o por abajo) el tiempo de ejecución del algoritmo para unos valores de entrada dados
-\item Un estudio que ofrece una medida real (a posteriori), consistente en medir el tiempo de ejecución del algoritmo para unos valores de entrada dados y en un
+\item Un estudio que ofrece una medida real (\textit{a posteriori}), consistente en medir el tiempo de ejecución del algoritmo para unos valores de entrada dados y en un
 ordenador específico. 
 \end{enumerate}
 
@@ -33,7 +33,7 @@ Ambas medidas son importantes: la primera ofrece estimaciones del comportamiento
 Dado que la unidad de tiempo a la que debe hacer referencia estos estudios no puede ser expresada en segundos o en otra unidad de tiempo concreta, pues no existe un computador estándar/ideal al que pueda hacer referencia todas las medidas, se denota por $T(n)$ el tiempo de ejecución de un algoritmo para una entrada de tamaño $n$. 
 
 En un análisis teórico de algoritmos, es común calcular su complejidad en un sentido asintótico, es decir, para un tamaño de entrada $n$ suficientemente grande, $T(n)$. Teóricamente $T(n)$ debe indicar el número de instrucciones ejecutadas por un
-ordenador "ideal". La notación "O grande" (Big O) es una notación para expresar esto. Por ello, estudiar la complejidad del peor caso, mejor caso, y caso promedio resulta importante en las Ciencias de la Computación:
+ordenador ``ideal". La notación ``O grande" (\textit{Big O}) es una notación para expresar esto. Por ello, estudiar la complejidad del peor caso, mejor caso, y caso promedio resulta importante en las Ciencias de la Computación:
 
 \begin{enumerate}
 \item Peor caso: Consiste Resulta tomar el máximo tiempo en que se ejecuta el algoritmo, entre todas las instancias posibles
@@ -109,12 +109,12 @@ $$1 < log_n < n < n \cdot log_n < n^2 < n^k < ... < 2^n < e^n < k^n < ... < n^n 
 
 \noindent donde $k$ es una constante y $k > 2$.
 
-A continuación, con el propósito del cálculo del tiempo $T(n)$ de ejecución de un algoritmo la idea es clasificar dichas funciones de forma tal que se puedan comparar. Para ello, se definen clases de equivalencia basadas en notaciones asintóticas para el cálculo en notación "O".
+A continuación, con el propósito del cálculo del tiempo $T(n)$ de ejecución de un algoritmo la idea es clasificar dichas funciones de forma tal que se puedan comparar. Para ello, se definen clases de equivalencia basadas en notaciones asintóticas para el cálculo en notación ``O".
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Notaciones Asintóticas}
 
-Las notaciones asintóticas proporcionan criterios con el fin de agrupar distintas funciones dentro de una misma categoría, sirviendo como herramientas para el cálculo de la complejida de un algoritmo.
+Las notaciones asintóticas proporcionan criterios con el fin de agrupar distintas funciones dentro de una misma categoría, sirviendo como herramientas para el cálculo de la complejidad de un algoritmo.
 
 \paragraph{Definición \#1}
 
@@ -124,7 +124,7 @@ $f(x) = O(g(x))$ con $x \in \infty$
 
 $f$ es de orden $g$ si y solo si existe una constante positiva $c \in \mathbb{R}^+$ y $n_0 \in \mathbb{N}$ tal que $\forall n > n_0$ se cumpla que $f(n) < c.g(n)$. La relación $O$ denota una dominancia de funciones en donde la función $f$ está acotada superiormente por un múltiplo de la función $g$. Entonces, la expresión $f=O(g)$ refleja que el orden de crecimiento asintótico de la función $f$ es inferior o igual al de la función $g$. Por ejemplo, tomando $c=5$ y $n_0 = 0$ con $f(n) = 3n^3 + 2n$ se dice que $g(n) = n^3$ acota a $f(n)$ con dichos valores.
 
-Este definición refleja el hecho de que el crecimiento asintotico de las funciones $f$ es como mucho proporcional al de la funcion $g$. Dicho de otra forma, la tasa de crecimiento de la función $g$ es una
+Este definición refleja el hecho de que el crecimiento asintótico de las funciones $f$ es como mucho proporcional al de la función $g$. Dicho de otra forma, la tasa de crecimiento de la función $g$ es una
 cota superior para las tasas de crecimiento de las funciones $f$.
 
 Algunas propiedades derivadas de la definición anterior se describen a continuación:
@@ -165,7 +165,7 @@ Esto permite definir el análisis de complejidad de algoritmos para:
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Analisis de Complejidad} \label{lb:anacompl}
+\section{Análisis de Complejidad} \label{lb:anacompl}
 
 Para analizar la complejidad $T(n)$ de un algoritmo y determinar que es de complejidad $O(f(n))$ se estudian una serie de reglas que permitirán aplicar las propiedades explicadas en la definición \#1 y \#2.
 
@@ -373,7 +373,7 @@ $log_2n$ & n                      & n
 \end{tabular}
 \end{table}
 
-Nótese que realmente es indistinto si se modifica siempre el valor de $iI$ o $iN$, solo es importante el valor de $k$ de veces que se ejecuta. El número de veces se puede representar por la función $log_2$ basado en la entrada $n$. Entonces, dicho valor de $k$ será el número de veces que se ejecute el ciclo while.
+Realmente es indistinto si se modifica siempre el valor de $iI$ o $iN$, solo es importante el valor de $k$ de veces que se ejecuta. El número de veces se puede representar por la función $log_2$ basado en la entrada $n$. Entonces, dicho valor de $k$ será el número de veces que se ejecute el ciclo while.
 
 Volviendo al cálculo de $T(while)$ queda entonces:
 $$T(while) = 1 + \sum_{k=1}^{log_2n}{1 + T(Linea 7) + T(if/elseif)}$$
@@ -427,6 +427,45 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Complejidad de Algoritmos Recursivos}
+
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+const Integer N = ...
+const Integer MAX_INTEGER = ...
+function LessInArray(Array aArray of Integer[], Integer iN)
+  if iN <= 0 then
+    return MAX_INTEGER
+  else
+    Integer iValue = LessInArray(iN - 1)
+    if aArray[iN] < iValue then
+      return aArray[iN]
+    else
+      return aArray[iN]
+    end
+end
+
+Array aArray of Integer[1..N]
+fillArray(ref aArray)	//filled with positive numbers
+Print (LessInArray(aArray, N))
+\end{lstlisting}
+
+\begin{equation}
+T(n) = \left\{
+  \begin{array}{l l}
+    c_1 & \quad \text{si $n \le 0$}\\
+    T(n-1) + c_2& \quad \text{si $n >= 1$}
+  \end{array} \right.
+\end{equation}
+
+\begin{eqnarray*}
+T(n)&=&T(n-1) + c_2\\
+&=&\left [ T(n-2) + c_2\right ] + c_2 = T(n-2) + 2c_2\\
+&=&\left [ T(n-3) + c_2\right ] + 2c_2 = T(n-3) + 3c_2\\
+&=&\dots\\
+&=&T(n-k) + kc_2\\
+\end{eqnarray*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Ejercicios}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ideas Finales}
