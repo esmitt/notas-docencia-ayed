@@ -347,7 +347,7 @@ function BinarySearch(Array aA of Integer [], Integer iN, iX)	//iX es el element
 end
 //inicialización de aArr con valores
 //asignación del valor a buscar en el arreglo y almacenarlo en iX
-BinarySearch(aArr, N, iX)
+Print(BinarySearch(aArr, N, iX))
 \end{lstlisting}
 
 Tal como se menciono anteriormente, solo se tomará en cuenta el cuerpo de la función sin tomar en cuenta los parámetros de éste. Así, la función $T(n)$ de BinarySearch queda como:
@@ -452,7 +452,7 @@ Print (LessInArray(aArray, N))
 T(n) = \left\{
   \begin{array}{l l}
     c_1 & \quad \text{si $n \le 0$}\\
-    T(n-1) + c_2& \quad \text{si $n >= 1$}
+    T(n-1) + c_2& \quad \text{si $n \ge 1$}
   \end{array} \right.
 \end{equation}
 
@@ -464,14 +464,70 @@ T(n)&=&T(n-1) + c_2\\
 &=&T(n-k) + kc_2\\
 \end{eqnarray*}
 
+$n - k = 0 \Rightarrow n = k$
+
+\begin{eqnarray*}
+T(n)&=&T(0) + nc_2\\
+&=&c_1 + nc_2 \Rightarrow O(n) \\
+&\Rightarrow O(n)
+\end{eqnarray*}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Ejercicios}
 
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+Const Integer N = ...
+Const Integer NOT_FOUND = ...
+Array aArr of Integer [1..N]
+function BinarySearch(Array aA of Integer [], Integer iX, iLow, iHigh)
+  if iLow > iHigh then
+    return NOT_FOUND
+  end
+  Integer iHalf = (iLow + iHigh) div 2
+  if iX == aA[iHalf] then
+    return iHalf
+  elseif iX > aA[iHalf] then
+    return BinarySearch(aA, iX, iHalf + 1, iHigh)
+  else
+    return BinarySearch(aA, iX, iLow, iHalf - 1)
+  end
+end
+//inicialización de aArr con valores
+//asignación del valor a buscar en el arreglo y almacenarlo en iX
+Print(BinarySearch(aArr, iX, 1, N))
+\end{lstlisting}
+
+\begin{equation}
+T(n) = \left\{
+  \begin{array}{l l}
+    c_1 & \quad \text{si $n = 0$}\\
+    T(n/2) + c_2& \quad \text{si $n \ge 1$}
+  \end{array} \right.
+\end{equation}
+
+\begin{eqnarray*}
+T(n)&=&T(n/2) + c_2\\
+&=&\left [ T(n/4) + c_2\right ] + c_2 = T(n/4) + 2c_2\\
+&=&\left [ T(n/8) + c_2\right ] + 2c_2 = T(n/8) + 3c_2\\
+&=&\left [ T(n/16) + c_2\right ] + 3c_2 = T(n/16) + 4c_2\\
+&=&\dots\\
+&=&T(n/2^k) + kc_2\\
+\end{eqnarray*}
+
+$2^{k} = n \Rightarrow k = log_2(n)$
+
+\begin{eqnarray*}
+T(n)&=&T(n/n) + log_2(n)\\
+&=&c_1 + log_2(n)c_2 \Rightarrow O(log_2n) \\
+&\Rightarrow O(n)
+\end{eqnarray*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ideas Finales}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problemas}
+\begin{enumerate}
+\item Calcule la complejidad del siguiente algoritmo:
 \begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
 function Epsilon (Integer iN) : Integer
   Integer iX, iI, iJ
@@ -487,25 +543,4 @@ function Epsilon (Integer iN) : Integer
   end
 end
 \end{lstlisting}
-
-Primero
-Se puede observar que la función Epsilon contempla dos casos básicos para los valores de entrada $n$ del algoritmo (parámetro $iN$) y de esta forma se puede definir su $T(n)$ como:
-\begin{equation}
-Epsilon(n) = \left\{
-  \begin{array}{l l}
-    c_1 & \quad \text{si $n \le 1$}\\
-    2 \times Epsilon(n/2) + n^2& \quad \text{si $n > 1$}
-  \end{array} \right.
-\end{equation}
-
-Entonces, cuando $n \le 1$ la complejidad es $O(1)$ al ser la complejidad de una constante $c_1$. Para el caso recursivo, tomaremos la técnica de sustitución con valores mayores que 1.
-
-Empleando en el primer valor $k > 1$:
-$$Epsilon(k) = 2 \times Epsilon(k/2) + k^2$$
-$$Epsilon(k) = 2 \times Epsilon(2/2) + 2^2$$
-$$Epsilon(k) = 2 \times c_1 + 4$$
-
-Por conveniencia, el siguiente valor de $k$ será $k=4$:
-$$Epsilon(k) = 2 \times Epsilon(4/2) + 4^2$$
-$$Epsilon(k) = 2 \times Epsilon(2) + 4^2$$
- $$Epsilon(k) = 2 \times (2 \times c_1 + 4) + 4^2$$
+\end{enumerate}
