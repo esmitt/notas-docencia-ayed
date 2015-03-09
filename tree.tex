@@ -627,6 +627,7 @@ al padre del nodo a eliminar con el hijo existente.
 \begin{enumerate}
 \item El nodo de mayor clave en su subárbol izquierdo. En la Fig. \ref{fig:delsbt1} corresponde al segundo árbol, el nodo más a la derecha del subárbol.
 \item El nodo de menor clave en su subárbol derecho. En la Fig. \ref{fig:delsbt1} corresponde al tercer árbol, el nodo más a la izquierda del subárbol.
+La clave de este nodo se le asigna al nodo parámetro de la función y posteriormente se elimina el nodo.
 \end{enumerate}
 \end{itemize}
 
@@ -700,15 +701,7 @@ Una implementación de dicha operación se muestra a continuación:
 end
 \end{lstlisting}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Algoritmos}
-
-Una vez definida las operaciones de un BST es posible entonces aplicar diversos algoritmos sobre su estructura.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Valor Mínimo}
-
-Dado un árbol binario de búsqueda no vacío, se quiere retornar el mínimo valor dentro del árbol.
+Una vez definida las operaciones de un BST es posible entonces aplicar diversos algoritmos sobre su estructura. Por ejemplo, dado un árbol binario de búsqueda no vacío, se quiere retornar el mínimo valor dentro del árbol.
 
 Es importante destacar que dada la estructura del BST no es necesario recorrer todo el árbol para encontrar el valor mínimo, o de hecho, un valor cualquiera dado su orden implícito. El valor mínimo corresponde entonces al nodo que se encuentra más a la izquierda del árbol:
 
@@ -724,23 +717,7 @@ end
 
 De forma general, se ha estudiado que los algoritmos de árboles resultan más convenientes si son escritos de forma recursiva por la naturaleza de la estructura de datos. Sin embargo, en este caso, un ciclo permite realizar el proceso de forma simple. También se puede emplear recursión tal como se hizo para la operación Delete.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Verificar si es un BST}
-
-Determinar si un árbol
-
-\begin{lstlisting}[upquote=true, language=pseudo]
-function IsBST (Node<T>* pNode) : Boolean
-  if pNode == NIL then
-    return true
-  end
-  
-end
-\end{lstlisting}
-
 \subsection{Problema de Desequilibrio} \label{lb:desq}
-
-El orden de inserción en un BST determina la forma estructural del árbol. La Fig. \ref{fig:BSTDesequilibrado} muestra un ejemplo de distintos tipos de inserción en un BST del tipo Char, siendo insertados de izquierda a derecha.
 
 \begin{figure}[htpb!]
   \begin{center}
@@ -750,14 +727,16 @@ El orden de inserción en un BST determina la forma estructural del árbol. La F
   \label{fig:BSTDesequilibrado}
 \end{figure}
 
+El orden de inserción en un BST determina la forma estructural del árbol. La Fig. \ref{fig:BSTDesequilibrado} muestra un ejemplo de distintos tipos de inserción en un BST del tipo Char, siendo insertados de izquierda a derecha.
+
 Dado este aspecto, si los nodos de un BST son insertados en orden creciente (3er caso de la Fig. {fig:BSTDesequilibrado}) el árbol crecerá solo hacia el lado derecho como una lista simplemente enlazada, y todos los apuntadores izquierdos serán NIL. Del mismo modo, si son insertados en orden decreciente ('U','T','P','O','M','C','A'). La forma de una lista enlazada "degrada" la complejidad logarítimica del árbol.
 
-Por el motivo anterior, es ideal construir un mecanismo que no permita construir árboles de búsqueda que sean degradados sino conseguir árboles tan balanceados como sea posible. Por ello estudiaremos AVL y XXX.
+Por el motivo anterior, es ideal construir un mecanismo que no permita construir árboles de búsqueda que sean degradados sino conseguir árboles tan equilibrados como sea posible. Por ello estudiaremos brevemente AVL y Red-Black.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{AVL}
 
-Un árbol AVL, llamado así por el nombre de sus inventores Georgy \textbf{A}delson-\textbf{V}elsky y Evgenii \textbf{L}andis, es un BST que se "auto" balancea, es decir, cuando se inserta o remueve un nodo se aplican operaciones que tratan de mantener el árbol balanceado. En un árbol AVL, las alturas de los subárboles de cualquier nodo difiere a lo sumo en 1, y en caso de no cumplirse esto se debe re-balancear para mantener dicha propiedad. Entonces, en la condición de los árboles AVL se considera un factor de equilibrio (\textit{balance}):
+Un árbol AVL, llamado así por el nombre de sus inventores Georgy \textbf{A}delson-\textbf{V}elsky y Evgenii \textbf{L}andis, es un BST que se "auto" balancea, es decir, cuando se inserta o remueve un nodo se aplican operaciones que tratan de mantener el árbol equilibrado. En un árbol AVL, las alturas de los subárboles de cualquier nodo difiere a lo sumo en 1, y en caso de no cumplirse esto se debe re-balancear para mantener dicha propiedad. Entonces, en la condición de los árboles AVL se considera un factor de equilibrio (\textit{balance}):
 $balanceFactor = height(left) - height(right)$
 
 En la Fig. \ref{fig:AVLExample1} se muestra un ejemplo de 3 árboles AVL. El valor dentro de cada nodo (en esta ilustración) representa el factor de equilibrio de cada nodo, donde los valores positivos indican que la altura del subárbol izquierdo es mayor a la altura del subárbol derecho, y nos negativos el caso contrario. El factor de equilibrio 0 significa que ambos subárboles tienen la misma altura. 
@@ -792,31 +771,94 @@ Para las operaciones de inserción y eliminación se utilizará la misma idea de
 
 \subsection{Inserción en un AVL}
 
+Luego de insertar un nodo, es necesario verificar la consistencia de la estructura del árbol tal que no existan desequilibrios. Para ello se cuenta con el factor de equilibrio (\textit{balance}) que se calcula como:
+$$balance = height(leftSubTree) - height(rightSubTree)$$
+
+Entonces, en la implementación del nodo del AVL se requiere un campo adicional que contiene dicha diferencia. Los tres valores posibles para dicho campo son:
+\begin{table}[h]
+\begin{tabular}{cll}
+\hline
+\textit{balance} & \multicolumn{1}{c}{Relación de altura} & \multicolumn{1}{c}{Descripción}                                                          \\ \hline
++1      & hijo Izq. $>$ hijo Der.       & La altura del subárbol izquierdo es mayor que la altura del subárbol derecho (uno más) \\
+0       & hijo Izq. = hijo Der.                  & La altura del subárbol izquierdo es igual que la altura del subárbol derecho             \\
+-1      & hijo Izq. $<$ hijo Der.          & La altura del subárbol izquierdo es menor que la altura del subárbol derecho (uno menos)
+\end{tabular}
+\end{table}
+
+El algoritmo de inserción en un AVL realiza los siguientes pasos:
+\begin{enumerate}
+\item Buscar en el árbol el lugar donde se insertará el nuevo nodo (nodo terminal). Para ello se recorre un camino desde la raíz hasta el lugar de inserción. La complejidad de este paso es $O(log_2n)$ dado que la altura de un árbol AVL es $O(log_2n)$, siendo $n$ el número de nodos.
+\item Regresar por el camino recorrido en el paso 1 y se ajustan los factores de equilibrio. Si se insertó en el subárbol izquierdo se resta uno al valor del campo $balance$ en cada nodo. Si se insertó por el subárbol derecho se suma uno al valor del campo $balance$. En cada paso de este retorno se pasa información acerca de la variación de la altura del árbol en caso que se incremente. Este paso consume un tiempo de ejecución $O(log_2n)$.
+\item Si existe algún desequilibrio (el campo $balance$ de algún toma el valor $-2$ o $+2$) se debe reorganizar el subárbol que tiene como raíz dicho nodo llamado pivote (el que ocasiona el desequilibrio). La operación de re-balancear se efectúa mediante una secuencia de re-asignación de apuntadores que determinan una o dos rotaciones de dos o tres nodos, además de la actualización de los factores de equilibrio en cada nodo. Este paso es de $O(1)$. Los posibles casos una vez insertado un valor para el campo $balance$ son:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc}
+\hline
+\begin{tabular}[c]{@{}c@{}}Campo balance\\ (antes de Insertar)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Campo balance\\ (Insertar Izquierda)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Campo balance\\ (Insertar Derecha)\end{tabular} \\ \hline
++1                                                                          & \cellcolor[HTML]{CB0000}{\color[HTML]{FFFFFF} +2}                            & 0                                                                          \\
+0                                                                           & +1                                                                           & -1                                                                         \\
+-1                                                                          & 0                                                                            & \cellcolor[HTML]{CB0000}{\color[HTML]{FFFFFF} -2}                         
+\end{tabular}
+\end{table}
+\end{enumerate}
+
+Las celdas marcadas representan aquellos casos donde se debe re-balancear el subárbol partiendo del hecho que el nodo ocasiona el desequilibrio. Para ello se emplearán operaciones conocidad como rotaciones que se explican a continuación.
+
 \subsection{Rotaciones}
+
+Una operación de Rotación se emplea para restablecer el equilibrio de un AVL cuando se pierde debido a una operación de inserción o eliminación. Para conocer el tipo de Rotación a aplicar se debe identificar primero el caso donde se realiza un desequilibrio. Hay básicamente 4 casos posibles: Left-Right, Left-Left, Right-Left y Right-Right. Ya el nombre de cada caso identifica la ubicación de los nodos desequilibrados.
+
+Cuando el factor de equilibrio de un nodo es $+2$ se puede observar en la Fig. \ref{fig:AVLRotation1} particularmente en el nodo A. Cuando el árbol tiene un desequilibrio positivo entonces está en el caso Left-Left o Left-Right. El caso Left-Left es cuando el árbol no se inclina hacia la derecha, y se puede hacer una rotación de todo el árbol hacia la derecha desde el nodo $C$, es decir, el elemento se insertó en el subárbol izquierdo del hijo izquierdo del ascendiente más cercano con factor $+2$. 
 
 \begin{figure}[htpb!]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{images/AVLRotation1.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{De izquierda a derecha: casos de desequilibrio Left-Right, Left-Left, y el resultado del árbol ya equilibrado.}
   \label{fig:AVLRotation1}
 \end{figure}
+
+En la Fig. \ref{fig:AVLRotation1}, el caso Left-Left se refiere al árbol central, donde desde el nodo $C$ se aplica una rotación hacia la derecha para conseguir el árbol más a la derecha (equilibrado). Ahora, cuando el elemento es insertado como subárbol derecho del hijo izquierdo del ascendiente más cercano con factor $+2$, se está en presencia del caso Left-Right (árbol más a la izquierda de la figura). En dicho caso, primero se hace una rotación hacia la izquierda desde $C$ y luego se estará en el caso Left-Left donde se hace una rotación hacia la derecha de todo el árbol desde $C$.
+
+Cuando el factor de equilibrio de un nodo es $-2$ se puede observar en la Fig. \ref{fig:AVLRotation2} particularmente en el nodo A. Cuando el árbol tiene un desequilibrio negativo entonces está en el caso Right-Right o Right-Left. El caso Right-Right es cuando el árbol no se inclina hacia la izquierda, y se puede hacer una rotación de todo el árbol hacia la izquierda desde el nodo $C$, es decir, el elemento se insertó en el subárbol derecho del hijo derecho del ascendiente más cercano con factor $-2$.
 
 \begin{figure}[htpb!]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{images/AVLRotation2.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{De izquierda a derecha: casos de desequilibrio Right-Left, Right-Right, y el resultado del árbol ya equilibrado.}
   \label{fig:AVLRotation2}
 \end{figure}
 
-\subsection{Ejemplos de Inserciones}
+En la Fig. \ref{fig:AVLRotation2}, el caso Right-Right se refiere al árbol central, donde desde el nodo $C$ se aplica una rotación hacia la izquierda para conseguir el árbol más a la derecha (equilibrado). Ahora, cuando el elemento es insertado como subárbol izquierdo del hijo derecho del ascendiente más cercano con factor $-2$, se está en presencia del caso Right-Left (árbol más a la izquierda de la figura). En dicho caso, primero se hace una rotación hacia la derecha desde $C$ y luego se estará en el caso Right-Right donde se hace una rotación hacia la izquierda de todo el árbol desde $C$.
+
+A nivel de implementación se suele manejar 3 apuntadores de la siguiente forma:
+\begin{description}
+\item[Pointer A:] Apuntador del nodo con factor de equilibrio no permitido $\pm 2$.
+\item[Pointer B:] Apuntador al hijo izquierdo o derecho de A, y se ubica de acuerdo a las siguientes reglas:
+\begin{itemize}
+  \item Si A.balance = $+2$, entonces B es el hijo izquierdo de A.
+  \item Si A.balance = $-2$, entonces B es el hijo derecho de A.
+\end{itemize}
+\item[Pointer C:] Apuntador al hijo del hijo (``nieto") de A. Este nodo es afectado si se está en el caso Left-Right o Right-Left, y se ubica de acuerdo a las siguientes reglas:
+\begin{itemize}
+  \item Si B es el hijo izquierdo de A, entonces C es el hijo derecho
+  \item Si B es el hijo derecho de A, entonces C es el hijo izquierdo
+\end{itemize}
+\end{description}
+
+\subsection{Ejemplo de Insertar}
+
+Para ver un poco los distintos casos para la inserción, veamos un ejemplo gráfico del proceso en insertar los nodos en un AVL con nodos que almacenan valores del tipo String.
+
+El orden de inserción es: ``SE", ``PA", ``AL", ``BA", ``OR", ``LE", ``CA", ``LU", ``GR".
 
 \begin{figure}[htpb!]
   \begin{center}
     \includegraphics[width=1.0\textwidth]{images/AVLInsertion1.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{De izq. a der.: inserción de ``SE"; ``PA"; y ``AL". El nodo ``AL" causa un desequilibrio $+2$ en el nodo raíz, teniendo así un caso Left-Left.}
   \label{fig:AVLInsertion1}
 \end{figure}
 
@@ -824,7 +866,7 @@ Para las operaciones de inserción y eliminación se utilizará la misma idea de
   \begin{center}
     \includegraphics[width=1.0\textwidth]{images/AVLInsertion2.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{De izq. a der.: luego de insertar ``AL", se equilibra el árbol con una rotación hacia la derecha; se inserta ``BA"; y ``OR". El nodo ``OR" causa un desequilibrio $-2$ en el nodo ``AL", teniendo así un caso Right-Right.}
   \label{fig:AVLInsertion2}
 \end{figure}
 
@@ -832,7 +874,7 @@ Para las operaciones de inserción y eliminación se utilizará la misma idea de
   \begin{center}
     \includegraphics[width=1.0\textwidth]{images/AVLInsertion3.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{De izq. a der.: luego de insertar ``OR", se equilibra el árbol con una rotación hacia la izquierda; se inserta ``LE"; y el nodo ``LE" causa un desequilibrio $+2$ al nodo raíz. Se está frente a un caso Left-Right, teniendo que rotar hacia la izquierda para estar en un caso Left-Left.}
   \label{fig:AVLInsertion3}
 \end{figure}
 
@@ -840,7 +882,7 @@ Para las operaciones de inserción y eliminación se utilizará la misma idea de
   \begin{center}
     \includegraphics[width=0.8\textwidth]{images/AVLInsertion4.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{De izq. a der.: estando en un caso Left-Left, se hace una rotación hacia la derecha y se equilibra el árbol; con una rotación hacia la izquierda; se inserta ``LE"; y se inserta el nodo ``CA".}
   \label{fig:AVLInsertion4}
 \end{figure}
 
@@ -849,7 +891,7 @@ Para las operaciones de inserción y eliminación se utilizará la misma idea de
   \begin{center}
     \includegraphics[width=0.7\textwidth]{images/AVLInsertion5.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{De izq. a der.: se inserta el nodo ``LU"; y el nodo ``GR". El nodo ``GR" causa un desequilibrio $-2$ en el nodo ``BA", teniendo así un caso Right-Left.}
   \label{fig:AVLInsertion5}
 \end{figure}
 
@@ -858,6 +900,6 @@ Para las operaciones de inserción y eliminación se utilizará la misma idea de
   \begin{center}
     \includegraphics[width=0.6\textwidth]{images/AVLInsertion6.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{De izq. a der.: insertado el nodo ``GR" se hace una rotación a la derecha y se está en un caso Right-Right. Luego se aplica una rotación hacia la izquierda para equilibrar el árbol.}
   \label{fig:AVLInsertion6}
 \end{figure}
