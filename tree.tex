@@ -634,13 +634,13 @@ se elimina el nodo.
 
 Fig. \ref{fig:delsbt1}
 
-\begin{figure}[htpb!]
-  \begin{center}
-    \includegraphics[width=1.0\columnwidth]{images/BSTDelete1.eps}
-  \end{center}
-  \caption{Representación de la eliminación del mayor de los nodos menores o, el menor de los nodos mayores en un BST.}
-  \label{fig:delsbt1}
-\end{figure}
+%\begin{figure}[htpb!]
+%  \begin{center}
+%    \includegraphics[width=1.0\columnwidth]{images/BSTDelete1.eps}
+%  \end{center}
+%  \caption{Representación de la eliminación del mayor de los nodos menores o, el menor de los nodos mayores en un BST.}
+%  \label{fig:delsbt1}
+%\end{figure}
 
 \begin{lstlisting}[upquote=true, language=pseudo]  
   void DelMax(ref Node<T>* pNode, ref T tInfo)
@@ -728,11 +728,16 @@ Por el motivo anterior, es ideal construir un mecanismo que no permita construir
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{AVL}
 
+Un árbol AVL, llamado así por el nombre de sus inventores Georgy \textbf{A}delson-\textbf{V}elsky y Evgenii \textbf{L}andis, es un BST que se "auto" balancea, es decir, cuando se inserta o remueve un nodo se aplican operaciones que tratan de mantener el árbol balanceado. En un árbol AVL, las alturas de los subárboles de cualquier nodo difiere a lo sumo en 1, y en caso de no cumplirse esto se debe re-balancear para mantener dicha propiedad. Entonces, en la condición de los árboles AVL se considera un factor de equilibrio (\textit{balance}):
+$balanceFactor = height(left) - height(right)$
+
+En la Fig. \ref{fig:AVLExample1} se muestra un ejemplo de 3 árboles AVL. El valor dentro de cada nodo (en esta ilustración) representa el factor de equilibrio de cada nodo, donde los valores positivos indican que la altura del subárbol izquierdo es mayor a la altura del subárbol derecho, y nos negativos el caso contrario. El factor de equilibrio 0 significa que ambos subárboles tienen la misma altura.
+
 \begin{figure}[htpb!]
   \begin{center}
     \includegraphics[width=0.8\textwidth]{images/AVLExample1.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{Ejemplo de tres árboles AVL mostrando su factor de equilibrio.}
   \label{fig:AVLExample1}
 \end{figure}
 
