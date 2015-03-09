@@ -233,7 +233,7 @@ end
 \end{lstlisting}
 \noindent Su función $T(n)$ se calcula como $T(n) = T_1(n) + Max\{T_2(n), T_3(n)\}$ de esta forma su complejidad es $O(Max\{f(n), Max\{g(n),$ $h(n)\}\})$ $= O(Max\{f(n), g(n), h(n)\})$.
 
-\item[Regla 4:] La función $T(n)$ de una sentencia select donde:
+\item[Regla 5:] La función $T(n)$ de una sentencia select donde:
 \begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
 select
 <condicion 1>: <instrucciones 1>	//T1(n) = O(f1(n))
@@ -245,7 +245,7 @@ end
 
 Se puede escribir como $T(n) = Max\{T_1(n), T_2(n), \dots, T_k(n)\}$ considerando que $T_i(n)$ incluye el cálculo de la evaluación de la condición.
 
-\item[Regla 5:] Dada la estructura de un ciclo while:
+\item[Regla 6:] Dada la estructura de un ciclo while:
 \begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
 while <condición> do	//{T1(n) = O(f(n))}
   <instrucciones>		//{T2(n) = O(g(n))}
@@ -278,14 +278,18 @@ $$T(n) = T_1(n) + T_2(n) + \sum_{k=1}^{<final> - <inicio>}{(T_2(n) + T_3(n) + T_
 
 Por su parte, el ciclo foreach se comporta igual que el ciclo for con la diferencia que las variables $<inicio>$ y $<final>$ corresponden al rango válido de una colección (i.e. arreglo).
 
-\item[Regla 6:] El tiempo de ejecución de una unidad invocable con parámetros $U(P_1, P_2, \dots, P_k)$ es el tiempo de la invocación de $U$ (1) más el tiempo de evaluación de sus parámetros junto con el tiempo de ejecución del cuerpo de $U$. Así, $T(n) = 1 + T(P_1) + T(P_2) + \dots + T(P_k) + T(U)$. No se toma en cuenta la copia de los valores de los parámetros a la pila de ejecución. Para funciones recursivas se generan ecuaciones de recurrencia.
+\item[Regla 7:] El tiempo de ejecución de una unidad invocable con parámetros $U(P_1, P_2, \dots, P_k)$ es el tiempo de la invocación de $U$ (1) más el tiempo de evaluación de sus parámetros junto con el tiempo de ejecución del cuerpo de $U$. Así, $T(n) = 1 + T(P_1) + T(P_2) + \dots + T(P_k) + T(U)$. No se toma en cuenta la copia de los valores de los parámetros a la pila de ejecución. Para funciones recursivas se generan ecuaciones de recurrencia.
 \end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ejercicios}
 
+A continuación se presenta un serie de ejercicios prácticos acompañados de una breve explicación del cálculo de la complejidad de éstos.
+
 %%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Búsqueda Lineal}
+
+El algoritmo de búsqueda lineal consiste en encontrar un valor dentro de un arreglo de valores de dicho tipo. La idea es recorrer desde un extremo del arreglo al otro.
 
 \begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
 Const Integer N = ...
@@ -303,7 +307,7 @@ end
 LinearSearch(aArr, N, iX)
 \end{lstlisting}
 
-La línea 11 realiza la invocación a la función LinearSearch la cual implica un tiempo de ejecución a calcular. Según la Regla 6, el tiempo de la invocación a LinearSearch es:
+La línea 11 realiza la invocación a la función LinearSearch la cual implica un tiempo de ejecución a calcular. Según la Regla 7, el tiempo de la invocación a LinearSearch es:
 $$T(n) = 1 + T(aA) + T(iN) + T(iX) + T(LinearSearch)$$
 
 Dado que los parámetros no son alguna expresión que requiera un cómputo, se asumirá su tiempo es 1, entonces:
@@ -328,6 +332,9 @@ En el caso de LinearSearch, el mejor caso es cuando el elemento $iX$ se encuentr
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Búsqueda Binaria}
+
+El algoritmo de búsqueda binaria consiste en encontrar un valor dentro de un arreglo ordenado de valores de dicho tipo. La idea es buscar la posición central del espacio de búsqueda e ir comparando su valor dado que los valores están ordenados, si es mayor se busca en la mitad superior, si es menor en la mitad inferior.
+
 \begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
 Const Integer N = ...
 Const Integer NOT_FOUND = ...
@@ -360,9 +367,10 @@ A diferencia que el caso anterior, el ciclo corresponde a un while donde los inc
 Dado que siempre se considera el peor caso, entonces se asume que el valor buscado siempre es mayor que cualquier elemento del arreglo y no se encuentra. Inicialmente $iI =1$, $iN = n$ y $iHalf = \frac{n+iI}{2}$ y mostrando el número de iteraciones $k$ se observa: 
 
 \begin{table}[h]
+\centering
 \begin{tabular}{clc}
 \hline
-k    & \multicolumn{1}{c}{iI} & n                     \\ \hline
+k    & \multicolumn{1}{c}{iI} & iN                     \\ \hline
 $0$    & $1$                      & n                     \\
 $1$    & $\frac{n}{2}$                    & n                     \\
 $2$    & $\frac{n}{2} + \frac{n}{2}$              & n                     \\
@@ -390,8 +398,13 @@ $$T(n) = c_1 + c_2 log_2n + c_3 \Rightarrow O(c_2 log_2n) = O(log_2n)$$
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Bubble Sort}
+
+El algoritmo de Bubble Sort es un algoritmo de ordenamiento que consiste en revisar cada elemento de un arreglo con el siguiente, intercambiándolos de posición si están en el orden equivocado. Este proceso se realiza varias veces hasta que no se necesiten más intercambios (ya estaría ordenado).
+
+Muchas veces, resulta más sencillo estudiar la complejidad de un algoritmo examinando su estructura y luego, de forma conveniente, obtener los $T(n)$ de cada fragmento de código. Este ejemplo permite explorar este estilo:
+
 \begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
-Const Integer N = ...
+Const Integer N = ... 
 Array aArr of Integer [1..N]
 void BubbleSort(ref Array aA of Integer [], Integer iN)
   Integer iI, iJ
@@ -409,14 +422,42 @@ end
 BubbleSort(ref aArr, N)
 \end{lstlisting}
 
+Se puede observar que el algoritmo consta de dos ciclos for anidados (línea 5 y 6), y dentro del más interno está un condicional (línea 7). Entonces, para el segundo ciclo for es necesario calcular el condicional que lo contiene, y para el primer ciclo for se requiere calcular el segundo ciclo for. Por ello, empezaremos por calcular el condicional.
 
+El condicional de la línea 7 es $T(if) = c_1 + T(Linea8-10)$, donde $c_1 = 3$ representa a las dos operaciones de acceso a memoria y la comparación. De hecho, estudiando el comportamiento de las líneas 8, 9 y 10 se puede decir que $T(Linea8-10) = 2 + 3 + 2 = 7$, pero asumiendo la misma premisa que la constante $c_1$ entonces $T(Linea8-10) = c_2$, por lo que $T(if) = c_1 + c_2 \rightarrow c$.
+
+Una vez calculado el condicional, y examinando desde lo más interno de la estructura del algoritmo, corresponde calcular $T(2dofor) = c_3 + c_4 + \sum_{j=i+1}^{n}{c_4 + c + c_5)}$. Es posible agrupar las constantes para tener una mejor lectura y poder expandir la ecuación, entonces:
+\begin{eqnarray*}
+T(2dofor)&=&c_3 + c_4 + \sum_{j=i+1}^{n}{c_4 + c + c_5}\\
+&=&c_6 + \sum_{j=i+1}^{n}{c_7}\\
+&=&c_6 + (n-i){c_7}
+\end{eqnarray*}
+
+Ahora, se procede a calcular el primer ciclo for (línea 5):
+\begin{eqnarray*}
+T(1erfor)&=&c_8 + c_9 + \sum_{i=0}^{n-1}{c_9 + c_6 + (n-i){c_7} + c_{10}}\\
+&=&c_{11} + (c_9 + c_6 + c_10)\sum_{i=0}^{n-1}{(n-i)c_7}\\
+&=&c_{11} + c_{12}\sum_{i=0}^{n-1}{(n-i)c_7}\\
+&=&c_{11} + c_{12}c_7 \sum_{i=0}^{n-1}{n-i}\\
+&=&c_{11} + c_{12}c_7 \left[ \sum_{i=0}^{n-1}{n} - \sum_{i=0}^{n-1}{i}\right]\\
+&=&c_{11} + c_{13} \left[ n(n-1) - \frac{n(n-1)}{2}\right]\\
+&=&c_{14} \left[ n(n-1) - \frac{n(n-1)}{2}\right]\\
+&=&c_{14} \left[ n^2-n \right]\\
+&=&c_{14}n^2 - c_{14}n \Rightarrow O(Max\{c_{14}n^{2}, -c_{14}n\}) = O(c_{14}n^{2}) = O(n^{2})
+\end{eqnarray*}
+%\Rightarrow O(Max\{c_{14}n^{2}, -c_{14}n\}) = O(c_{14}n^{2}) = O(n^{2})
+
+Por la regla del producto, el $T(n)$ de la función BubbleSort consiste en calcular solamente el primer ciclo for para obtener la complejidad del algoritmo completo. El nombre de las constantes es solo una forma de realizar el cálculo, es posible no agruparla e ir llevando la cada variable por separado o con su valor literal. Independientemente de dicho hecho, el resultado será el mismo para la complejidad $O(n^{2})$.
 
 %%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Another}
+\section{Algoritmos}
+
+Los siguientes algoritmos se presentan como buenos ejercicios para su cálculo de complejidad de algoritmos iterativos. Estos se presentan como fragmentos de código, ignorando en qué contexto son ejecutados (i.e. unidades invocables).
+
 \begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
 Integer n, iX = 0
 Read(n)
-for Integer iI = 0 to n do
+for Integer iI = 0 to iN do
   for Integer iJ = 0 to iI*iI do
     for Integer iK = 0 to iJ do
       iX = iX + 2
@@ -424,6 +465,27 @@ for Integer iI = 0 to n do
   end
 end
 \end{lstlisting}
+
+El algoritmo anterior tiene una complejidad de $O(n^{5})$. Considere que el valor límite del segundo ciclo es $iI^{2}$ el cual pertenece al primer ciclo que va desde el valor $0$ hasta $n$ (variable $iN$).
+
+\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+for Integer iI = 0 to iN-1 do
+  Integer iJ = 0
+  while iI < iN do
+    iJ = iJ + 1
+    iI = iI + 1
+  end
+  if iJ < iN then
+    for Integer iK1 = 0 to iN do
+      for Integer iK2 = 0 to iN do
+        iI = iK1 * iK2
+      end
+    end
+  end  
+end
+\end{lstlisting}
+
+En este fragmento de código el punto interesante radica sobre la variable $iI$ y el ciclo for de la línea 1. Dicho ciclo solo se ejecutará 1 sola vez. En este caso, el ciclo de la línea 8 es quién determinará la complejidad total del fragmento de código $\rightarrow$ $O(n^{2})$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Complejidad de Algoritmos Recursivos}
@@ -454,7 +516,7 @@ T(n) = \left\{
     c_1 & \quad \text{si $n \le 0$}\\
     T(n-1) + c_2& \quad \text{si $n \ge 1$}
   \end{array} \right.
-\end{equation}
+ \end{equation}
 
 \begin{eqnarray*}
 T(n)&=&T(n-1) + c_2\\
@@ -471,6 +533,52 @@ T(n)&=&T(0) + nc_2\\
 &=&c_1 + nc_2 \Rightarrow O(n) \\
 &\Rightarrow O(n)
 \end{eqnarray*}
+
+\subsection{Clase de Recurrencia}
+
+De forma simple, existen dos teoremas que son una solución general para una clase de recurrencia:
+
+\textbf{Teorema \#1}: Sean $a, b, c$ constantes no negativas, la solución de la recurrencia:
+\begin{equation}
+T(n) = \left\{
+  \begin{array}{l l}
+    cn^{k} & \quad \text{si $1 \le n < b$}\\
+    aT(n/b) + cn^{k}& \quad \text{si $n \ge b$}
+  \end{array} \right.
+ \end{equation}
+ 
+\noindent donde $a$ es el número de subproblemas, $n/b$ el tamaño de cada uno de los subproblemas.
+
+Particularmente, si $n$ es potencia de $b$ se cumple que:
+\begin{equation}
+T(n) = \left\{
+  \begin{array}{l l}
+    O(n^{k}) & \quad \text{si $a < b^{k}$}\\
+    O(n^{k}logn) & \quad \text{si $a = b^{k}$}\\
+    O(n^{log_b a}) & \quad \text{si $a > b^{k}$}
+  \end{array} \right.
+\end{equation}
+
+\textbf{Teorema \#2}: Sean $a, b, c$ constantes no negativas, la solución de la recurrencia:
+\begin{equation}
+T(n) = \left\{
+  \begin{array}{l l}
+    cn^{k} & \quad \text{si $1 \le n \le b$}\\
+    aT(n-b) + cn^{k}& \quad \text{si $n > b$}
+  \end{array} \right.
+ \end{equation}
+ 
+\noindent donde $a$ es el número de invocaciones recursivas que se realizan y $n-b$ el tamaño de cada una.
+
+Particularmente, si $n$ es divisible entre $b$ se cumple que:
+\begin{equation}
+T(n) = \left\{
+  \begin{array}{l l}
+    O(n^{k}) & \quad \text{si $a < 1$}\\
+    O(n^{k+1}) & \quad \text{si $a = 1$}\\
+    O(n^{a^{k div b}}) & \quad \text{si $a > 1$}
+  \end{array} \right.
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Ejercicios}
