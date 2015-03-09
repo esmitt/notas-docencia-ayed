@@ -506,7 +506,7 @@ A continuación se muestra una posible especificación para la definición de la
 \begin{lstlisting}[upquote=true, language=pseudo]
 class Node<T>
 public:
-  T tInfo
+  T tInfo	//key
   Node<T>* pLeft
   Node<T>* pRight
 end
@@ -624,23 +624,21 @@ mayores problemas.
 \item El nodo a eliminar tiene solo un hijo o subárbol (izquierdo o derecho): Se reenlaza
 al padre del nodo a eliminar con el hijo existente.
 \item El nodo a eliminar tiene dos hijos: En este caso se debe buscar:
-a) El nodo de mayor clave en su subárbol izquierdo (gráficamente el nodo más a la
-derecha del subárbol).
-b) El nodo de menor clave en su subárbol derecho (gráficamente el nodo más a la
-izquierda del subárbol).
-La clave de este nodo se le asigna al nodo pasado a la función y posteriormente
-se elimina el nodo.
+\begin{enumerate}
+\item El nodo de mayor clave en su subárbol izquierdo. En la Fig. \ref{fig:delsbt1} corresponde al segundo árbol, el nodo más a la derecha del subárbol.
+\item El nodo de menor clave en su subárbol derecho. En la Fig. \ref{fig:delsbt1} corresponde al tercer árbol, el nodo más a la izquierda del subárbol.
+\end{enumerate}
 \end{itemize}
 
-Fig. \ref{fig:delsbt1}
+\begin{figure}[htpb!]
+  \begin{center}
+    \includegraphics[width=1.0\columnwidth]{images/BSTDelete1.eps}
+  \end{center}
+  \caption{Ejemplo del proceso de eliminación de un nodo en un BST. De izquierda a derecha: árbol original, se elimina el nodo con clave 19 y se busca el mayor de los menores, se elimina el nodo con clave 19 y se busca el menor de los mayores}
+  \label{fig:delsbt1}
+\end{figure}
 
-%\begin{figure}[htpb!]
-%  \begin{center}
-%    \includegraphics[width=1.0\columnwidth]{images/BSTDelete1.eps}
-%  \end{center}
-%  \caption{Representación de la eliminación del mayor de los nodos menores o, el menor de los nodos mayores en un BST.}
-%  \label{fig:delsbt1}
-%\end{figure}
+Como se explicó anteriormente, cuando el nodo a eliminar tiene dos hijos se elimina el menor de mayores (en cuando al valor de su clave) desde dicho nodo, o el mayor de los menores de éste. Para ello se puede emplear la función $DelMax$ o $DelMin$ mostradas a continuación.
 
 \begin{lstlisting}[upquote=true, language=pseudo]  
   void DelMax(ref Node<T>* pNode, ref T tInfo)
@@ -650,9 +648,29 @@ Fig. \ref{fig:delsbt1}
       Node<T>* pTemp = pNode
       tInfo = *pNode.tInfo
       pNode = *pNode.pLeft
+      delete pTemp
     end
   end
-  
+\end{lstlisting}
+
+\begin{lstlisting}[upquote=true, language=pseudo]  
+  void DelMin(ref Node<T>* pNode, ref T tInfo)
+    if *pNode.pLeft != NIL then
+      DelMin(ref *pNode.pLeft, ref tInfo)
+    else
+      Node<T>* pTemp = pNode
+      tInfo = *pNode.tInfo
+      pNode = *pNode.pRight
+      delete pTemp
+    end
+  end
+\end{lstlisting}  
+
+La operación $Delete$ consiste entonces en determinar en cuál caso se encuentra para el nodo a eliminar y \textbf{siempre} asegurar que el apuntador al nodo que se va a intercambiar desde su padre no quede con algún valor. Un ejemplo se observa en la Fig. \ref{fig:delsbt1} donde en el caso del mayor del subárbol izquierdo, el apuntador al subárbol derecho del nodo con clave 15 \textbf{debe} quedar apuntando a un valor de NIL. Igualmente sucede en el caso del menor del subárbol derecho, donde el apuntador del subárbol izquierdo del nodo con clave 23 debe estar en NIL. 
+
+Una implementación de dicha operación se muestra a continuación:
+
+\begin{lstlisting}[upquote=true, language=pseudo]   
   void Delete(Node<T>* pNode, T tInfo)
     if pNode != NIL then
       select
@@ -673,11 +691,8 @@ Fig. \ref{fig:delsbt1}
               pNode = *pNode.pLeft
               delete pTemp
             *pNode.pLeft != NIL and *pNode.pRight != NIL:	//tiene ambos hijos
-              DelMax(ref pNode, ref *pNode.tInfo)
-              //*pNode.tInfo = tInfo
-              //pTemp = FindMin(pNode)
-              //*pNode.tInfo = *pTemp.tInfo
-              //Delete(pTemp, tInfo)
+              DelMax(ref pNode, ref *pNode.tInfo)  //o DelMin
+              *pNode.tInfo = tInfo
           end
       end
     end
@@ -685,9 +700,17 @@ Fig. \ref{fig:delsbt1}
 end
 \end{lstlisting}
 
-Given a non-empty binary search tree, 
- return the minimum data value found in that tree. 
- Note that the entire tree does not need to be searched.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Algoritmos}
+
+Una vez definida las operaciones de un BST es posible entonces aplicar diversos algoritmos sobre su estructura.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Valor Mínimo}
+
+Dado un árbol binario de búsqueda no vacío, se quiere retornar el mínimo valor dentro del árbol.
+
+Es importante destacar que dada la estructura del BST no es necesario recorrer todo el árbol para encontrar el valor mínimo, o de hecho, un valor cualquiera dado su orden implícito. El valor mínimo corresponde entonces al nodo que se encuentra más a la izquierda del árbol:
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 function MinValue (Node<T>* pNode) : Integer
@@ -699,7 +722,13 @@ function MinValue (Node<T>* pNode) : Integer
 end
 \end{lstlisting}
 
-Returns true if a binary tree is a binary search tree. 
+De forma general, se ha estudiado que los algoritmos de árboles resultan más convenientes si son escritos de forma recursiva por la naturaleza de la estructura de datos. Sin embargo, en este caso, un ciclo permite realizar el proceso de forma simple. También se puede emplear recursión tal como se hizo para la operación Delete.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Verificar si es un BST}
+
+Determinar si un árbol
+
 \begin{lstlisting}[upquote=true, language=pseudo]
 function IsBST (Node<T>* pNode) : Boolean
   if pNode == NIL then
