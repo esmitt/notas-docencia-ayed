@@ -709,7 +709,7 @@ function IsBST (Node<T>* pNode) : Boolean
 end
 \end{lstlisting}
 
-\subsection{Problema de Desequilibrio}
+\subsection{Problema de Desequilibrio} \label{lb:desq}
 
 El orden de inserción en un BST determina la forma estructural del árbol. La Fig. \ref{fig:BSTDesequilibrado} muestra un ejemplo de distintos tipos de inserción en un BST del tipo Char, siendo insertados de izquierda a derecha.
 
@@ -731,23 +731,37 @@ Por el motivo anterior, es ideal construir un mecanismo que no permita construir
 Un árbol AVL, llamado así por el nombre de sus inventores Georgy \textbf{A}delson-\textbf{V}elsky y Evgenii \textbf{L}andis, es un BST que se "auto" balancea, es decir, cuando se inserta o remueve un nodo se aplican operaciones que tratan de mantener el árbol balanceado. En un árbol AVL, las alturas de los subárboles de cualquier nodo difiere a lo sumo en 1, y en caso de no cumplirse esto se debe re-balancear para mantener dicha propiedad. Entonces, en la condición de los árboles AVL se considera un factor de equilibrio (\textit{balance}):
 $balanceFactor = height(left) - height(right)$
 
-En la Fig. \ref{fig:AVLExample1} se muestra un ejemplo de 3 árboles AVL. El valor dentro de cada nodo (en esta ilustración) representa el factor de equilibrio de cada nodo, donde los valores positivos indican que la altura del subárbol izquierdo es mayor a la altura del subárbol derecho, y nos negativos el caso contrario. El factor de equilibrio 0 significa que ambos subárboles tienen la misma altura.
+En la Fig. \ref{fig:AVLExample1} se muestra un ejemplo de 3 árboles AVL. El valor dentro de cada nodo (en esta ilustración) representa el factor de equilibrio de cada nodo, donde los valores positivos indican que la altura del subárbol izquierdo es mayor a la altura del subárbol derecho, y nos negativos el caso contrario. El factor de equilibrio 0 significa que ambos subárboles tienen la misma altura. 
 
 \begin{figure}[htpb!]
   \begin{center}
     \includegraphics[width=0.8\textwidth]{images/AVLExample1.eps}
   \end{center}
-  \caption{Ejemplo de tres árboles AVL mostrando su factor de equilibrio.}
+  \caption{Ejemplo de tres árboles equilibrados AVL mostrando su factor de equilibrio.}
   \label{fig:AVLExample1}
 \end{figure}
+
+Por su parte, la Fig. \ref{fig:AVLExample2} muestra dos árboles binarios de búsqueda con su factor de equilibrio (AVL) donde se puede observar que los valor $+2$ y $-2$ representan una diferencia en las alturas de los nodos que contienen dicho valor (desequilibrio).
 
 \begin{figure}[htpb!]
   \begin{center}
     \includegraphics[width=0.4\textwidth]{images/AVLExample2.eps}
   \end{center}
-  \caption{Representación en forma de árbol del ejemplo de código en HTML.}
+  \caption{Ejemplo de dos árboles desequilibrados AVL mostrando su factor de equilibrio.}
   \label{fig:AVLExample2}
 \end{figure}
+
+Las operaciones de un árbol AVL son las mismas que un BST, pero se añade un conjunto de operaciones llamadas rotaciones que sirven para mantener el equilibrio del árbol.
+
+La operación de búsqueda para una clave en un AVL se hace de la misma forma que la búsqueda en un árbol de binario de búsqueda desequilibrado (BST). En un BST la búsqueda (y la inserción o eliminación) puede llegar a ser de $O(n)$ donde $n$ representa la altura del árbol. Este caso ocurre cuando el árbol está desequilibrado/degenerado como se mostró en la sección \ref{lb:desq}.
+
+El mejor caso de un BST es cuando es de altura mínima, es decir, que en todos sus $h-1$ primeros niveles estás casi completos y solo varían en los nodos terminales, donde $h$ representa la altura del árbol. En dicho caso, el número de nodos viene dado por $n = 2^{h+1}-1$ lo cual implica una complejidad de $O(log_2n)$. La búsqueda en AVL representa la búsqueda en un árbol BST equilibrado, entonces en el peor de los casos la complejidad de la operación de búsqueda es $O(log_2n)$.
+
+Un recorrido en un AVL para todos los nodos del árbol hace que cada enlace se visite exactamente 2 veces: uno de entrada al nodo desde el subárbol al cual pertenece dicho nodo, y otro para dejar dicho nodo de ese subárbol que ha sido explorado. Entonces, si hay $n-1$ enlaces en el árbol, el corto amortizado es $2 \times (n-1)$
+
+Para las operaciones de inserción y eliminación se utilizará la misma idea de un BST pero manteniendo siempre tras el equilibrio luego de cada inserción o eliminación. Este equilibrio se soluciona con las reajustes locales llamados rotaciones.
+
+\subsection{Inserción en un AVL}
 
 \subsection{Rotaciones}
 
@@ -767,7 +781,7 @@ En la Fig. \ref{fig:AVLExample1} se muestra un ejemplo de 3 árboles AVL. El val
   \label{fig:AVLRotation2}
 \end{figure}
 
-\subsection{Insertar}
+\subsection{Ejemplos de Inserciones}
 
 \begin{figure}[htpb!]
   \begin{center}
