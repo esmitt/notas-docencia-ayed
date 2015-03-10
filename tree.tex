@@ -217,6 +217,10 @@ En la teoría de árboles, un árbol es llamado k-ario si cada nodo contiene com
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Recorridos}
 
+Un recorrido en un árbol binario implica recorrer todos sus nodos de forma sistemática y asegurando que se aplica una operación sobre cada uno de éstos solo una vez. Existen tres tipos básicos de recorridos: Preorder, Inorder (también llamado Simétrico), y Postorder.
+
+El recorrido preorder (pre-orden) consiste en visitar/evaluar el nodo raíz del árbol o subárbol, luego su subárbol izquierdo y finalmente su subárbol derecho. Claramente, el proceso de visitar/evaluar los subárboles consiste en aplicar la misma operación mientras el nodo no sea nulo o vacío. Una posible implementación es:
+
 \begin{lstlisting}[upquote=true, language=pseudo]
 void Preorder (IdNode root)
   if root == EMPTY then
@@ -226,6 +230,8 @@ void Preorder (IdNode root)
   end
 end
 \end{lstlisting}
+
+El recorrido inorder (in-orden o simétrico) consiste en visitar/evaluar primero el subárbol izquierdo del nodo, luego el valor del nodo raíz del árbol o subárbol, y finalmente su subárbol derecho. Al igual que el recorrido en preorder, el proceso de visitar/evaluar los subárboles consiste en aplicar la misma operación mientras el nodo no sea nulo o vacío. Una posible implementación es:
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 void Inorder (IdNode root)
@@ -237,6 +243,7 @@ void Inorder (IdNode root)
 end
 \end{lstlisting}
 
+El recorrido postorder (post-orden) consiste en visitar/evaluar primero los subárboles izquierdo y derecho del nodo (en ese orden) y luego el valor del nodo raíz del árbol o subárbol. Al igual que los recorridos anteriores el proceso de visitar/evaluar los subárboles consiste en aplicar la misma operación mientras el nodo no sea nulo o vacío. Una posible implementación es:
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 void Postorder (IdNode root)
@@ -262,6 +269,9 @@ Postorder: + - A * B C D (expresión postfija) \\
   \label{fig:bintreeExpresion}
 \end{figure}
 
+Adicionalmente, existe otro recorrido llamado por niveles (\textit{level order}) que consiste en evaluar los nodos de izquierda a derecha empezando desde el nivel 0 del árbol hasta alcanzar su altura. Para el caso de la Fig. \ref{fig:bintreeExpresion} el recorrido por niveles es: + - D A * B C.
+
+Del mismo modo, es posible aplicar los recorridos antes mencionados de forma inversa. Por ejemplo, el recorrido inorder es LVR (Left-Value-Right) y el recorrido inorder inverso es RVL (Right-Value-Left).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -367,8 +377,18 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Algoritmos}
 
+A continuación se presentan una serie de algoritmos sencillos empleando árboles binarios.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Contar el número de nodos}
+
+Dado un árbol binario, determinar el número de nodos (su peso) que contiene. Para ello, el algoritmo planteado es muy simple basado en la idea que:
+\begin{enumerate}
+\item Si el árbol está vacío, contiene 0 nodos
+\item Si el árbol no está vacío, contiene 1 nodo (el actual) más la cantidad de nodos que contenga su subárbol derecho y su subárbol izquierdo
+\end{enumerate}
+
+El algoritmo se puede escribir como sigue:
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 function Count (Node<T>* pNode) : Integer
@@ -380,12 +400,19 @@ function Count (Node<T>* pNode) : Integer
 end
 \end{lstlisting}
 
+La función retorna el número de nodos del árbol, o siendo equivalente, la cantidad de nodos que no fueron NIL.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Buscar el elemento mínimo}
 
+El problema de buscar el elemento mínimo consiste en encontrar el nodo con el valor de $tInfo$ mínimo. Dependiendo del tipo de dato de $tInfo$, para realizar este algoritmo se debe garantiza que exista la función de comparación "menor que".
+
+Para este problema, se crean 2 funciones adicionales: una para obtener el mínimo entre dos valores, y otra para determinar si un nodo es hoja o terminal. Asumiendo que el tipo de dato del árbol es del tipo Integer, se puede escribir el algoritmo como sigue:
+
 \begin{lstlisting}[upquote=true, language=pseudo]
 function Min(Integer a, Integer b) : Integer
-  if a > b then
+  if a > b the
     return b
   end
   return a
@@ -403,6 +430,10 @@ function Min (Node<Integer>* pNode) : Integer
   end
 end
 \end{lstlisting}
+
+Es importante destacar que debido al polimorfismo, es posible tener dos funciones de nombre $Min$ pero que ambas tienen parámetros distintos.
+
+Así, la idea del algoritmo es básicamente obtener el valor mínimo entre el nodo actual (nodo no-terminal) y el valor mínimo de su subárbol derecho e izquierdo. La unidad mínima de un subárbol es cuando contiene un solo nodo, es decir, cuando es un nodo hoja.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Calcular la profundidad}
@@ -437,8 +468,7 @@ function Equals (Node<T>* pNodeA, pNodeB) : Integer
 end
 \end{lstlisting}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Suma de los nodos}
 
 Dado un BST de valores del tipo Integer, se quiere construir una función que sume todos los elementos de los nodos y lo retorne. Una posible función es como sigue:
@@ -903,3 +933,41 @@ El orden de inserción es: ``SE", ``PA", ``AL", ``BA", ``OR", ``LE", ``CA", ``LU
   \caption{De izq. a der.: insertado el nodo ``GR" se hace una rotación a la derecha y se está en un caso Right-Right. Luego se aplica una rotación hacia la izquierda para equilibrar el árbol.}
   \label{fig:AVLInsertion6}
 \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Red-Black}
+
+Al igual que los árboles AVL, un árbol red-black (también llamado rojinegro) es un árbol binario de búsqueda que se auto-equilibra. Para ello, cada nodo tiene un atributo extra llamado color, el cual puede ser negro (\textit{black}) o rojo (\textit{red}). El equilibrio se da pintando cada uno de los nodos del árbol con uno de los dos colores de manera tal que cumpla ciertas propiedades.
+
+Cuando el árbol se modifica, el nuevo árbol es acomodado y sus nodos son pintados nuevamente forma tal que se cumplas las propiedades de los árboles red-black. En la Fig. \ref{fig:RedBlack1} se muestra un ejemplo de como se conforma un árbol red-black.
+
+\begin{figure}[htpb!]
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{images/redblack.png}
+  \end{center}
+  \caption{Ejemplo de un árbol red-black.}
+  \label{fig:RedBlack1}
+\end{figure}
+
+Las operaciones de búsqueda, inserción y eliminación es $O(logn)$. Por otro lado, el atributo de color de cada nodo puede ser almacenado en un solo bit.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Propiedades}
+
+Adicionalmente a las características de un BST, un árbol red-black debe cumplir las siguientes propiedades:
+\begin{enumerate}
+\item Un nodo es de color rojo o negro
+\item La raíz siempre es color negro
+\item Todo nodo terminal (hoja) es color negro, teniendo el valor de NIL. Todas las hojas tienen el mismo color que la raíz
+\item Todo nodo color rojo debe tener dos hijos color negro
+\item Todo camino desde un nodo cualquiera a cualquier de sus hojas descendientes contiene el mismo número de nodos negros
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Heap}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ideas Finales}
+\begin{itemize}
+\item Además del árbol AVL y red-black existen otros tipos de árboles "auto-equilibrados" como los árboles 2-3, AA, Scapegoat, Splay, Treap y otros más.
+\end{itemize}
