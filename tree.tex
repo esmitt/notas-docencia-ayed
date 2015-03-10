@@ -20,7 +20,7 @@ Un ejemplo se puede ver a continuación:
 
 Nótese que empezando desde la raíz, se puede recorrer hasta la parte inferior del árbol en un único camino. Igualmente, se puede ver que todos los hijos de un nodo son independientes de los hijos de otro nodo. Así, cada nodo de la parte inferior (nodo hoja) es único, es decir, existe un solo camino para llegar a éste.
 
-Como es sabido, es posible mover un directorio completo de un lugar del sistema de archivos a otros. Cuando se realiza este proceso, todos los hijos asociados q dicho nodo se moverán (a este conjunto de nodos se denomina sub-árbol). Por ejemplo, es posible mover el sub-arbol que empieza en /etc/ (quitarlo del nodo /) y colocarlo por debajo de /usr. Así, la ruta de acceso a httpd cambiará, quedando /usr/etc/http/ sin afectar el contenido o a cualquier directorio hijo de http.
+Como es sabido, es posible mover un directorio completo de un lugar del sistema de archivos a otros. Cuando se realiza este proceso, todos los hijos asociados q dicho nodo se moverán (a este conjunto de nodos se denomina subárbol). Por ejemplo, es posible mover el sub-arbol que empieza en /etc/ (quitarlo del nodo /) y colocarlo por debajo de /usr. Así, la ruta de acceso a httpd cambiará, quedando /usr/etc/http/ sin afectar el contenido o a cualquier directorio hijo de http.
 
 Otro ejemplo basado en un sistema de árbol es una página Web escrita en HTML. Para el siguiente código en HTML:
 
@@ -54,21 +54,21 @@ Su árbol asociado se muestra en la Fig. \ref{fig:treeHTML}.
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Definiciones}
+\section{Definiciones} \label{lb:deftree}
 
 Formalmente, un árbol es un grafo conexo acíclico cuyos nodos se relacionan mediante una jerarquía.
 
-En su implementación, un árbol de tipo $T$ es una estructura homogénea producto de la concatenación de un elemento de tipo $T$ junto con un número finito de árboles disjuntos (sub-árboles). Una forma particular de un árbol es una estructura vacía. Un árbol puede ser representado por una estructura estática (arreglos/registros/clases) ó dinámica (apuntadores/listas).
+En su implementación, un árbol de tipo $T$ es una estructura homogénea producto de la concatenación de un elemento de tipo $T$ junto con un número finito de árboles disjuntos (subárboles). Una forma particular de un árbol es una estructura vacía. Un árbol puede ser representado por una estructura estática (arreglos/registros/clases) ó dinámica (apuntadores/listas).
 
 De forma recursiva, un árbol es una colección de nodos ${T_1, T_2,\dots, T_k}$ del mismo tipo tal que:
 \begin{itemize}
 \item Si $k == 0$, entonces el árbol es vacío
-\item Si $k > 0$, entonces existe un nodo especial llamado raíz (generalmente el primero de la definición, i.e. $T_1$) y los demás nodos forman parte de $n \ge 0$ conjuntos disjuntos que a su vez son árboles. Estos árboles se denominan sub-árboles del nodo raíz
+\item Si $k > 0$, entonces existe un nodo especial llamado raíz (generalmente el primero de la definición, i.e. $T_1$) y los demás nodos forman parte de $n \ge 0$ conjuntos disjuntos que a su vez son árboles. Estos árboles se denominan subárboles del nodo raíz
 \end{itemize}
 
 \textbf{Conceptos asociados en la estructura Tree}
 \begin{description}
-\item[Nodo -] Es la parte fundamental del árbol. Es posible que contenga un identificador (llamado key) e información adicional (payload)
+\item[Nodo -] Es la parte fundamental del árbol. Es posible que contenga un identificador (llamado key) e información adicional (\textit{payload})
 \item[Enlace– ] Algunas veces llamadas ramas, es otra parte fundamental del árbol, un enlace conecta dos nodos y muestra la relación que existe entre éstos. Cada nodo, con excepción de la raíz, está conectado con exactamente un enlace entrante desde otro nodo. Cada nodo puede tener muchos enlaces salientes
 \item[Raíz –] La raíz de un árbol es el único nodo del árbol que no tiene enlaces entrantes. Por ejemplo, el nodo \textit{html}
 \item[Hijos –] El conjunto de nodos $c$ que tienen enlaces entrantes desde un mismo nodo $n$ se denominan hijos de $n$. Por ejemplo, los nodos \textit{meta} y \textit{title} son hijos del nodo \textit{head}.
@@ -78,10 +78,10 @@ De forma recursiva, un árbol es una colección de nodos ${T_1, T_2,\dots, T_k}$
 \item[Longitud de un camino –] Es el número de veces que se debe aplicar la relación padre-hijos entre dos nodos que forman un camino
 \item[Descendiente –] Un nodo alcanzable por un proceso repetitivo empleando los enlaces desde padres a sus hijos (un camino).
 \item[Ancestro -] A veces llamado antecesor, es un nodo alcanzable por un proceso repetitivo empleando los enlaces desde los hijos a sus padres (un camino)
-\item[Sub-árbol –] Un subárbol es un conjunto de nodos y enlaces formados por un padre y todos los descendientes de ese padre.
+\item[Subárbol –] Un subárbol es un conjunto de nodos y enlaces formados por un padre y todos los descendientes de ese padre.
 \item[Nodo Hoja –] También llamado nodo terminal ó externo. Es un nodo que no tiene hijos.
 \item[Nodo Interno –] También llamado nodo no-terminal. Es un nodo con al menos un hijo (no es hoja).
-\item[Grado –] Es el número de sub-árboles de un nodo.
+\item[Grado –] Es el número de subárboles de un nodo.
 \item[Grado de un árbol –] Es el máximo grado de todos los nodos del árbol, i.e. la cantidad máxima de hijos que soporta cada nodo
 \item[Nivel –] Es la longitud del camino desde la raíz hasta un nodo. Si un árbol solo contiene la raíz, su nivel es 0.
 \item[Altura –] La altura de un árbol se cuenta como el número de enlaces desde el nodo raíz hasta la hoja más lejana, es decir, el máximo nivel de cualquier nodo en el árbol.
@@ -117,7 +117,7 @@ public:
   Destructor GenTree()			//destruye el árbol 
   function GetRoot () : Node	//retorna el nodo correspondiente a la raíz
   function GetChild (Node idNode) : Node	//retorna el nodo del 1er hijo de idNode (según convención, el más a la izq)
-  function GetRBrother(Node idNode) : Node	//retorna la raíz del 1er sub-árbol a la der de idNode con el mismo padre
+  function GetRBrother(Node idNode) : Node	//retorna la raíz del 1er subárbol a la der de idNode con el mismo padre
   function ExistRBrother(Node idNode) : Boolean	//indica si tiene hermano derecho
   function GetValue(Node idNode) : T	//retorna el contenido del nodo idNode
   function GetParent(Node idNode) : Node	//retorna el padre de idNode
@@ -142,7 +142,7 @@ function Level(Node<T> idNode) : Integer
 end
 \end{lstlisting}
 
-Dado que no se conoce la implementación aún del árbol general, se emplea idNode el cual representa un identificador de un nodo del árbol. La idea es algoritmo es ir subiendo hasta la raíz (usando el padre) e ir contando hasta que no se pueda más (nodo raíz). Nótese que si se invoca la función con el nodo más "profundo" (el de mayor nivel) es equivalente a la altura del árbol.
+Dado que no se conoce la implementación aún del árbol general, se emplea idNode el cual representa un identificador de un nodo del árbol. La idea es algoritmo es ir subiendo hasta la raíz (usando el padre) e ir contando hasta que no se pueda más (nodo raíz). Nótese que si se invoca la función con el nodo más ``profundo" (el de mayor nivel) es equivalente a la altura del árbol.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implementación}
@@ -184,20 +184,20 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Recorridos}
 
-El proceso de recorrido de un árbol consiste en visitar/recorrer/consultar o realizar una acción en cada nodo tal que no modifique la estructura del árbol (e.g. imprimir, contar, comparar). Esta visita se realiza bajo cierto orden y la acción se efectúa una sola vez por nodo. Básicamente se pueden definir dos recorridos para árboles generales: preorden o postorden.
+El proceso de recorrido de un árbol consiste en visitar/recorrer/consultar o realizar una acción en cada nodo tal que no modifique la estructura del árbol (e.g. imprimir, contar, comparar). Esta visita se realiza bajo cierto orden y la acción se efectúa una sola vez por nodo. Básicamente se pueden definir dos recorridos para árboles generales: preorder o postorder.
 
-El recorrido en preorden consiste en recorrer primeramente el nodo raíz, y luego los nodos que contienen a los hijos desde el nodo más a la izquierda hasta el nodo más a la derecha. El recorrido postorden primero recorre los nodos hijos de derecha a izquierda y luego el nodo raíz.
+El recorrido en preorder consiste en recorrer primeramente el nodo raíz, y luego los nodos que contienen a los hijos desde el nodo más a la izquierda hasta el nodo más a la derecha. El recorrido postorder primero recorre los nodos hijos de derecha a izquierda y luego el nodo raíz.
 
 En el ejemplo mostrado en la Fig. \ref{fig:gentree} sus respectivos recorridos son:
 
-Preorden: 2, 1, 4, 3, 5, 6, 7, 9, 8
+Preorder: 2, 1, 4, 3, 5, 6, 7, 9, 8
 
-Postorden: 1, 4, 5, 6, 9, 7, 8, 3, 2
+Postorder: 1, 4, 5, 6, 9, 7, 8, 3, 2
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Binary Tree - BT}
 
-Es posible representar diversos comportamientos empleando decisiones de aceptar/rechazar, si/no, fuera/dentro, etc. En Ciencias de la Computación, se suele emplear estructuras de datos que permitan manejar dichos comportamientos para solucionar diversos problemas. Por ejemplo, el lanzamiento de una moneda (i.e. moneda ideal) solo tiene dos posibilidades: cara (H) o sello (T). Así, el evento de lanzamiento de una moneda se puede representar como un árbol de decisión. Por ejemplo el lanzamiento de una moneda se puede graficar como se muestra en la Fig. \ref{fig:tree3coins}
+Es posible representar diversos comportamientos empleando decisiones de aceptar/rechazar, si/no, fuera/dentro, etc. En Ciencias de la Computación, se suele emplear estructuras de datos que permitan manejar dichos comportamientos para solucionar diversos problemas. Por ejemplo, el lanzamiento de una moneda (i.e. moneda ideal) solo tiene dos posibilidades: cara (H) o sello (T). Así, el evento de lanzamiento de una moneda se puede representar como un árbol de decisión. Por ejemplo el lanzamiento de una moneda se puede representar gráficamente como se muestra en la Fig. \ref{fig:tree3coins}
 
 \begin{figure}[htpb!]
   \begin{center}
@@ -275,7 +275,7 @@ Del mismo modo, es posible aplicar los recorridos antes mencionados de forma inv
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Implementación}
+\subsection{Implementación} \label{lb:treearray}
 
 \paragraph{Implementación basada en arreglos}
 
@@ -289,7 +289,7 @@ La implementación de un BST empleando arreglos debe conocer el número máximo 
   \label{fig:vectorbinTree}
 \end{figure}
 
-El árbol $aTree$ tiene 7 nodos con de altura 2, y la variable iIndex representa su posición a ser almacenada en dicho arreglo. Nótese la numeración es de arriba hacia abajo y de izquierda a derecha.
+El árbol $aTree$ tiene 7 nodos con de altura 2, y la variable iIndex representa su posición a ser almacenada en dicho arreglo. La numeración es de arriba hacia abajo y de izquierda a derecha.
 
 Esta representación es muy buena para árboles completos, pero muy mala para árboles degenerados.
 
@@ -315,7 +315,7 @@ public:
 end
 \end{lstlisting}
 
-En los lenguajes de programación que tienen soporte a apuntadores el valor de éstos pueden estar inicializados con NIL al momento de su creación o en caso contrario se le debe asignar dicho valor. Así, es posible construir una clase un poco más "segura" y en el enfoque orientado a objetos (\textit{mutators} y \textit{observers}) como:
+En los lenguajes de programación que tienen soporte a apuntadores el valor de éstos pueden estar inicializados con NIL al momento de su creación o en caso contrario se le debe asignar dicho valor. Así, es posible construir una clase un poco más ``segura" y en el enfoque orientado a objetos (\textit{mutators} y \textit{observers}) como:
 \begin{lstlisting}[upquote=true, language=pseudo]
 class Node<T>
 private:
@@ -406,7 +406,7 @@ La función retorna el número de nodos del árbol, o siendo equivalente, la can
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Buscar el elemento mínimo}
 
-El problema de buscar el elemento mínimo consiste en encontrar el nodo con el valor de $tInfo$ mínimo. Dependiendo del tipo de dato de $tInfo$, para realizar este algoritmo se debe garantiza que exista la función de comparación "menor que".
+El problema de buscar el elemento mínimo consiste en encontrar el nodo con el valor de $tInfo$ mínimo. Dependiendo del tipo de dato de $tInfo$, para realizar este algoritmo se debe garantiza que exista la función de comparación ``menor que".
 
 Para este problema, se crean 2 funciones adicionales: una para obtener el mínimo entre dos valores, y otra para determinar si un nodo es hoja o terminal. Asumiendo que el tipo de dato del árbol es del tipo Integer, se puede escribir el algoritmo como sigue:
 
@@ -438,6 +438,8 @@ Así, la idea del algoritmo es básicamente obtener el valor mínimo entre el no
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Calcular la profundidad}
 
+Como se define en la sección \ref{lb:deftree}, la profundidad es La longitud máxima del camino desde un nodo a cualquier de sus descendientes. Entonces, el algoritmo se en la idea de calcular la profundidad máxima entre el hijo derecho e hijo izquierdo. Entonces, el valor de la profundidad se define como el número de invocaciones recursivas empleando la relación de jerarquía hasta que se llegue a un nodo vacío (i.e. NIL).
+
 \begin{lstlisting}[upquote=true, language=pseudo]
 function MaxDepth (Node<T>* pNode) : Integer
   if pNode == NIL then
@@ -453,8 +455,12 @@ function MaxDepth (Node<T>* pNode) : Integer
 end
 \end{lstlisting}
 
+En vez de utilizar el condicional, es posible implementar una función $Max$ que determine el máximo valor entre dos números.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Árboles binarios iguales}
+
+Determinar que dos árboles binarios son exactamente igual, en cuanto a valores y su estructura, es decir, que cada nodo tenga el mismo número de hijos/enlace en cada uno de sus niveles. El algoritmo verifica entonces la igualdad del valor de los nodos y la existencia del subárbol derecho e izquierdo para un mismo nodo.
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 function Equals (Node<T>* pNodeA, pNodeB) : Integer
@@ -467,6 +473,8 @@ function Equals (Node<T>* pNodeA, pNodeB) : Integer
   end
 end
 \end{lstlisting}
+
+Se destaca en el algoritmo que la comparación exacta se logra por el uso del comparador lógico \textit{and}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Suma de los nodos}
@@ -519,7 +527,7 @@ Un tipo Binary Search Tree (BST), árbol binario de búsqueda, es un árbol bina
   \label{fig:BSTExample1}
 \end{figure}
 
-En un BST, para todo nodo existe una clave única que lo identifica, es decir, no hay repeticiones en el valor discriminante para la comparación. Un nodo puede almacenar diversos valores propios de la estructura de datos, pero requiere solo un valor que sirva de clave (key) y pueda ser aplicador el operador de comparación (mayor que, menor que). De esta forma existe una relación de orden total en el tipo asociado al key. Así por definición, para cada nodo las claves de los nodos de su subárbol izquierdo siempre son menores y las del subárbol derecho siempre son mayores.
+En un BST, para todo nodo existe una clave única que lo identifica, es decir, no hay repeticiones en el valor discriminante para la comparación. Un nodo puede almacenar diversos valores propios de la estructura de datos, pero requiere solo un valor que sirva de clave (key) y pueda ser aplicar el operador de comparación (mayor que, menor que). De esta forma existe una relación de orden total en el tipo asociado al key. Así por definición, para cada nodo las claves de los nodos de su subárbol izquierdo siempre son menores y las del subárbol derecho siempre son mayores.
 
 El recorrido en inorder de un BST produce la secuencia de claves en orden ascendente. Por ejemplo, para los dos árboles de la Fig. \ref{fig:BSTExample1} se produce la secuencia $1, 2, 3, 4, 5, 6, 7$. Por su lado, el recorrido inorder en reverso produce la secuencia en orden descendente.
 
@@ -529,7 +537,7 @@ La diferencia observada en los árboles del ejemplo se debe a que su forma viene
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Especificación}
 
-Las operaciones de Insert (inserción) y Lookup (búsqueda) en un árbol binario de búsqueda suelen ser rápidas. En promedio, un algoritmo de búsqueda en un árbol binario puede localizar un nodo en un árbol de $n$ nodos en un orden de complejidad de $log(N)$ (logaritmo base 2). Por lo tanto, un BST son estructuras ideales para problemas de "diccionario" donde un código/id es insertado y se busca su información asociada de forma eficiente. El comportamiento logarítmico es para el caso promedio, es posible que para un árbol en particular sea más lento (dependiendo de su forma).
+Las operaciones de Insert (inserción) y Lookup (búsqueda) en un árbol binario de búsqueda suelen ser rápidas. En promedio, un algoritmo de búsqueda en un árbol binario puede localizar un nodo en un árbol de $n$ nodos en un orden de complejidad de $log(N)$ (logaritmo base 2). Por lo tanto, un BST son estructuras ideales para problemas de \textbf{diccionario} donde un código/id es insertado y se busca su información asociada de forma eficiente. El comportamiento logarítmico es para el caso promedio, es posible que para un árbol en particular sea más lento (dependiendo de su forma).
 
 A continuación se muestra una posible especificación para la definición de la clase BST.
 
@@ -590,7 +598,7 @@ Dado un BST y un valor se quiere verificar si dicho valor existe o no en el árb
 \item Tratar con el nodo actual y emplear la recursión para tratar con sus subárboles
 \end{enumerate}
 
-Dado que el árbol es un BST, se tiene un orden que se evalua mediante operaciones relacionales y decide si trata del árbol derecho o el árbol izquierdo.
+Dado que el árbol es un BST, se tiene un orden que se evalúa mediante operaciones relacionales y decide si trata del árbol derecho o el árbol izquierdo.
 
 \begin{lstlisting}[upquote=true, language=pseudo]
   function Lookup (Node<T>* pNode, T tInfo) : Boolean
@@ -759,14 +767,14 @@ De forma general, se ha estudiado que los algoritmos de árboles resultan más c
 
 El orden de inserción en un BST determina la forma estructural del árbol. La Fig. \ref{fig:BSTDesequilibrado} muestra un ejemplo de distintos tipos de inserción en un BST del tipo Char, siendo insertados de izquierda a derecha.
 
-Dado este aspecto, si los nodos de un BST son insertados en orden creciente (3er caso de la Fig. {fig:BSTDesequilibrado}) el árbol crecerá solo hacia el lado derecho como una lista simplemente enlazada, y todos los apuntadores izquierdos serán NIL. Del mismo modo, si son insertados en orden decreciente ('U','T','P','O','M','C','A'). La forma de una lista enlazada "degrada" la complejidad logarítimica del árbol.
+Dado este aspecto, si los nodos de un BST son insertados en orden creciente (3er caso de la Fig. {fig:BSTDesequilibrado}) el árbol crecerá solo hacia el lado derecho como una lista simplemente enlazada, y todos los apuntadores izquierdos serán NIL. Del mismo modo, si son insertados en orden decreciente ('U','T','P','O','M','C','A'). La forma de una lista enlazada ``degrada" la complejidad logarítimica del árbol.
 
-Por el motivo anterior, es ideal construir un mecanismo que no permita construir árboles de búsqueda que sean degradados sino conseguir árboles tan equilibrados como sea posible. Por ello estudiaremos brevemente AVL y Red-Black.
+Por el motivo anterior, es ideal construir un mecanismo que no permita construir árboles de búsqueda que sean degradados sino conseguir árboles tan equilibrados como sea posible. Para ello se muestra brevemente los árboles AVL y Red-Black.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{AVL}
 
-Un árbol AVL, llamado así por el nombre de sus inventores Georgy \textbf{A}delson-\textbf{V}elsky y Evgenii \textbf{L}andis, es un BST que se "auto" balancea, es decir, cuando se inserta o remueve un nodo se aplican operaciones que tratan de mantener el árbol equilibrado. En un árbol AVL, las alturas de los subárboles de cualquier nodo difiere a lo sumo en 1, y en caso de no cumplirse esto se debe re-balancear para mantener dicha propiedad. Entonces, en la condición de los árboles AVL se considera un factor de equilibrio (\textit{balance}):
+Un árbol AVL, llamado así por el nombre de sus inventores Georgy \textbf{A}delson-\textbf{V}elsky y Evgenii \textbf{L}andis, es un BST que se ``auto" equilibra, es decir, cuando se inserta o remueve un nodo se aplican operaciones que tratan de mantener el árbol equilibrado. En un árbol AVL, las alturas de los subárboles de cualquier nodo difiere a lo sumo en 1, y en caso de no cumplirse esto se debe re-equilibrar para mantener dicha propiedad. Entonces, en la condición de los árboles AVL se considera un factor de equilibrio (\textit{balance}):
 $balanceFactor = height(left) - height(right)$
 
 En la Fig. \ref{fig:AVLExample1} se muestra un ejemplo de 3 árboles AVL. El valor dentro de cada nodo (en esta ilustración) representa el factor de equilibrio de cada nodo, donde los valores positivos indican que la altura del subárbol izquierdo es mayor a la altura del subárbol derecho, y nos negativos el caso contrario. El factor de equilibrio 0 significa que ambos subárboles tienen la misma altura. 
@@ -791,13 +799,13 @@ Por su parte, la Fig. \ref{fig:AVLExample2} muestra dos árboles binarios de bú
 
 Las operaciones de un árbol AVL son las mismas que un BST, pero se añade un conjunto de operaciones llamadas rotaciones que sirven para mantener el equilibrio del árbol.
 
-La operación de búsqueda para una clave en un AVL se hace de la misma forma que la búsqueda en un árbol de binario de búsqueda desequilibrado (BST). En un BST la búsqueda (y la inserción o eliminación) puede llegar a ser de $O(n)$ donde $n$ representa la altura del árbol. Este caso ocurre cuando el árbol está desequilibrado/degenerado como se mostró en la sección \ref{lb:desq}.
+La operación de búsqueda para una clave en un AVL se hace de la misma forma que la búsqueda en un árbol de binario de búsqueda - BST. En un BST la búsqueda (y la inserción o eliminación) puede llegar a ser de $O(n)$ donde $n$ representa la altura del árbol. Este caso ocurre cuando el árbol está desequilibrado/degenerado como se mostró en la sección \ref{lb:desq}.
 
 El mejor caso de un BST es cuando es de altura mínima, es decir, que en todos sus $h-1$ primeros niveles estás casi completos y solo varían en los nodos terminales, donde $h$ representa la altura del árbol. En dicho caso, el número de nodos viene dado por $n = 2^{h+1}-1$ lo cual implica una complejidad de $O(log_2n)$. La búsqueda en AVL representa la búsqueda en un árbol BST equilibrado, entonces en el peor de los casos la complejidad de la operación de búsqueda es $O(log_2n)$.
 
 Un recorrido en un AVL para todos los nodos del árbol hace que cada enlace se visite exactamente 2 veces: uno de entrada al nodo desde el subárbol al cual pertenece dicho nodo, y otro para dejar dicho nodo de ese subárbol que ha sido explorado. Entonces, si hay $n-1$ enlaces en el árbol, el corto amortizado es $2 \times (n-1)$
 
-Para las operaciones de inserción y eliminación se utilizará la misma idea de un BST pero manteniendo siempre tras el equilibrio luego de cada inserción o eliminación. Este equilibrio se soluciona con las reajustes locales llamados rotaciones.
+Para las operaciones de inserción y eliminación se utilizará la misma idea de un BST pero manteniendo siempre tras el equilibrio luego de cada inserción o eliminación. Este equilibrio se soluciona con las reajustes locales llamados rotaciones. Para ello se plantea solo el caso de las inserciones, donde para eliminar un nodo se opera de forma similar.
 
 \subsection{Inserción en un AVL}
 
@@ -819,7 +827,7 @@ El algoritmo de inserción en un AVL realiza los siguientes pasos:
 \begin{enumerate}
 \item Buscar en el árbol el lugar donde se insertará el nuevo nodo (nodo terminal). Para ello se recorre un camino desde la raíz hasta el lugar de inserción. La complejidad de este paso es $O(log_2n)$ dado que la altura de un árbol AVL es $O(log_2n)$, siendo $n$ el número de nodos.
 \item Regresar por el camino recorrido en el paso 1 y se ajustan los factores de equilibrio. Si se insertó en el subárbol izquierdo se resta uno al valor del campo $balance$ en cada nodo. Si se insertó por el subárbol derecho se suma uno al valor del campo $balance$. En cada paso de este retorno se pasa información acerca de la variación de la altura del árbol en caso que se incremente. Este paso consume un tiempo de ejecución $O(log_2n)$.
-\item Si existe algún desequilibrio (el campo $balance$ de algún toma el valor $-2$ o $+2$) se debe reorganizar el subárbol que tiene como raíz dicho nodo llamado pivote (el que ocasiona el desequilibrio). La operación de re-balancear se efectúa mediante una secuencia de re-asignación de apuntadores que determinan una o dos rotaciones de dos o tres nodos, además de la actualización de los factores de equilibrio en cada nodo. Este paso es de $O(1)$. Los posibles casos una vez insertado un valor para el campo $balance$ son:
+\item Si existe algún desequilibrio (el campo $balance$ de algún toma el valor $-2$ o $+2$) se debe reorganizar el subárbol que tiene como raíz dicho nodo llamado pivote (el que ocasiona el desequilibrio). La operación de re-equilibrar se efectúa mediante una secuencia de re-asignación de apuntadores que determinan una o dos rotaciones de dos o tres nodos, además de la actualización de los factores de equilibrio en cada nodo. Este paso es de $O(1)$. Los posibles casos una vez insertado un valor para el campo $balance$ son:
 
 \begin{table}[h]
 \centering
@@ -833,7 +841,7 @@ El algoritmo de inserción en un AVL realiza los siguientes pasos:
 \end{table}
 \end{enumerate}
 
-Las celdas marcadas representan aquellos casos donde se debe re-balancear el subárbol partiendo del hecho que el nodo ocasiona el desequilibrio. Para ello se emplearán operaciones conocidad como rotaciones que se explican a continuación.
+Las celdas marcadas representan aquellos casos donde se debe re-equilibrar el subárbol partiendo del hecho que el nodo ocasiona el desequilibrio. Para ello se emplearán operaciones conocidas como rotaciones que se explican a continuación.
 
 \subsection{Rotaciones}
 
@@ -877,6 +885,10 @@ A nivel de implementación se suele manejar 3 apuntadores de la siguiente forma:
   \item Si B es el hijo derecho de A, entonces C es el hijo izquierdo
 \end{itemize}
 \end{description}
+
+Para el caso de la Fig. \ref{fig:AVLRotation1} y \ref{fig:AVLRotation2}, los apuntadores A, B y C corresponden con cada uno de los nodos asociados a esos valores.
+
+Es importante destacar que cuando el caso de Left-Left o Right-Right, el número de nodos afectados es 2 (A y B). Ahora, cuando el caso es Left-Right o Right-Left el número de nodos afectados es 3 (A, B y C).
 
 \subsection{Ejemplo de Insertar}
 
@@ -935,7 +947,6 @@ El orden de inserción es: ``SE", ``PA", ``AL", ``BA", ``OR", ``LE", ``CA", ``LU
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Red-Black}
 
 Al igual que los árboles AVL, un árbol red-black (también llamado rojinegro) es un árbol binario de búsqueda que se auto-equilibra. Para ello, cada nodo tiene un atributo extra llamado color, el cual puede ser negro (\textit{black}) o rojo (\textit{red}). El equilibrio se da pintando cada uno de los nodos del árbol con uno de los dos colores de manera tal que cumpla ciertas propiedades.
@@ -960,14 +971,175 @@ Adicionalmente a las características de un BST, un árbol red-black debe cumpli
 \item La raíz siempre es color negro
 \item Todo nodo terminal (hoja) es color negro, teniendo el valor de NIL. Todas las hojas tienen el mismo color que la raíz
 \item Todo nodo color rojo debe tener dos hijos color negro
-\item Todo camino desde un nodo cualquiera a cualquier de sus hojas descendientes contiene el mismo número de nodos negros
+\item Todo camino desde un nodo cualquiera a cualquier de sus hojas descendientes contiene el mismo número de nodos negros. Al número de nodos negros de un camino se le denomina ``altura negra".
 \end{enumerate}
+
+Estas propiedades permiten asegurar que el camino más largo desde la raíz hasta una hoja no es más largo que dos veces el camino más corto desde la raíz a un nodo terminal. Con esto, el árbol trata de estar lo más equilibrado posible.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Operaciones}
+
+En el peor de los casos, las operaciones de insertar, eliminar y buscar tienen un tiempo de ejecución proporcional a la altura del árbol, $O(logn)$, siendo una mejor opción que un BST. Esto se debe por la propiedad \#4 que hace que ningún camino pueda tener dos nodos rojos seguidos. Así, el camino más corto posible tiene todos sus nodos negros, y el más largo alterna entre nodos rojos y negros. Dado que todos los caminos máximos tienen el mismo número de nodos negros por la propiedad \#5, no hay ningún camino que pueda tener longitud mayor que el doble de la longitud de otro camino.
+
+Los árboles red-black son muy empleados en lenguajes con soporte a programación funcional, donde son una de las estructuras de datos persistentes más comúnmente utilizadas en la construcción de arreglos asociativos y conjuntos que pueden retener versiones previas tras mutaciones. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Heap}
 
+El Heap (o montículo) es un árbol binario complejo o esencialmente completo: todos los niveles están llenos, excepto posiblemente el último, en donde los nodos se encuentran en las posiciones más a la izquierda. Básicamente cuando se insertan los nodos en un heap, los nodos internos se han subido en el árbol lo más posible, con los nodos internos del último nivel empujados hacia la izquierda.
+
+Un heap satisface cierta propiedad de ordenamiento: el elemento almacenado en cada nodo es mayor o igual a los elementos almacenados en sus descendientes. En la Fig. \ref{fig:Heap1} se puede observar un ejemplo de un Heap.
+
+\begin{figure}[htpb!]
+  \begin{center}
+    \includegraphics[width=0.4\textwidth]{images/heap.eps}
+  \end{center}
+  \caption{Ejemplo de un heap representado un árbol binario esencialmente completo.}
+  \label{fig:Heap1}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Operaciones}
+
+Las operaciones básicas de un Heap de pueden resumir como:
+\begin{itemize}
+\item Construir un Heap vacío
+\item Comprobar si un Heap es vacío
+\item Obtener el mayor elemento
+\item Eliminar el mayor elemento
+\item Insertar un elemento
+\end{itemize}
+
+Una buena de representación del heap es empleando un arreglo, donde en cada posición se guarda un elemento basado en la numeración de los nodos del árbol por niveles. El esquema estructural del heap es como se muestra en la Fig. \ref{fig:vectorbinTree} de la sección \ref{lb:treearray}, la única diferencia radica en que dicha imagen no cumple la propiedad de ordenamiento.
+
+En dicho esquema, se almacena el i-ésimo elemento en la i-ésima posición del arreglo. El hijo izquierdo de $i$ en la posición $2 \times i$, el hijo derecho de $i$ en $2 \times i+1$, y el padre de $i$ en $\frac{i}{2}$.
+
+%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Implementación}
+
+Solo se emplea un arreglo y una variable que indica el número de elementos presentes:
+\begin{lstlisting}[upquote=true, language=pseudo]
+class Heap<T>
+private: 
+  const Integer MAX_SIZE = ...
+  Array aHeap of T[1..MAX_SIZE]
+  Integer iSize
+public:
+  Constructor Heap()
+  Destructor Heap()
+  function IsEmpty() : Boolean
+  function GetRoot() : T
+  void Delete()
+  void Insert(T x)
+end
+\end{lstlisting}
+
+La función constructora, la función $IsEmpty$ y $GetRoot$ resultan muy simples con está implementación:
+
+\begin{lstlisting}[upquote=true, language=pseudo]
+Constructor Heap()
+  iSize = 0
+end
+
+function IsEmpty() : Boolean
+  return iSize == o
+end
+
+function GetRoot() : T
+  return aHeap[1]
+\end{lstlisting}
+
+Para ilustrar la operación de eliminar, veamos el árbol de la Fig. \ref{fig:heaptree}.
+
+\begin{figure}[htpb!]
+  \begin{center}
+    \includegraphics[width=0.35\textwidth]{images/heaptree.eps}
+  \end{center}
+  \caption{Heap con seis valores almacenados en un arreglo.}
+  \label{fig:heaptree}
+\end{figure}
+
+Eliminar un elemento consiste en eliminar el máximo elemento del Heap, es decir, el elemento del tope del Heap (la raíz del árbol), valor 77. El procedimiento consiste en extraer el nodo de la última posición del arreglo y colocarlo en la raíz. El último elemento del arreglo corresponde al nodo en el nivel más abajo a la derecha. 
+
+En el caso de la Fig. \ref{fig:heaptree}, dicho valor es 35. La Fig. \ref{fig:heaptree} muestra este proceso y así se obtiene un nuevo Heap.
+
+\begin{figure}[htpb!]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{images/heaptreedel1.eps}
+  \end{center}
+  \caption{Proceso de eliminar el valor de la raíz o el mayor elemento del árbol.}
+  \label{fig:heaptreedel1}
+\end{figure}
+
+Ahora, este nuevo árbol es un ``semi-Heap" porque es esencialmente completo y ambos subárboles de la raíz son Heaps. Sin embargo, la raíz es el único elemento mal ubicado. Por ello se debe cambiar dicho elemento por el mayor de sus hijos. En el ejemplo, el cambio se debe realizar con el valor del subárbol izquierdo $\rightarrow$ 60. La Fig. \ref{fig:heaptreedel2} ilustra este proceso.
+
+\begin{figure}[htpb!]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{images/heaptreedel2.eps}
+  \end{center}
+  \caption{Proceso de eliminar el valor de la raíz o el mayor elemento del árbol.}
+  \label{fig:heaptreedel2}
+\end{figure}
+
+La nueva raíz, valor de 60, es ahora mayor que sus dos hijos, pero no se sabe si el subárbol izquierdo es un Heap. Si es un Heap, entonces se da por finalizada la operación de eliminación. En caso contrario, es necesario volver a repetir el mismo procedimiento. Dicho procedimiento se conoce como down-heap, sift-down o heapify-down (llamado también hundir). Escribiendo la función DownHeap que corresponde con el contenido de Delete se tiene:
+
+\begin{lstlisting}[upquote=true, language=pseudo]
+void DownHeap(Integer iPos)
+  Integer iC = 2 * iPos
+  Boolean bFlag = false
+  while iC <= iSize and not bFlag do
+    if (iC < iSize and aHeap[iC] < aHeap[iC + 1] then
+      iC = iC + 1
+    end
+    if aHeap[iPos] < aHeap[iC] then
+      swap(ref aHeap[iPos], ref aHeap[iC])
+      iPos = iC
+      iC = 2 * iC
+    else
+      bFlag = true
+    end
+  end
+  iSize = iSize - 1
+end
+\end{lstlisting}
+
+Esta implementación es muy simple, existen otras versiones un poco más simplificadas. Lo importante es que la operación $DownHeap$ es de complejidad $O(log_2n)$.
+
+Por su parte, la operación de Insertar aplica el $DownHeap$ en sentido inverso llamado up-heap, sift-up o heapify-up (llamado también flotar). La función de complejidad $O(log_2n)$ se puede escribir como:
+
+\begin{lstlisting}[upquote=true, language=pseudo]
+void UpHeap(Integer x)
+  iSize = iSize + 1
+  aHeap[iSize] = x
+  Integer iPos = iSize
+  Integer iParent = iPos div 2
+  while (iParent >= 1 and aHeap[iPos] > aHeap[iParent]) do
+    swap(ref aHeap[iPos], ref aHeap[iParent])
+	iPos = iParent
+    iParent = iPos div 2
+  end  
+end
+\end{lstlisting}
+
+Además, estas operaciones permiten construir un algoritmo de ordenamiento basado en comparaciones llamado Heapsort. El Heapsort se puede ver como una mejora a Selection Sort donde la entrada se divide en una región ordenada y otra desordenada, y se itera sobre la región no ordenada extrayendo siempre el máximo elemento y moviéndolo hacia la región ordenada. Esta operación en un tiempo de $O(nlogn)$.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ideas Finales}
+
 \begin{itemize}
-\item Además del árbol AVL y red-black existen otros tipos de árboles "auto-equilibrados" como los árboles 2-3, AA, Scapegoat, Splay, Treap y otros más.
+\item Un árbol es una estructura de datos que puede ser definida de forma recursiva como una colección de nodos (desde la raíz) empleando una relación de jerarquía
+\item Dependiendo del número de relaciones de jerarquía que tenga cada nodo del árbol, se dice que un árbol k-ario es aquel que tiene un máximo de $k$ enlaces/relaciones por nodo
+\item Cuando $k=2$ se trata de un árbol binario, en donde cada nodo puede tener hasta dos hijos (derecho e izquierdo).
+\item Un BST o árbol binario ordenado o de búsqueda permite almacenar valores ordenados por una clave lo cual permite su búsqueda recorriendo desde la raíz hacia las hojas realizando comparaciones simples
+\item Tanto el árbol AVL como el red-black son árboles binarios de búsqueda auto-equilibrados con operaciones muy similares por las propiedades de equilibrio que imponen las cuales son distintas. Los árboles AVL están más rígidamente equilibrados que los del tipo red-black
+\item Además del árbol AVL y red-black existen otros tipos de árboles ``auto-equilibrados" como los árboles 2-3, AA, Scapegoat, Splay, Treap y otros más.
 \end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problemas}
+\begin{enumerate}
+\item Usando las primitivas de árboles generales, implemente la operación PodarHojas, la cual consiste en eliminar todos aquellos nodos que son hojas en un árbol.
+\item Se tiene un lenguaje que no permite la recursión, y para simularla emplea una pila en la cual almacena en el caso de los árboles, el camino recorrido desde la raíz hasta el nodo visitado. Se quiere que Ud. realice el algoritmo que permita recorrer un árbol binario (Sin utilizar recursión) en Simétrico.
+\item Defina Árbol Binario de Búsqueda y Árbol Binario de Búsqueda Balanceado (AVL). Establezca similitudes y diferencias desde el punto de vista de Costo en Memoria y Complejidad en Tiempo de las operaciones de acceso y búsqueda.
+\item Para un árbol AVL inicialmente vacío indique detalladamente el estado del árbol a medida que se insertan los valores: 10, 5, 9, 11 y 13. Sobre el árbol final indique su altura y qué se imprime usando un recorrido en Preorder.
+\end{enumerate}

@@ -490,6 +490,10 @@ En este fragmento de código el punto interesante radica sobre la variable $iI$ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Complejidad de Algoritmos Recursivos}
 
+En el cálculo de la complejidad de algoritmo iterativos, su tiempo de ejecución viene dado por el número de operaciones elementales que se ejecutan. Sin embargo, para los algoritmos recursivos existe con una dificultad extra pues la función que establece su tiempo de ejecución viene dada por una ecuación en recurrencia, es decir, $T(n) = F(n)$ en donde en la expresión $F(n)$ aparece la propia función $T$.
+
+Resolver tal tipo de ecuaciones consiste en encontrar una expresión no recursiva de $T$. Por lo general, encontrar dicha función no es tarea sencilla. Veamos un ejemplo de una función recursiva de nombre $LessInArray$ que calcular el menor valor en un arreglo del tipo Integer de forma recursiva.
+
 \begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
 const Integer N = ...
 const Integer MAX_INTEGER = ...
@@ -501,7 +505,7 @@ function LessInArray(Array aArray of Integer[], Integer iN)
     if aArray[iN] < iValue then
       return aArray[iN]
     else
-      return aArray[iN]
+      return iValue
     end
 end
 
@@ -510,6 +514,12 @@ fillArray(ref aArray)	//filled with positive numbers
 Print (LessInArray(aArray, N))
 \end{lstlisting}
 
+Se observa que es un algoritmo simple que recorre desde la posición $N$ del arreglo hasta la posición $1$, haciendo invocaciones con la posición a la cual se va a acceder, $N-1$, $N-2$, $\dots$, $N-k$, $\dots$, $1$.
+
+Haciendo análisis del algoritmo podemos notar que posee una invocación recursiva. Si aislamos dicha instrucción (línea 7), el resto del algoritmo tiene comportamiento constante. Considerando la invocación recursiva, para un tamaño de entrada $N$ se tiene $T(n)$, sin embargo la instrucción hace que la función $T$ se comporte como $T(n) = T(n-1) + c$, donde $c$ es una constante. El tamaño del espacio de búsqueda se reduce en $1$ con respecto a la invocación original (ver la Sección \ref{lb:recursi} sobre invocaciones recursivas) y se hace una operación de asignación de costo constante, $c$.
+
+De esta forma, es posible escribir la función $T(n)$ de la siguiente forma:
+
 \begin{equation}
 T(n) = \left\{
   \begin{array}{l l}
@@ -517,6 +527,8 @@ T(n) = \left\{
     T(n-1) + c_2& \quad \text{si $n \ge 1$}
   \end{array} \right.
  \end{equation}
+ 
+ Cuando $n \le 0$ (línea 4) entonces el valor corresponde a una constante $c_1$ y, en caso de que $n \ge 1$ se corresponde a la invocación recursiva por una ecuación de recurrencia de $T(n)$. En este punto, queda estudiar como es el comportamiento de $T(n)$ cuando $n \ge 0$ dado que el espacio de búsqueda se reduce. Para ello tenemos que:
 
 \begin{eqnarray*}
 T(n)&=&T(n-1) + c_2\\
@@ -526,7 +538,14 @@ T(n)&=&T(n-1) + c_2\\
 &=&T(n-k) + kc_2\\
 \end{eqnarray*}
 
-$n - k = 0 \Rightarrow n = k$
+Es posible sustituir el valor de $T(n - i)$ por la correspondiente función $T$ a $T(n - i - 1) + c_2$, y aplicar este proceso $k$ veces, tal que se obtiene de forma general $T(n - k) + k_c2$.
+
+El número $k$ representa el número de veces que se ejecuta dicho algoritmo, o el número de veces que se realizan invocaciones recursivas. Ahora, ¿para qué interesa conocer el número de veces que se ejecuta?. Al conocer este detalle, y expresando la función $T(n)$ en función de $k$, es posible determinar cuándo terminará de ejecutarse el algoritmo. Así, es importante conocer cuando dicha recurrencia llegará al caso cuando $n \le 0$ y se pueda obtener la complejidad $c_1$ multiplicado por un número $k$ de veces.
+
+Para que $T(n-k)$ sea $T(n=0)$ se debe cumplir que:
+$$n - k = 0 \Rightarrow n = k$$
+
+Tomando este aspecto, es posible re-escribir nuevamente la función de recurrencia y probar con $n-k$ y determinar cuántas veces se ejecutará. Entonces, sustituyendo se tiene que:
 
 \begin{eqnarray*}
 T(n)&=&T(0) + nc_2\\
@@ -534,7 +553,12 @@ T(n)&=&T(0) + nc_2\\
 &\Rightarrow O(n)
 \end{eqnarray*}
 
+La función $T(n)$ arroja que el tiempo de ejecución es $c_1 + nc_2$, por lo tanto, su complejidad es $O(n)$.
+
 \subsection{Clase de Recurrencia}
+
+Existen algunos tipos concretos de ecuaciones en recurrencia que su solución es conocida, que se dan con más frecuencia al estudiar el tiempo de ejecución de los
+algoritmos recursivos\footnote{En este documento no se presenta la clasificación de ecuaciones de recurrencia homogéneas y no homogéneas}. En términos generales, la idea es expresar el valor de una función para un cierto valor $n$ en función de los valores de la función para $n's$ de menor tamaño.
 
 De forma simple, existen dos teoremas que son una solución general para una clase de recurrencia:
 
@@ -583,7 +607,9 @@ T(n) = \left\{
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Ejercicios}
 
-\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+Un ejemplo simple y bien conocido es la búsqueda binario. Se puede escribir la función como:
+
+\begin{lstlisting}[upquote=true, language=pseudo]
 Const Integer N = ...
 Const Integer NOT_FOUND = ...
 Array aArr of Integer [1..N]
@@ -605,13 +631,17 @@ end
 Print(BinarySearch(aArr, iX, 1, N))
 \end{lstlisting}
 
+Examinando el algoritmo, es posible deducir la función $T(n)$ como:
+
 \begin{equation}
 T(n) = \left\{
   \begin{array}{l l}
-    c_1 & \quad \text{si $n = 0$}\\
-    T(n/2) + c_2& \quad \text{si $n \ge 1$}
+    c_1 & \quad \text{si $n \le 1$}\\
+    T(n/2) + c_2& \quad \text{si $n > 1$}
   \end{array} \right.
 \end{equation}
+
+Es importante destacar que en algunos casos, como el algoritmo presentado, es posible separar la condición base y la condición recursiva y así determinar de forma sencilla la forma de $T(n)$. Una vez expresada la función $T(n)$ queda estudiar su comportamiento y expresarla en función del número de veces que se ejecuta, el número de $k$ veces. Realizando este procedimiento por sustitución queda:
 
 \begin{eqnarray*}
 T(n)&=&T(n/2) + c_2\\
@@ -622,21 +652,63 @@ T(n)&=&T(n/2) + c_2\\
 &=&T(n/2^k) + kc_2\\
 \end{eqnarray*}
 
-$2^{k} = n \Rightarrow k = log_2(n)$
+Teniendo la representación general de $T(n)$, queda determinar en qué punto dichas iteraciones alcanzan $n=1$ (cuando $n/2^{k} = 1$). Así se obtiene:
+$$2^{k} = n \Rightarrow k = log_2(n)$$
+
+Sustituyendo en la ecuación original se puede determinar el tiempo $T(n)$ del algoritmo.
 
 \begin{eqnarray*}
 T(n)&=&T(n/n) + log_2(n)\\
 &=&c_1 + log_2(n)c_2 \Rightarrow O(log_2n) \\
-&\Rightarrow O(n)
 \end{eqnarray*}
+
+Finalmente, el orden de complejidad del algoritmo de búsqueda binaria es $O(log_2n)$.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ideas Finales}
+\begin{itemize}
+\item La complejidad de un algoritmo depende del tamaño del problema que se presenta al momento de ser ejecutado
+\item La complejidad hace referencia a cuánto tiempo se tomará en ejecutarse un algoritmo (comportamiento práctico y teórico)
+\item Se estudian tres comportamientos de los algoritmos: peor caso, caso promedio y mejor caso. Para ello se requiere el cálculo de la cantidad de instrucciones que contiene el algoritmo, $T(n)$ y de acuerdo a su comportamiento asintótico obtener el orden $O$
+\item El cálculo de la complejidad de algoritmos recursivos no es una tarea trivial. Por ello, se suele utilizar funciones de recurrencia conocidas con el fin de ajustar el comportamiento de un algoritmo a una de dichas funciones.
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problemas}
 \begin{enumerate}
+\item ¿Bajo qué criterios se considera un algoritmo de orden constante? ¿y de orden polinomial?
+\item Calcule la complejidad del siguiente fragmento de código:
+\begin{lstlisting}[upquote=true, language=pseudo]
+Integer x = 0
+for Integer i = 0 to n do
+  for Integer j = 0 to i do
+    for Integer k = 0 to j*j do
+      x = x + 2
+    end
+  end
+end
+ \end{lstlisting}
+\item Dado un arreglo desordenado de valores del tipo Real, se desea implementar una operación selectora, que dado un parámetro $k$, retorna el valor correspondiente a la posición $k$ del arreglo si este estuviera ordenado (\textbf{sin ordenarlo}). Defina un algoritmo que sea eficiente que dado cierto $k$ y cualquier arreglo, el tiempo de búsqueda sea el mismo. Calcule formalmente la complejidad en tiempo del programa.
 \item Calcule la complejidad del siguiente algoritmo:
-\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+\item Dada la siguiente unidad invocable:
+\begin{lstlisting}[upquote=true, language=pseudo]
+void Beta()
+  Integer  N, X, Y, Z, M
+  X=0; Y=0; Z=0;
+  Read (N)
+  M = 2^N
+  for Integer I = 1 to M do
+    X = X + 1
+    Y = Y + (3 * I)
+    Z = (2*I) + 6 + Z;
+  end
+  Print (X); Print (Y); Print (Z); 
+end
+ \end{lstlisting}
+ Se quiere que calcule la función $T(n)$ asociada a la función Beta y calcule su complejidad. Igualmente, re-escriba el algoritmo para que su complejidad sea $O(1)$. obteniendo los mismos resultados
+ \item Si la complejidad de un algoritmo recursivo tiene el mismo orden de complejidad que su implementación de forma iterativa, ¿el número de iteraciones es igual? ¿el espacio que ocupan en memoria es el mismo?
+ \item Calcule de forma detallada la complejidad para la siguiente función recursiva:
+\begin{lstlisting}[upquote=true, language=pseudo]
 function Epsilon (Integer iN) : Integer
   Integer iX, iI, iJ
   if n <= 1 then return 1
@@ -651,4 +723,17 @@ function Epsilon (Integer iN) : Integer
   end
 end
 \end{lstlisting}
+\item Considere el siguiente algoritmo:
+\begin{lstlisting}[upquote=true, language=pseudo]
+function Weirdo (ref Array a of Integer [ ], Integer prim, Integer ult) : Integer 
+Integer mitad, terc
+  if prim>=ult then 
+    return a[ult] 
+  end
+  mitad =(prim+ult) div 2
+  terc = (ult-prim) div 3
+  return a[mitad] + Weirdo(a, prim, prim+terc) + Weirdo(a, ult-terc,ult)
+end
+\end{lstlisting}
+Se quiere que calcule el tiempo de ejecución de la invocación a la función \textit{Weirdo(ref a,1,N)} suponiendo que $N$ es potencia de 3. De una cota de complejidad para dicho tiempo de ejecución.
 \end{enumerate}
