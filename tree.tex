@@ -775,7 +775,7 @@ Por el motivo anterior, es ideal construir un mecanismo que no permita construir
 \section{AVL}
 
 Un árbol AVL, llamado así por el nombre de sus inventores Georgy \textbf{A}delson-\textbf{V}elsky y Evgenii \textbf{L}andis, es un BST que se ``auto" equilibra, es decir, cuando se inserta o remueve un nodo se aplican operaciones que tratan de mantener el árbol equilibrado. En un árbol AVL, las alturas de los subárboles de cualquier nodo difiere a lo sumo en 1, y en caso de no cumplirse esto se debe re-equilibrar para mantener dicha propiedad. Entonces, en la condición de los árboles AVL se considera un factor de equilibrio (\textit{balance}):
-$balanceFactor = height(left) - height(right)$
+$balance = height(left) - height(right)$
 
 En la Fig. \ref{fig:AVLExample1} se muestra un ejemplo de 3 árboles AVL. El valor dentro de cada nodo (en esta ilustración) representa el factor de equilibrio de cada nodo, donde los valores positivos indican que la altura del subárbol izquierdo es mayor a la altura del subárbol derecho, y nos negativos el caso contrario. El factor de equilibrio 0 significa que ambos subárboles tienen la misma altura. 
 

@@ -26,33 +26,38 @@ Una lista es una colección finita de elementos del mismo tipo, ordenados de acu
 \item Su acceso es de forma secuencial (un elemento seguido de otro)
 \end{itemize}
 
-Mediante una posición dentro de la lista es posible moverse y efectuar operaciones básicas como insertar, eliminar, modificar un elemento. Una clasificación básica de listas puede ser de acuerdo al número de enlaces o conexiones con los otros elementos de la lista. Así, se pueden clasficar en listas simplemente enlazadas (acceso en un solo sentido) o doblemente enlazadas (acceso en ambos sentidos). A continuación se describe cada una de ellas.
+Un tipo List es una estructura flexible que puede crecer y acortarse según se requiera. Mediante una posición dentro de la lista es posible moverse y efectuar operaciones básicas como insertar, eliminar, modificar un elemento, o concatenarse con otras listas. Una clasificación básica de listas puede ser de acuerdo al número de enlaces o conexiones con los otros elementos de la lista. Así, se pueden clasificar en listas simplemente enlazadas (acceso en un solo sentido) o doblemente enlazadas (acceso en ambos sentidos). A continuación se describe cada una de ellas.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Simplemente Enlazada}
+
+Los elementos en una lista están colocados en forma secuencial. Ahora, esto no quiere decir que están contiguos en memoria, de hecho, en estructuras dinámicas los elementos se pueden encontrar dispersos en memoria pero enlazados desde una posición y tener acceso al siguiente elemento.
+
 Para una lista simplemente enlazada, se define una estructura (denominada Node) que almacenará el valor como tal de la estructura homogénea (denominada List), y un enlace al próximo elemento desde dicha estructura Node. Primeramente, se realizará la especificación de una lista sin entrar en detalles de su implementación basado en un conjunto de atributos y métodos dentro de una clase. Luego, se muestra las implementaciones posibles dada dicha especificación.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Especificación}
+
+En una especificación de una estructura de datos se pueden diferenciar dos roles principales: usuario y programador. En el rol de usuario, se emplea la estructura de datos sin conocer cómo está implementado sino empleando los métodos dispuestos en la especificación de la estructura. Ahora, el rol de programador incluye el uso de la estructura según su especificación y la forma como será implementado (i.e. uso de variables, desarrollo de las unidades invocables).
 
 Para la especificación de la lista, se define como atributo un tipo de dato que represente una posición dentro de una lista. Esta posición en su implementación puede ser un tipo Integer, Pointer, entre otros. Así, el tipo List se especifica en la siguiente clase.
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 class List <T>					// definición de una plantilla o template de listas, T indica el tipo de dato
 public:
-    Type <...> tPosition			// tipo de dato posición para desplazarse (sin mostrar la implementación)
+  Type <...> tPosition			// tipo de dato posición para desplazarse (sin mostrar la implementación)
 
-    Constructor List()			// construye la lista vacía ().
-    Destructor List()			//destructor de la clase. Libera la lista de memoria
+  Constructor List()			// construye la lista vacía ().
+  Destructor List()			//destructor de la clase. Libera la lista de memoria
 
-    function IsEmpty() : Boolean		// retorna True si la lista es vacía, y false en caso contrario
-    function First() : tPosition		// retorna la posición del 1er elemento de la lista, o Last() si la lista es vacía
-    function Last() : tPosition		// retorna la posición final de lista (posición después del último)
-    void Next(ref tPosition pValue)	// Pre: pValue != Last().Mueve la posición hacia la posición siguiente de la lista
-    function Get (tPosition pValue): ref T// Retorna la referencia a la información contenida en pValue
-    void Insert (ref T x, tPosition pValue)// Inserta x antes de la posición pValue
-    void Delete (tPosition pValue)	// Pre: pValue!=Last(). Elimina el elemento de pValue. La posición pValue queda						// referenciando a un elemento inexistente
-    function Size() : Integer		// retorna el número de elementos en la lista
+  function IsEmpty() : Boolean		// retorna True si la lista es vacía, y false en caso contrario
+  function First() : tPosition		// retorna la posición del 1er elemento de la lista, o Last() si la lista es vacía
+  function Last() : tPosition		// retorna la posición final de lista (posición después del último)
+  void Next(ref tPosition pValue)	// Pre: pValue != Last().Mueve la posición hacia la posición siguiente de la lista
+  function Get (tPosition pValue): ref T// Retorna la referencia a la información contenida en pValue
+  void Insert (ref T x, tPosition pValue)// Inserta x antes de la posición pValue
+  void Delete (tPosition pValue)	// Pre: pValue!=Last(). Elimina el elemento de pValue. La posición pValue queda						// referenciando a un elemento inexistente
+  function Size() : Integer		// retorna el número de elementos en la lista
 end
 \end{lstlisting}
 
@@ -61,7 +66,9 @@ Nótese que la función Last retorna la posición final o posición disponible a
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Ejemplos}
 
-Dada una lista, imprimir sus elementos
+A continuación una serie de ejemplos donde se utiliza las unidades invocables presentes en el tipo List sin conocer su implementación.
+
+- Dada una lista, imprimir sus elementos
 \begin{lstlisting}[upquote=true, language=pseudo]
 void PrintList(ref List <T> L)
   tPosition tIndex = L.First()
@@ -72,7 +79,9 @@ void PrintList(ref List <T> L)
 end
 \end{lstlisting}
 
-Dada una lista de enteros, asignar el valor de 666 a todos sus elementos
+El algoritmo consiste simplemente en dada la primera posición de la lista, iterar de forma secuencial sobre cada elemento e imprimir su valor.
+
+- Dada una lista de enteros, asignar el valor de 666 a todos sus elementos:
 \begin{lstlisting}[upquote=true, language=pseudo]
 void Change (ref List <Integer> L)
   tPosition tIndex = L.First()
@@ -84,7 +93,9 @@ void Change (ref List <Integer> L)
 end
 \end{lstlisting}
 
-Dada una lista de valores enteros, eliminar todos los elementos que tengan valor mayor a 15
+Siendo muy similar al algoritmo anterior, dado el primer elemento de la lista se itera sobre cada elemento y se emplea la función Insert dada la posición y la constante a añadir.
+
+- Dada una lista de valores enteros, eliminar todos los elementos que tengan valor mayor a 15:
 \begin{lstlisting}[upquote=true, language=pseudo]
 void Delete15 (ref List <Integer> L)
   tPosition tIndex = L.First()
@@ -101,7 +112,9 @@ void Delete15 (ref List <Integer> L)
 end
 \end{lstlisting}
 
-Concatenar dos listas del tipo User llamadas A y B, y dejar el resultado en la lista A
+Esta función busca todas las posiciones que cumplen con la condición $> 15$ y para cada una ``salta" una posición más allá de la actual con el fin de eliminar todos aquellos elementos que cumple dicha condición. Existen algunas consideraciones que se deben tomar en cuenta al momento de su ejecución, pero que dependen de la implementación tal como liberación de la memoria si es dinámica, enlace de los elementos de forma correcta, entre otros.
+
+-Concatenar dos listas del tipo User llamadas A y B, y dejar el resultado en la lista A
 \begin{lstlisting}[upquote=true, language=pseudo]
 void Concat (ref List<User> A, B)
   tPosition tIndex = B.First()
@@ -112,24 +125,45 @@ void Concat (ref List<User> A, B)
 end
 \end{lstlisting}
 
+Al igual que operar sobre un par de arreglos, dada la lista A y a partir de su posición final se anexará cada uno de los elementos que pertenecen a B hasta que no queden elementos en B. Nuevamente, aspectos como no eliminar los elementos de B o el tamaño máximo de elementos de A, son concernientes al programador.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Implementación}
 
-La forma básica de implementar una lista simplemente enlazada es empleando un arreglo unidimensional dinámico, donde a medida que se agreguen o eliminen elementos, el tamaño de la lista se modifica. Una operación de acceso, inserción, eliminación y búsqueda tendrá complejidad $O(n)$, pero con una implementación simple. Otra forma de implementar el tipo List con arreglos, es utilizando es empleando un arreglo de registros, donde cada posición contiene el valor a almacenar (información) y el índice al próximo elemento dentro de la lista. Al mismo tiempo, es posible tener sublistas para definir las próximas posiciones libres u ocupadas del arreglo. A diferencia de la implementación anterior, ésta es estática y se debe definir un tamaño máximo de elementos.
+La forma básica de implementar una lista simplemente enlazada es empleando un arreglo unidimensional dinámico, donde a medida que se agreguen o eliminen elementos, el tamaño de la lista se modifica. Una operación de acceso, inserción, eliminación y búsqueda tendrá complejidad $O(n)$, pero con una implementación simple. Otra forma de implementar el tipo List con arreglos, es empleando un arreglo de registros, donde cada posición contiene el valor a almacenar (información) y el índice al próximo elemento dentro de la lista. Al mismo tiempo, es posible tener sublistas para definir las próximas posiciones libres u ocupadas del arreglo. A diferencia de la implementación anterior, ésta es estática y se debe definir un tamaño máximo de elementos.
 
-En diversos lenguajes de programación existen implementaciones dinámicas de listas como es el caso en C++ empleando la librería STL (i.e. vector), en Java de forma nativa (i.e. Vector), en Python se emplea como un tipo de dato secuencia, entre otros. A continuación, estudiaremos 1 implementación con arreglo y 3 implementaciones de listas simplemente enlazadas con apuntadores. 
-
+En diversos lenguajes de programación existen implementaciones dinámicas de listas como es el caso en C++ empleando la librería STL (i.e. vector), en Java de forma nativa (i.e. Vector), en Python se emplea como un tipo de dato secuencia, entre otros. A continuación, estudiaremos diversas implementaciones . 
 
 \paragraph{Implementación con arreglos}
+
+Para la implementación con arreglos se asume que existe un tamaño máximo o que se modifica de forma dinámica. Ahora, el punto importante es que para cada posición dentro del arreglo se debe conocer cuál es el próximo elemento dada una posición. 
+
+De este modo, la Fig. \ref{fig:listarray} muestra un ejemplo de una posible distribución del tipo List empleando arreglos.
+
+\begin{figure}[htpb!]
+  \begin{center}
+    \includegraphics[width=0.5\textwidth]{images/listarray.eps}
+  \end{center}
+  \caption{Ejemplo de representación de una lista simplemente enlazada empleando arreglos.}
+  \label{fig:listarray}
+\end{figure}
+
+La Fig. \ref{fig:listarray} es un instante de tiempo en durante la ejecución de la estructura. En esta implementación se consideran dos posiciones claves que son la primera posición libre y la primera posición ocupada. Se debe mantener un arreglo del tipo Position, y otro donde se almacena el tipo de dato de la lista.
+
+En el ejemplo, la primera casilla ocupada está en la posición 2 correspondiente al valor (tInfo)  'A'. Desde allí, el próximo campo ocupado (Next) se encuentra en el valor que indica el arreglo de ocupados, es decir, la posición 6. La posición 6 corresponde al valor 'B'., luego a la posición 1 para el valor 'C', y finalmente el último valor está en la posición 5 correspondiente a 'D'. El próximo elemento ocupado desde 'D' corresponde al valor de 0, este valor indica la finalización de la lista.
+
+De forma similar ocurre con la primera posición libre en la posición 4, la segunda libre será la posición 3, luego la posición 7 y ésta será la última para dicho arreglo.
 
 \paragraph{Implementación con apuntadores}
 
 En este caso, tenemos un conjunto de nodos enlazados mediante el campo denominado pNext. Por otro lado, la lista contendrá a un apuntador al primer elemento de dicha lista y el valor pNext del último nodo apunta a NIL. En esta versión las operaciones de Insertar y Eliminar son de complejidad $O(n)$.
 
+En la Fig. \ref{fig:listas} se muestra de forma visual la representación de una lista simplemente enlazada. Se nota que el inicio de la lista está indicada por el apuntador $pFirst$, de allí el nodo con $tInfo = e_1$ indica el siguiente elemento de la lista a través del campo $pNext$ hasta llegar al final de la lista. Empleando apuntadores, el final de la lista se ubica cuando el próximo es NIL (representado por el símbolo $\backslash \backslash$ en la figura.
+
 \begin{figure}[!htpb]
 \centering
 \includegraphics[scale=.7]{images/listas.eps}
-\caption{Listas.}
+\caption{Representación visual de una estructura de lista simplemente enlazada empleando apuntadores.}
 \label{fig:listas}
 \end{figure}
 
@@ -218,9 +252,7 @@ public:
 end
 \end{lstlisting}
 
-<HACER IMAGEN DE INSERTAR>
-
-Es posible lograr la operación de inserción y eliminación de complejidad O(1) si se cuenta con un puntero al nodo anterior. Del mismo modo, si se contará con un puntero al nodo de atrás es posible hacer el recorrido en ambos sentidos (ver sección \ref{lb:dobleenlazada}.
+Es posible lograr la operación de inserción y eliminación de complejidad O(1) si se cuenta con un puntero al nodo anterior. Del mismo modo, si se contará con un puntero a los nodos anteriores es posible hacer el recorrido en ambos sentidos (ver sección \ref{lb:dobleenlazada}.
 
 \paragraph{Implementación con apuntadores y nodo cabeza}
 
@@ -311,7 +343,7 @@ end
 
 \paragraph{Implementación eficiente con apuntadores}
 
-En la primera implementación con apuntadores todas las operaciones son $O(1)$ a excepción de las funciones Insert y Delete. Para lograr que estas operaciones sean $O(1)$, se debe empleará como posición la dirección del campo pNext del nodo anterior. Dado que el primer nodo no posee un nodo anterior, se emplea la dirección de pFirst. De esta manera, no se buscará al nodo anterior en la inserción y eliminación ya que se referenciará al campo pNext del nodo anterior. Así, todas las operaciones son $O(1)$ a excepción de Last() porque ésta debe retornar el apuntador al campo pNext del último nodo (o la dirección de pFirst) de complejidad $O(N)$ en el peor de los casos. Para evitar ello, se introduce un atributo apuntador para el último campo pNext como atributo de la lista, el cual posiblemente deba actualizarse durante la operación de inserción y eliminación.
+En la primera implementación con apuntadores todas las operaciones son $O(1)$ a excepción de las funciones Insert y Delete. Para lograr que estas operaciones sean $O(1)$, se debe emplear como posición la dirección del campo pNext del nodo anterior. Dado que el primer nodo no posee un nodo anterior, se emplea la dirección de pFirst. De esta manera, no se buscará al nodo anterior en la inserción y eliminación ya que se referenciará al campo pNext del nodo anterior. Así, todas las operaciones son $O(1)$ a excepción de Last() porque ésta debe retornar el apuntador al campo pNext del último nodo (o la dirección de pFirst) de complejidad $O(N)$ en el peor de los casos. Para evitar ello, se introduce un atributo apuntador para el último campo pNext como atributo de la lista, el cual posiblemente deba actualizarse durante la operación de inserción y eliminación.
 \begin{lstlisting}[upquote=true, language=pseudo]
 class Node <T>
 public:
@@ -412,7 +444,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Doblemente Enlazada} \label{lb:dobleenlazada}
 
-La idea central de una lista doblemente enlazada es mantener una relación de conectividad de cada elemento de la lista con el elemento próximo y anterior. Así, es posible recorrer la lista en ambos sentidos: desde el inicio al final, y del final al inicio. Para ello se requiere de una marca de finalización para cada recorrido. Para ello se emplea una función denominada End que sirve como parada cuando se recorre desde el inicio al final, y otra función llamada Start que es cuando se recorre en sentido inverso. Del mismo modo, se permiten las operaciones de PreInsert y PostInsert debido a que será posible insertar antes y después de una posición dada.
+La idea central de una lista doblemente enlazada es mantener una relación de conectividad de cada elemento de la lista con el elemento próximo y anterior. Entonces, es posible recorrer la lista en ambos sentidos: desde el inicio al final, y del final al inicio. Para ello se requiere de una marca de finalización para cada recorrido. Para dicha marca se emplea una función denominada End que sirve como parada cuando se recorre desde el inicio al final, y otra función llamada Start que es cuando se recorre en sentido inverso. Del mismo modo, se permiten las operaciones de PreInsert y PostInsert debido a que será posible insertar antes y después de una posición dada.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Especificación}
@@ -425,20 +457,20 @@ public:
     Type <...> tPosition			// tipo de dato posición para desplazarse (no se muestra la implementación)
 
     Constructor ListDouble ()		// construye la lista vacía ()
-    Constructor ListDouble (ref List <T> lSource)  // Constructor de copia, copia lSource en la lista a construir 
+    Constructor ListDouble (ref List <T> lSource)  // constructor de copia
     Destructor ListDouble ()		// destructor de la clase. Libera lavlc lista de memoria
 
     function IsEmpty() : Boolean		// retorna True si la lista es vacía, y false en caso contrario
-    function Start() : tPosition		// retorna la posición del inicio de la lista (posición previo al primero)
-    function First() : tPosition		// retorna la posición del 1er elemento de la lista, o Last() si la lista es vacía
-    function End() : tPosition		// retorna la posición final de la lista (posición después del último) 
+    function Start() : tPosition		// retorna la posición del inicio de la lista (previo al primero)
+    function First() : tPosition		// retorna la posición del 1er elemento de la lista
+    function End() : tPosition		// retorna la posición final de la lista (después del último) 
     function Last() : tPosition		// retorna la posición del último elemento de la lista
-    void Next(ref tPosition pValue)	// Pre: pValue!= End().Mueve la posición hacia la posición siguiente de la lista
-    void Prev(ref tPosition pValue)	// Pre: pValue!= Start(). Mueve la posición hacia la posición previa de la lista
+    void Next(ref tPosition pValue)	// Pre: pValue!= End()
+    void Prev(ref tPosition pValue)	// Pre: pValue!= Start()
     function Get (tPosition pValue): ref T// Retorna la referencia a la información contenida en pValue
-    void PreInsert (ref T x, tPosition pValue)// Pre: pValue!= Start().Inserta x antes de la posición pValue. 
-    void PostInsert (ref T x, tPosition pValue)// Pre: pValue!= End().Inserta x después de la posición pValue. 
-    void Delete (tPosition pValue)	// Pre: pValue es una posición válida. Elimina el elemento de posición pValue.
+    void PreInsert (ref T x, tPosition pValue)// Pre: pValue!= Start().Inserta x antes de  pValue. 
+    void PostInsert (ref T x, tPosition pValue)// Pre: pValue!= End().Inserta x después de pValue. 
+    void Delete (tPosition pValue)	// Pre: pValue es válida. Elimina el elemento de posición pValue.
     function Size() : Integer		// retorna el número de elementos en la lista
 end
 \end{lstlisting}
@@ -446,7 +478,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Ejemplos}
 
-Imprimir los elementos de una lista en orden inverso 
+Una serie de ejemplos del uso de la especificación de la clase ListDouble.
+
+- Imprimir los elementos de una lista en orden inverso 
 \begin{lstlisting}[upquote=true, language=pseudo]
 void PrintList(ref ListDouble <Integer> L) 
     tPosition tIndex = L.Last()
@@ -457,7 +491,9 @@ void PrintList(ref ListDouble <Integer> L)
 end
 \end{lstlisting}
 
-Eliminar los últimos 3 elementos de la lista de enteros
+En este algoritmo se comienza desde la posición del último elemento (Last) y se itera con la función Prev hasta llegar a Start. Es importante destacar que la condición de parada es Start y no First (First representa al 1er elemento de la lista).
+
+- Eliminar los últimos 3 elementos de la lista de enteros
 \begin{lstlisting}[upquote=true, language=pseudo]
 void Delete3(ref ListDouble <Integer> L) 
     tPosition tIndex = L.Last(), tTemp
@@ -467,22 +503,28 @@ void Delete3(ref ListDouble <Integer> L)
         L.Prev(ref tTemp)
         L.Delete(tIndex) 
         tIndex = tTemp 
-        iCont = iCont+1
+        iCont = iCont + 1
     end
 end
 \end{lstlisting}
+
+Nuevamente, empezando desde la última posición y hasta llegar al inicio, se cuentan 3 elementos y son eliminados de la lista doblemente enlazada.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Implementación}
 
 De forma similar que las listas simplemente enlazadas, existen diversas implementaciones de las listas doblemente enlazadas: empleando arreglos y apuntadores. Un aspecto relevante es la posibilidad de particularizar la estructura de datos para resolver problemas específicos. Por ejemplo, buscar en un rango ordenado de valores de forma eficiente un valor; representar los lugares de una mesa redonda como una lista circular (caso particular de lista doblemente enlazada); o emplear múltiples apuntadores dentro de una lista para crear sub-listas (una lista de enteros donde se ordenen los números pares e impares como sublistas de ésta).
 
+En la Fig. \ref{fig:listas2} se muestra una representación de una estructura ListDouble empleando apuntadores. En ella, existen dos apuntadores principales pFirst y pLast. Al mismo tiempo, en cada nodo existen 2 apuntadores que van a permitir el recorrido en ambos sentidos: pNext y pPrev.
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=.7]{images/listas2.eps}
-\caption{Listas.}
+\caption{Representación visual de una estructura de lista simplemente enlazada empleando apuntadores.}
 \label{fig:listas2}
 \end{figure}
+
+Es posible que una lista con enlaces no solo tenga una conexión con el nodo anterior y con el previo, sino que requiera conectarse con otro nodo de forma ``salteada" de acuerdo ala naturaleza del problema. Por ello, a continuación se muestra las listas multienlazadas o con múltiples enlaces.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Lista Multienlazada}
