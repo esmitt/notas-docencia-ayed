@@ -454,7 +454,7 @@ Por la regla del producto, el $T(n)$ de la función BubbleSort consiste en calcu
 
 Los siguientes algoritmos se presentan como buenos ejercicios para su cálculo de complejidad de algoritmos iterativos. Estos se presentan como fragmentos de código, ignorando en qué contexto son ejecutados (i.e. unidades invocables).
 
-\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+\begin{lstlisting}[upquote=true, language=pseudo]
 Integer n, iX = 0
 Read(n)
 for Integer iI = 0 to iN do
@@ -468,7 +468,7 @@ end
 
 El algoritmo anterior tiene una complejidad de $O(n^{5})$. Considere que el valor límite del segundo ciclo es $iI^{2}$ el cual pertenece al primer ciclo que va desde el valor $0$ hasta $n$ (variable $iN$).
 
-\begin{lstlisting}[upquote=true, language=pseudo, numbers=left]
+\begin{lstlisting}[upquote=true, language=pseudo]
 for Integer iI = 0 to iN-1 do
   Integer iJ = 0
   while iI < iN do

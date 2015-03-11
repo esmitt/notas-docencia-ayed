@@ -534,10 +534,10 @@ Una lista multienlazada o n-enlazada tiene como característica que sus nodos co
 De este modo, las listas doblemente enlazadas son un caso particular de listas multienlazadas donde:
 \begin{enumerate}
 \item Cada nodo tiene 2 identificadores de tipo Pointer
-\item Los punteros son exactamente inversos una de otra
+\item Los apuntadores son exactamente inversos una de otro
 \end{enumerate}
 
-Así, es una lista multienlazada cada nodo puede tener cualquier cantidad de punteros a otros nodos que pueden formar diversas estructuras o no. Por ejemplo, dada una lista de personas enlazada entre sí de dos maneras:
+Así, en una lista multienlazada cada nodo puede tener cualquier cantidad de apuntadores a otros nodos que pueden formar diversas estructuras o no. Por ejemplo, dada una lista de personas enlazada entre sí de dos maneras:
 \begin{enumerate}
 \item Ordenada alfabéticamente por el primer apellido
 \item Ordenada ascendentemente por su documento de identidad
@@ -581,7 +581,7 @@ public:
 end
 \end{lstlisting}
 
-En el caso de emplear dos punteros para cada lista, la definición queda como:
+En el caso de emplear dos apuntadores para cada lista, la definición queda como:
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 class ListPerson
@@ -667,7 +667,7 @@ En cambio empleando una representación de tipo matriz esparcida, se define como
   \begin{center}
     \includegraphics[width=0.85\textwidth]{images/sparse.png}
   \end{center}
-  \caption{Ejemplo de representación de una matriz de $50 \times 50$.}
+  \caption{Ejemplo de representación de una matriz de $50 \times 50$ en una matriz esparcida.}
   \label{fig:sparse}
 \end{figure}
 
@@ -688,7 +688,7 @@ Esto indica que aMatrixSparse es solo una quinta parte de aMatrix en espacio en 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Implementación}
 
-La forma clásica de implementar una estructura Sparse Matrix es empleando punteros para la definición de los elementos que la conformará. A continuación se muestra una posible representación implementada con punteros.
+La forma clásica de implementar una estructura Sparse Matrix es empleando apuntadores para la definición de los elementos que la conformará. A continuación se muestra una posible representación implementada con apuntadores.
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 class Node <T>
@@ -746,11 +746,13 @@ Por otro lado en implementaciones de matrices esparcidas, las operaciones de ins
 
 Es una estructura de datos representado como un conjunto de elementos ordenados, donde el acceso a cada uno de sus elementos es en orden inverso a como se han agregado. El tipo Stack, sigue el esquema LIFO (\textit{last in first out}) donde el último en entrar (ser insertado en la estructura) será el primero en salir o ser tratado para almacenar y recuperar datos. Hay múltiples ámbitos donde se utilizan este tipo pila como estructura de datos debido su simplicidad y orden implícito. (e.g. la pila de ambientes de programas, simulación de una pila de libros o una mano de cartas, almacenar expresiones en notación polaca, etc.). En todo momento, solamente se tiene acceso a la parte superior de la pila (tope).  Para el manejo de los datos, las operaciones actúan sobre el tope de la pila: colocar un objeto (push/apilar) y su operación inversa, retirar el último elemento apilado (pop/desapilar).
 
+La Fig. \ref{fig:stack1} se observa de forma gráfica un tipo Stack. Se puede ver que existe un tope y una base, donde los elementos entran a la pila por el tope y el primer elemento insertado siempre formará la base.
+
 \begin{figure}[htp!]
   \begin{center}
     \includegraphics[width=0.35\textwidth]{images/stack.eps}
   \end{center}
-  \caption{Ejemplo de representación de una matriz de $50 \times 50$.}
+  \caption{Representación gráfica del tipo Stack.}
   \label{fig:stack1}
 \end{figure}
 
@@ -765,7 +767,7 @@ public:
   Constructor Stack()	//construye la pila vacía.
   Destructor Stack()	//destruye la pila.
   function IsEmpty() : Boolean	//indica si la pila está vacía o no
-  void Push(ref T x)	//agrega un nuevo elemento al tope de la pila. Se asegura que posteriormente Top()==x
+  void Push(ref T x)	//agrega un nuevo elemento al tope de la pila. Ssegura que  Top()==x
   void Pop()	//precondición: la pila no puede estar vacía. Elimina el elemento del tope
   function Size() : Integer		//devuelve el \# de elementos en la pila
   function Top() : T	//precondición: la pila no puede estar vacía y retorna la información del tope
@@ -777,14 +779,12 @@ end
 
 \paragraph{Implementación reutilizando la clase List}
 
-Empleando el mecanismo de herencia, se puede implementar una pila basado en superclase lista pero con una
- limitada cantidad de operaciones. Se emplea la herencia del tipo private para que todos los miembros
- protected y public de la clase List sean privados dentro de la subclase Stack y no puedan ser invocados directamente. 
+Empleando el mecanismo de herencia, se puede implementar una pila basado en superclase lista aplicando todas las operaciones definidas en su especificación. Se emplea la herencia simple, donde todos los miembros públicos de la clase List serán privados dentro de la subclase Stack. 
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 class Stack <T> inherited List <T>
 public:
-  Constructor Stack()	//se construye la pila vacía. El constructor de la superclase es invocada implícitamente
+  Constructor Stack()	//construye la pila vacía. El const. de la superclase es invocada implícitamente
     //se puede invocar a this.List() pero no es necesario
   end
 
@@ -875,6 +875,8 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Algoritmos}
 
+A continuación una serie de algoritmos sencillos para demostrar el uso del tipo Stack.
+
 \subsubsection{Paréntesis}
 
 El problema de la paréntesis consiste en verificar que una secuencia de paréntesis sea correcta en al abrir-cerrar, es decir, se consideran correctos (()), [{}], {()[]} dado que para símbolo de paréntesis de apertura siempre tendrá su equivalente de cierre (basado en agrupamiento). Se consideran incorrectos los siguientes por ejemplo (()(, [[)]] ([)] entre otros.
@@ -883,11 +885,11 @@ El problema de la paréntesis consiste en verificar que una secuencia de parént
 function Parenthesis(String strText, Integer iN) : Boolean
   Stack<Char> S
   for Integer iK = 1 to iN do
-    if strText[ik] == '(' then
-      S.Push('(')
+    if strText[ik] == '(' or strText[ik] == '[' or strText[ik] == '{' then
+      S.Push(strText[ik])
     elseif S.IsEmpty() then
       return false
-    else
+    else 	//verificar o no que sea ')', ']' o '}'
       S.Pop()
     end
   end
@@ -899,8 +901,11 @@ if Parenthesis(strText, 8) then
 end
 \end{lstlisting}
 
+La estructura de la pila garantiza que si no está vacía al final del algoritmo entonces no están colocados los paréntesis correctamente. Del mismo modo, si la pila llega a estar vacía antes de finalizar, entonces tampoco es incorrecto también.
+
 \subsubsection{Notación PostFija}
 
+La notación postfija o notación polaca inversa (\textit{Reverse Polish Notation} - RPN) es un método algebraico alternativo de representación de datos de entrada. En la RPN cada operador está antes de sus operandos, por ejemplo 3 4 + representa 3 + 4.
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 function IsDigit(Char cValue) : Boolean
@@ -945,8 +950,7 @@ Print (RPN("59+2*", 5))		//output: 28
 
 \subsubsection{Invertir Pila}
 
-Utilizando únicamente las primitivas de la clase Stack, se quiere que Ud. desarrolle un procedimiento que dada una pila S, la invierta. No debe utilizar estructuras auxiliares
-
+Utilizando únicamente las primitivas de la clase Stack, la idea es invertirla \textbf{sin utilizar} estructuras auxiliares. Este problema se basa en el hecho de aprovechar que las invocaciones recursivas se comportan como una pila de estados y permiten guardar en cada estado, una serie de variables.
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 void InsertEnd(ref Stack<Integer> S, Integer iValue)
@@ -976,17 +980,24 @@ void PrintStack(Stack S)
   end
 end
 
-Print (RPN("59+2*", 5))		//output: 28
+Stack<Integer> sValues
+fillWithSomeValues (ref sValues)	//asignarle valores
+PrintStack(sValues)		//i.e. 8 6 3 5 2 7 9
+Reverse(ref sValues)
+PrintStack(sValues)		//i.e. 9 7 2 5 3 6 8
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Recursión} \label{sec:recstack}
 
-Es posible emplear una estructura de pila para simular los ambientes de programas recursivos (recursión simple/múltiple/anidada/indirecta). La idea consiste en apilar los resultados obtenidos en un ambiente, para luego combinarlos (extracción del tope) con una operación actual en cierto estado recursivo. De esta forma, es posible simular un algoritmo recursivo de forma iterativa empleando una pila para almacenar los resultados de cada ambiente “recursivo”.
+Es posible emplear una estructura de pila para simular los ambientes de programas recursivos (recursión simple/ múltiple/ anidada/ indirecta). La idea consiste en apilar los resultados obtenidos en un ambiente, para luego combinarlos (extracción del tope) con una operación actual en cierto estado recursivo. De esta forma, es posible simular un algoritmo recursivo de forma iterativa empleando una pila para almacenar los resultados de cada ambiente “recursivo”.
 
 Veamos un ejemplo simple con la función Factorial:
 
 \textbf{Versión Iterativa}
+
+Su versión clásica iterativa sirve como guía.
+
 \begin{lstlisting}[upquote=true, language=pseudo]
 function Factorial(Integer iN) : Integer
   Integer iResult = 0
@@ -1000,6 +1011,9 @@ end
 \end{lstlisting}
 
 \textbf{Versión que simula la recursión}
+
+Una forma de simularla es añadiendo todos los valores y con los valores, ir extrayéndolos uno a uno y calcular el valor del factorial.
+
 \begin{lstlisting}[upquote=true, language=pseudo]
 function Factorial(Integer iN) : Integer
   Integer iResult = 1
@@ -1016,7 +1030,8 @@ function Factorial(Integer iN) : Integer
 end
 \end{lstlisting}
 
-Otra forma de plantear la recursión con pila del mismo ejemplo es:
+Otra forma de plantear la recursión con pila del mismo ejemplo es insertar solo el primer elemento antes de iniciar un ciclo en donde mientras no sea vacío calcular el valor deseado. Luego, si aún quedan datos por procesar, volver a apilar y se repite el proceso:
+
 \begin{lstlisting}[upquote=true, language=pseudo]
 function Factorial(Integer iN) : Integer
     Integer iResult = 1
@@ -1040,11 +1055,13 @@ end
 
 Es una estructura de datos representada como una lista ordenada donde el acceso a sus elementos se realiza desde un extremo de ésta. Una cola sigue el esquema FIFO (\textit{first in first out}) donde el primer elemento en ser agregado será el primero en ser removido o tratado para almacenar y recuperar datos. En una cola existe la definición de \textit{back} (por donde se insertan los elementos) y \textit{front} (por donde se extraen). El proceso de añadir un elemento se conoce como encolar (queue) y el proceso inverso desencolar (dequeue). En muchos problemas se utilizan colas: cola en una taquilla, cola de impresión, cola de transacciones bancarias en software, cola de autos, etc.
 
+La Fig. \ref{fig:queue} muestra la forma del tipo Queue donde se aprecia el Back (por donde se insertan los elementos) y Front (por donde se extraen los elementos).
+
 \begin{figure}[htp!]
   \begin{center}
     \includegraphics[width=0.35\textwidth]{images/queue.eps}
   \end{center}
-  \caption{Ejemplo de representación de una matriz de $50 \times 50$.}
+  \caption{Representación gráfica del tipo Queue.}
   \label{fig:queue}
 \end{figure}
 
@@ -1074,7 +1091,7 @@ Al igual que la clase Stack, es posible implementar la clase Queue como una clas
 
 \paragraph{Implementación reutilizando la clase List}
 
-Empleando el mecanismo de herencia, se puede implementar una pila basado en superclase lista pero con una limitada cantidad de operaciones. Se emplea la herencia del tipo private para que todos los miembros protected y public de la clase List sean privados dentro de la subclase Queue y no puedan ser invocados directamente.
+Empleando el mecanismo de herencia, se puede implementar una pila basado en superclase lista que implemente todas las operaciones del tipo Queue empleando herencia simple.
 
 \begin{lstlisting}[upquote=true, language=pseudo]
 class Queue <T> inherited List <T>
@@ -1190,7 +1207,7 @@ Una estructura de cola doblemente terminada, o abreviada como deque (double-ende
   \begin{center}
     \includegraphics[width=0.35\textwidth]{images/deque.eps}
   \end{center}
-  \caption{Ejemplo de representación de una matriz de $50 \times 50$.}
+  \caption{epresentación gráfica del tipo Deque.}
   \label{fig:deque}
 \end{figure}
 
@@ -1201,16 +1218,16 @@ La implementación común de una estructura deque es empleando una arreglo diná
 %%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Tipo Priority Queue}
 
-Una cola de prioridad (priority queue) es una estructura de datos muy similar a una lista pero cada elemento tiene una prioridad asociada. En una cola de prioridad, el elemento con más alta prioridad es manejado/procesado antes que un elemento de prioridad baja. Si existen dos elementos con prioridades iguales, entonces se procesa de acuerdo al orden de la cola.
+Una cola de prioridad (\textit{priority queue}) es una estructura de datos muy similar a una lista pero cada elemento tiene una prioridad asociada. En una cola de prioridad, el elemento con más alta prioridad es manejado/procesado antes que un elemento de prioridad baja. Si existen dos elementos con prioridades iguales, entonces se procesa de acuerdo al orden de la cola.
 
-Una implementación usual es con un heap. (esto si quieren no lo mencionen dado que a nivel conceptual son distintos!). Igualmente, la inserción dentro de una cola de forma ordenada, O(n), es una opción válida para la explicación.
+Una implementación usual es con un heap (ver sección \ref{lb:heap}) donde se permite extraer el elemento de mayor prioridad en $O(1)$.
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Tipo Associative Array}
 
-Es una estructura de datos que almacena un par clave-valor (key-value), donde la clave representa un identificador (generalmente único) y el valor consiste en el dato a almacenar. También se conoce como map, tabla de símbolos ó diccionario. Un arreglo asociativo se considera una colección donde siempre se añaden y remueven elementos del tipo clave-valor. Igualmente, es posible modificar el valor de un elemento de la colección dada la clave. Así, existe una forma de direccionamiento de una posición de la colección dada una clave (lookup).
+Es una estructura de datos que almacena un par clave-valor (\textit{key-value}), donde la clave representa un identificador (generalmente único) y el valor consiste en el dato a almacenar. También se conoce como map, tabla de símbolos ó diccionario. Un arreglo asociativo se considera una colección donde siempre se añaden y remueven elementos del tipo clave-valor. Igualmente, es posible modificar el valor de un elemento de la colección dada la clave. Así, existe una forma de direccionamiento de una posición de la colección dada una clave (lookup).
 
-Una implementación usual es con una tabla hash. (esto si quieren no lo mencionen!)
+Una implementación usual es con una tabla hash\footnote{Un hash table emplea una función de hash para calcular el índice dentro de un arreglo de buckets o slots desde donde puede ser ubicado/almacenado cada elemento.} ya que permite una correspondencia (\textit{mapping}) entre valores y claves.
 
 La utilidad de estructuras de arreglos asociativos deriva básicamente en el almacenamiento de datos basados en operaciones de búsqueda, eliminación e inserción. Las operaciones comunes en este tipo de estructura son:
 \begin{itemize}
@@ -1237,17 +1254,25 @@ Un conjunto (set) es un tipo de dato que almacena valores sin un orden en partic
 Un conjunto puede ser de cualquier tipo de dato e implementado de forma contigua en memoria (arreglos) o de forma dispersa (apuntadores). Las operaciones básicas de una estructura conjunto se pueden resumir en: isEmpty, size, insert, delete, add y elementOf.
 Existe una estructura de datos llamada multiset o bag la cual es una generalización del tipo set. La diferencia radica en que permite repetir valores. De esta forma, es posible considerar dos elementos iguales como un solo elemento y manteniendo un contador de dicho elemento ó considerados equivalentes y almacenarlos de forma distinta y única. Dependiendo de la implementación de conjunto, se pueden establecer relaciones de equivalencia dentro de los conjuntos. 
 
-Una implementación usual es con tablas hash o árboles. (esto si quieren no lo mencionen!)
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ideas Finales}
 
 \begin{itemize}
-\item idea 1
-\item idea 2
-\item idea 3
-\item idea 4
+\item La estructura dinámica ofrece una ventaja sobre las estructuras estáticas porque permite expandir o reducir en tiempo de ejecución el número y tamaño que ocupan sus elementos
+\item Las operaciones que se realizan sobre los tipos de datos dinámicos resultan más complejos que su contraparte estática
+\item Básicamente, el tipo List, Stack, Queue y sus derivados ofrecen un orden entre sus elementos tal que imponen restricciones de cómo acceder, insertar o eliminar dichos valores
+\item De forma general, es posible implementar diversas estructuras de datos basados en el tipo List. Adicionalmente, el uso de apuntadores ofrece una flexibilidad que se puede adecuar al problema a resolver
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problemas}
+
+\begin{enumerate}
+\item Las listas enlazadas son por definición estructuras de datos homogéneas (es decir, todos sus nodos almacenan elementos del mismo tipo y estructura). ¿Eso es totalmente cierto?, es decir, ¿Sería posible tener una lista que almacene elementos diferentes en cada uno de sus nodos (tanto en tipo como en estructura)? Justifique su respuesta
+\item Implemente una lista basada en arreglos que simule una lista circular de caracteres con $n$ posiciones y dados dos enteros $m$ e $i$, imprima $m$ valores a partir de la posición $i$. 
+\item Dada un tipo Sparse Matrix $M$, elabore un algoritmo que imprima los elementos de la diagonal principal si estos están presentes
+\item Dada una pila, se desea conocer el promedio de los elementos que ella almacena. Como restricción la pila puede ser recorrida una sola vez.
+\item ¿Cuál sería la utilidad de una cola que contenga el método BeTheFirst, que permite colocar un elemento al inicio de la cola?
+\item Una cola medieval se comporta como una cola ordinaria, con la única diferencia de que los elementos almacenados en ella se dividen en dos grupos: nobles y plebeyos. Dentro de cada grupo, los elementos deben ser atendidos en orden de llegada; pero siempre que haya nobles en la cola, estos deben ser atendidos antes que los plebeyos. Implemente una cola medieval heredando de una cola normal, pero sobrescribiendo el método Enqueue.
+\item Diseñe un algoritmo que, dado el esquema de prelación de las materias de la carrera Computación y el código de una materia, imprima un listado con todas las asignaturas que tengan prelación a una materia dada, en orden cronológico
+\end{enumerate}

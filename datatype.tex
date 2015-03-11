@@ -236,7 +236,7 @@ Un tipo Pointer se refiere a valores que hacen referencia otro valor almacenado 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Ejemplo de declaraciones}
 
-En la tabla \ref{tab:palabra} se muestra una comparación en la declaración de los distintos tipo de dato simple.
+En la tabla \ref{tab:tipodata} se muestra una comparación en la declaración de los distintos tipo de dato simple.
 
 \begin{center}
 \begin{table}[h]
@@ -252,7 +252,7 @@ Enum         & Enum eValue = {[}N, S, E, W{]}           & enum eValue \{N, S, E,
 Pointer      & Integer * pValue                         & int * pValue;                         & \multicolumn{1}{c}{N/A}                  \\ \hline
 \end{tabular}
 \caption{Ejemplo comparativo de algunas definiciones de los tipos simples en la notación Alpha, C/C++ y Java.}
-\label{tab:palabra}
+\label{tab:tipodata}
 \end{table}
 \end{center}
 
@@ -515,7 +515,7 @@ pp = new Point
 *pInt = 100
 \end{lstlisting}
 
-Una posible representación del código anterior se puede observar en la Fig. \ref{fig:pointer} donde se muestra que tanto la variable pInt y pp ocupan un espacio de memoria pero almacenan la dirección, apuntan a, o guardan la referencia de la dirección de memoria de los datos 100 y (4,6) respectivamente.
+Una posible representación del código anterior se puede observar en la Fig. \ref{fig:pointer} donde se muestra que tanto la variable pInt y pp ocupan un espacio de memoria pero almacenan la dirección, apuntan a, o guardan la referencia de la dirección de memoria de los datos 100 y \{4,6\} respectivamente.
 
 \begin{figure}[!htb]
 \centering
@@ -547,7 +547,7 @@ En caso que User contenga a su vez atributos de tipo apuntador que hayan solicit
 Los datos que fueron creados con el operador new deben ser destruidos con el operador delete. De lo contrario, ese espacio queda ocupando espacio en memoria hasta que el programa termine su ejecución. Lenguajes como Java y C\# destruyen los objetos automáticamente cuando dejan de ser referenciados, es decir, cuando los apuntadores a esas áreas han desaparecido del ambiente de referenciación. En el caso de C++, se debe invocar explícitamente al operador delete para liberar la memoria (con excepción de los \textit{smart pointer}).
 
 %%%%%%%%%%%%%%%%%%%
-\subsubsection{Memoria Dinámica}
+\subsubsection{Memoria dinámica}
 
 Un apuntador es un número que representa una dirección, y al igual que el tipo Integer ocupa una palabra de memoria. Su cardinalidad es la cantidad de memoria asignable. Actualmente, la cantidad de memoria asignable no es únicamente la cantidad de memoria debido a muchos sistemas soportan el concepto de memoria virtual.
 
@@ -659,6 +659,7 @@ Sub Aux
 \item Indique la fórmula de acceso de Aux[i]
 \item Indique la fórmula de acceso de Aux[i][j]
 \end{enumerate}
+\item ¿Es posible tener apuntadores de apuntadores y anidarlos cuantas veces sea necesario? ¿Cuál sería su utilidad?
 \item Defina una estructura de datos que permita almacenar eventos de un calendario para fechas válidas. Calcule su cardinalidad, complejidad en espacio, y fórmula de acceso para conocer el evento que se encuentra registrado en un día del año. Asuma que solo se representa un solo año.
 \end{itemize}
 

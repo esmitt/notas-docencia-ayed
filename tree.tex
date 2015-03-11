@@ -826,7 +826,7 @@ Entonces, en la implementación del nodo del AVL se requiere un campo adicional 
 El algoritmo de inserción en un AVL realiza los siguientes pasos:
 \begin{enumerate}
 \item Buscar en el árbol el lugar donde se insertará el nuevo nodo (nodo terminal). Para ello se recorre un camino desde la raíz hasta el lugar de inserción. La complejidad de este paso es $O(log_2n)$ dado que la altura de un árbol AVL es $O(log_2n)$, siendo $n$ el número de nodos.
-\item Regresar por el camino recorrido en el paso 1 y se ajustan los factores de equilibrio. Si se insertó en el subárbol izquierdo se resta uno al valor del campo $balance$ en cada nodo. Si se insertó por el subárbol derecho se suma uno al valor del campo $balance$. En cada paso de este retorno se pasa información acerca de la variación de la altura del árbol en caso que se incremente. Este paso consume un tiempo de ejecución $O(log_2n)$.
+\item Regresar por el camino recorrido en el paso 1 y se ajustan los factores de equilibrio. Si se insertó en el subárbol izquierdo se suma uno al valor del campo $balance$ en cada nodo. Si se insertó por el subárbol derecho se resta uno al valor del campo $balance$. En cada paso de este retorno se pasa información acerca de la variación de la altura del árbol en caso que se incremente. Este paso consume un tiempo de ejecución $O(log_2n)$.
 \item Si existe algún desequilibrio (el campo $balance$ de algún toma el valor $-2$ o $+2$) se debe reorganizar el subárbol que tiene como raíz dicho nodo llamado pivote (el que ocasiona el desequilibrio). La operación de re-equilibrar se efectúa mediante una secuencia de re-asignación de apuntadores que determinan una o dos rotaciones de dos o tres nodos, además de la actualización de los factores de equilibrio en cada nodo. Este paso es de $O(1)$. Los posibles casos una vez insertado un valor para el campo $balance$ son:
 
 \begin{table}[h]
@@ -984,7 +984,7 @@ En el peor de los casos, las operaciones de insertar, eliminar y buscar tienen u
 Los árboles red-black son muy empleados en lenguajes con soporte a programación funcional, donde son una de las estructuras de datos persistentes más comúnmente utilizadas en la construcción de arreglos asociativos y conjuntos que pueden retener versiones previas tras mutaciones. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Heap}
+\section{Heap} \label{lb:heap}
 
 El Heap (o montículo) es un árbol binario complejo o esencialmente completo: todos los niveles están llenos, excepto posiblemente el último, en donde los nodos se encuentran en las posiciones más a la izquierda. Básicamente cuando se insertan los nodos en un heap, los nodos internos se han subido en el árbol lo más posible, con los nodos internos del último nivel empujados hacia la izquierda.
 
