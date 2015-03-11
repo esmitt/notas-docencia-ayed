@@ -1,12 +1,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \part{Estructuras de Datos Dinámicas}
 \setcounter{section}{0}
 %\begin{center}
 %\huge{\textbf{Estructuras de Datos Dinámicas}} \\
 %\end{center}
 
-Para cada tipo de dato se presenta la definición de ésta, una posible clasificación (si es posible), su especificación e implementación. La idea de la especificación empleando una clase está en responder ¿qué hace? la estructura y no en ¿cómo lo hace?. Para responder la segunda pregunta, se utilizará la subsección de Implementación.
+Una estructura de datos dinámica se refiere a una organización en memoria como una colección de datos que es flexible al momento de expandirse o reducirse en tamaño en tiempo de ejecución de un algoritmo. En muchas ocasiones, este tipo de estructuras permite al programador tener control sobre cuánta memoria está empleando. Las estructuras dinámicas juegan un papel muy importante en diversos lenguajes de programación ofreciendo la posibilidad de ajustar la cantidad de memoria que un programa empleará.
+
+Las estructuras de datos estáticas es el caso opuesto a las dinámicas, donde el tamaño de la estructura es fija. Son ideales para almacenar un número fijo de elementos pero carecen de la flexibilidad para consumir memoria adicional si la requieren o liberar memoria para mejorar el rendimiento de los programas.
+
+Entonces, para cada tipo de dato se presenta la definición de ésta, una posible clasificación (si es posible), su especificación e implementación. La idea de la especificación empleando una clase está en responder ¿qué hace? la estructura y no en ¿cómo lo hace?. Para responder la segunda pregunta, se utilizará la subsección de Implementación. En este documento se presentan las estructuras básicas dinámicas: tipo List, Stack y Queue.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Tipo List}
@@ -33,16 +38,16 @@ Para una lista simplemente enlazada, se define una estructura (denominada Node) 
 Para la especificación de la lista, se define como atributo un tipo de dato que represente una posición dentro de una lista. Esta posición en su implementación puede ser un tipo Integer, Pointer, entre otros. Así, el tipo List se especifica en la siguiente clase.
 
 \begin{lstlisting}[upquote=true, language=pseudo]
-class List <T>					// definición de una plantilla o template de listas, donde T indica el tipo de dato
+class List <T>					// definición de una plantilla o template de listas, T indica el tipo de dato
 public:
-    Type <...> tPosition			// tipo de dato posición para desplazarse (no se muestra la implementación)
+    Type <...> tPosition			// tipo de dato posición para desplazarse (sin mostrar la implementación)
 
     Constructor List()			// construye la lista vacía ().
     Destructor List()			//destructor de la clase. Libera la lista de memoria
 
     function IsEmpty() : Boolean		// retorna True si la lista es vacía, y false en caso contrario
     function First() : tPosition		// retorna la posición del 1er elemento de la lista, o Last() si la lista es vacía
-    function Last() : tPosition		// retorna la posición final de la lista (posición después del último)
+    function Last() : tPosition		// retorna la posición final de lista (posición después del último)
     void Next(ref tPosition pValue)	// Pre: pValue != Last().Mueve la posición hacia la posición siguiente de la lista
     function Get (tPosition pValue): ref T// Retorna la referencia a la información contenida en pValue
     void Insert (ref T x, tPosition pValue)// Inserta x antes de la posición pValue
@@ -1191,3 +1196,16 @@ Un conjunto puede ser de cualquier tipo de dato e implementado de forma contigua
 Existe una estructura de datos llamada multiset o bag la cual es una generalización del tipo set. La diferencia radica en que permite repetir valores. De esta forma, es posible considerar dos elementos iguales como un solo elemento y manteniendo un contador de dicho elemento ó considerados equivalentes y almacenarlos de forma distinta y única. Dependiendo de la implementación de conjunto, se pueden establecer relaciones de equivalencia dentro de los conjuntos. 
 
 Una implementación usual es con tablas hash o árboles. (esto si quieren no lo mencionen!)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ideas Finales}
+
+\begin{itemize}
+\item idea 1
+\item idea 2
+\item idea 3
+\item idea 4
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problemas}
