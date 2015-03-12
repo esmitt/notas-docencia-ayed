@@ -20,7 +20,7 @@ Un ejemplo se puede ver a continuación:
 
 Nótese que empezando desde la raíz, se puede recorrer hasta la parte inferior del árbol en un único camino. Igualmente, se puede ver que todos los hijos de un nodo son independientes de los hijos de otro nodo. Así, cada nodo de la parte inferior (nodo hoja) es único, es decir, existe un solo camino para llegar a éste.
 
-Como es sabido, es posible mover un directorio completo de un lugar del sistema de archivos a otros. Cuando se realiza este proceso, todos los hijos asociados q dicho nodo se moverán (a este conjunto de nodos se denomina subárbol). Por ejemplo, es posible mover el sub-arbol que empieza en /etc/ (quitarlo del nodo /) y colocarlo por debajo de /usr. Así, la ruta de acceso a httpd cambiará, quedando /usr/etc/http/ sin afectar el contenido o a cualquier directorio hijo de http.
+Como es sabido, es posible mover un directorio completo de un lugar del sistema de archivos a otros. Cuando se realiza este proceso, todos los hijos asociados q dicho nodo se moverán (a este conjunto de nodos se denomina subárbol). Por ejemplo, es posible mover el subárbol que empieza en /etc/ (quitarlo del nodo /) y colocarlo por debajo de /usr. Así, la ruta de acceso a http cambiará, quedando /usr/etc/http/ sin afectar el contenido o a cualquier directorio hijo de http.
 
 Otro ejemplo basado en un sistema de árbol es una página Web escrita en HTML. Para el siguiente código en HTML:
 
@@ -799,7 +799,7 @@ Por su parte, la Fig. \ref{fig:AVLExample2} muestra dos árboles binarios de bú
 
 Las operaciones de un árbol AVL son las mismas que un BST, pero se añade un conjunto de operaciones llamadas rotaciones que sirven para mantener el equilibrio del árbol.
 
-La operación de búsqueda para una clave en un AVL se hace de la misma forma que la búsqueda en un árbol de binario de búsqueda - BST. En un BST la búsqueda (y la inserción o eliminación) puede llegar a ser de $O(n)$ donde $n$ representa la altura del árbol. Este caso ocurre cuando el árbol está desequilibrado/degenerado como se mostró en la sección \ref{lb:desq}.
+La operación de búsqueda para una clave en un AVL se hace de la misma forma que la búsqueda en un árbol de binario de búsqueda - BST. En un BST la búsqueda (y la inserción o eliminación) puede llegar a ser de $O(n)$ donde $n$ representa la altura del árbol. Este caso ocurre cuando el árbol está degenerado como se mostró en la sección \ref{lb:desq}.
 
 El mejor caso de un BST es cuando es de altura mínima, es decir, que en todos sus $h-1$ primeros niveles estás casi completos y solo varían en los nodos terminales, donde $h$ representa la altura del árbol. En dicho caso, el número de nodos viene dado por $n = 2^{h+1}-1$ lo cual implica una complejidad de $O(log_2n)$. La búsqueda en AVL representa la búsqueda en un árbol BST equilibrado, entonces en el peor de los casos la complejidad de la operación de búsqueda es $O(log_2n)$.
 

@@ -516,7 +516,7 @@ Print (LessInArray(aArray, N))
 
 Se observa que es un algoritmo simple que recorre desde la posición $N$ del arreglo hasta la posición $1$, haciendo invocaciones con la posición a la cual se va a acceder, $N-1$, $N-2$, $\dots$, $N-k$, $\dots$, $1$.
 
-Haciendo análisis del algoritmo podemos notar que posee una invocación recursiva. Si aislamos dicha instrucción (línea 7), el resto del algoritmo tiene comportamiento constante. Considerando la invocación recursiva, para un tamaño de entrada $N$ se tiene $T(n)$, sin embargo la instrucción hace que la función $T$ se comporte como $T(n) = T(n-1) + c$, donde $c$ es una constante. El tamaño del espacio de búsqueda se reduce en $1$ con respecto a la invocación original (ver la Sección \ref{lb:recursi} sobre invocaciones recursivas) y se hace una operación de asignación de costo constante, $c$.
+Haciendo análisis del algoritmo podemos notar que posee una invocación recursiva. Si aislamos dicha instrucción (línea 7), el resto del algoritmo tiene comportamiento constante. Considerando la invocación recursiva, para un tamaño de entrada $N$ se tiene $T(n)$, sin embargo la instrucción hace que la función $T$ se comporte como $T(n) = T(n-1) + c$, donde $c$ es una constante. El tamaño del espacio de búsqueda se reduce en $1$ con respecto a la invocación original (ver la sección \ref{lb:recursi}, parte II sobre invocaciones recursivas) y se hace una operación de asignación de costo constante, $c$.
 
 De esta forma, es posible escribir la función $T(n)$ de la siguiente forma:
 
@@ -557,8 +557,7 @@ La función $T(n)$ arroja que el tiempo de ejecución es $c_1 + nc_2$, por lo ta
 
 \subsection{Clase de Recurrencia}
 
-Existen algunos tipos concretos de ecuaciones en recurrencia que su solución es conocida, que se dan con más frecuencia al estudiar el tiempo de ejecución de los
-algoritmos recursivos\footnote{En este documento no se presenta la clasificación de ecuaciones de recurrencia homogéneas y no homogéneas}. En términos generales, la idea es expresar el valor de una función para un cierto valor $n$ en función de los valores de la función para $n's$ de menor tamaño.
+Existen algunos tipos concretos de ecuaciones en recurrencia que su solución es conocida, que se dan con más frecuencia al estudiar el tiempo de ejecución de los algoritmos recursivos\footnote{En este documento no se presenta la clasificación de ecuaciones de recurrencia homogéneas y no homogéneas}. En términos generales, la idea es expresar el valor de una función para un cierto valor $n$ en función de los valores de la función para $n's$ de menor tamaño.
 
 De forma simple, existen dos teoremas que son una solución general para una clase de recurrencia:
 

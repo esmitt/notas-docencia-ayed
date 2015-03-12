@@ -115,9 +115,9 @@ Existen diversos aspectos para la clasificación de unidades invocables recursiv
 
 Existe otro tipo de clasificación que se denomina recursividad anidada, donde en algunos de los argumentos de la invocación recursiva existe otra invocación a sí misma. La función de Ackermann es un ejemplo de ello:
 
-$A(0 , n) = n + 1$ \\
-$A(m , 0) = A(m – 1 , 1)$ \\
-$A(m , n) = A(m – 1 , A(m , n-1))$ 
+$Ack(0 , n) = n + 1$ \\
+$Ack(m , 0) = Ack(m – 1 , 1)$ \\
+$Ack(m , n) = Ack(m – 1 , Ack(m , n-1))$ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Iterativo vs. Recursivo}
@@ -166,7 +166,7 @@ Ambas funciones realizan el cómputo del valor de Fibonacci para un número ente
 
 Se puede observar que existen invocaciones duplicadas (e.g. $Fib(2)$ se debe calcular 3 veces) que hacen ineficiente dicha implementación con respecto a una versión iterativa. Entonces, es importante evaluar el costo de construir algoritmos eficientes vs. legibilidad y simplicidad del código generado.
 
-Es importante destacar que cualquier función recursiva se puede transformar en una función iterativa. Una forma de realizar esto es simulando la recursión con un Stack (ver la sección \ref{sec:recstack} para mayor detalle).
+Es importante destacar que cualquier función recursiva se puede transformar en una función iterativa. Una forma de realizar esto es simulando la recursión con un Stack (ver la sección \ref{sec:recstack}, parte V para mayor detalle).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ejercicios}
