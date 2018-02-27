@@ -1,5 +1,5 @@
 ## Algoritmos y Estructuras de Datos
-####*Notas de Docencia*
+### *Notas de Docencia*
 ----
 Este documento pretende servir como una guía para el estudio de algoritmos y estructuras de datos básicas para la composición de soluciones computacionales basadas en algoritmos sobre lenguajes imperativos. La estructura del documento corresponde en gran parte con el programa de estudios que ofrece la Licenciatura en Computación de la [Escuela de Computación], de la [Universidad Central de Venezuela] en su Plan de Estudio 2004, específicamente a la asignatura Algoritmos y Estructuras de Datos correspondiente al 2do período semestral de una carrera de 10 períodos. 
 
@@ -10,17 +10,17 @@ Se busca introducir al estudiante en las destrezas en el área de la algorítmic
 
 #### Notación Alpha
 
-> Todo el documento emplea la [Notación Alpha]
+> Todo el documento se basa en la [Notación Alpha]
 
-La notación no es más que notación algorítmica básica basada en pseudocódigo para la escritura de algoritmos y estructuras de datos. 
+La notación Alpha, es una notación algorítmica basada en pseudocódigo para la escritura de algoritmos y estructuras de datos. Esta permite entender de forma sencilla y clara los algoritmos utilizados.
 
 La idea es ser consistente al momento de la docencia y no incurrir en errores como mezclar notaciones de diversos lenguajes de programación. Además, la notación permite una rápida conversión a cualquier lenguaje de programación moderno.
 
 #### Importante
 
-* Este documento puede contener muchos errores.
+* Este documento puede contener errores.
 * **La ayuda siempre es bienvenida por ello puede enviar un [pull request] en Github para colaborar.**
-* No está el contenido de todos los algoritmos o estructuras de datos, sino un subconjunto de estos
+* Solo se encuentra un subconjunto de los posibles algoritmos.
 
 ### Estructura
 
@@ -30,3 +30,5 @@ Todo el documento ha sido escrito en LaTeX, separado en capítulos para su mayor
 [Universidad Central de Venezuela]:http://www.ucv.ve/
 [Notación Alpha]:http://goo.gl/SOHo8h
 [pull request]:https://help.github.com/articles/using-pull-requests/
+
+###### Si quiere contribuir a este proyecto, su ayuda es bienvenida.
