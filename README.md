@@ -26,6 +26,15 @@ La idea es ser consistente al momento de la docencia y no incurrir en errores co
 
 Todo el documento ha sido escrito en LaTeX, separado en capítulos para su mayor comodidad en edición. Igualmente, está el formato PDF para ser descargado *nota-docencia-AYED.pdf*. El archivo *nota-docencia-AYED.tex* es el principal para su compilación
 
+Este documento se puede referenciar como :
+```latex
+@report{Ramirez15,
+author = {Esmitt Ramírez},
+title = {Notas de Docencia: Algoritmos y Estructuras de Datos},
+number= {ND 2015-01},
+institution = {Universidad Central de Venezuela},
+year = {2015}}
+```
 [Escuela de Computación]: http://www.ciens.ucv.ve/escueladecomputacion
 [Universidad Central de Venezuela]:http://www.ucv.ve/
 [Notación Alpha]:http://goo.gl/SOHo8h
